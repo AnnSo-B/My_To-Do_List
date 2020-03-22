@@ -14,6 +14,7 @@
   border: 1px solid #b1b1b1;
   border-radius: 9px;
   padding: 0.5em;
+  font-size: 1.2em;
 }
 
 .task__content {
@@ -41,13 +42,17 @@
   margin-bottom: 0;
 }
 
+.task__content__category__p{
+  margin-left: 2em;
+}
+
 .task__content__category {
   font-size: 0.7em;
   color: #b1b1b1;
 }
 
 .task__content__buttons {
-  margin-left: 1em;
+  margin: 0.5em auto 0 auto;
 }
 
 .task__content__buttons > .button {
@@ -57,6 +62,7 @@
 .progress {
   height: 10px;
   border-radius: 0 0 9px 9px;
+  background-color: #ddd;
 }
 
 /* task--add */
@@ -70,6 +76,53 @@
   display: block;
   border: none;
 }
+
+/* By default, incomplete, desarchive and delete buttons are not displayed */
+.task__content__button__incomplete,
+.task__content__button__desarchive,
+.task__content__button__delete {
+  display: none;
+}
+
+/* CSS for a done task */
+.task--done .task__content__p {
+  text-decoration: line-through;
+}
+
+.task--done .task__content__button__incomplete {
+  display: inline-block;
+}
+
+.task--done .task__content__button__validate {
+  display: none;
+}
+
+/* CSS for an edited task */
+.task--edit .task__content__input{
+  display: block;
+}
+
+.task--edit .task__content__p{
+  display: none;
+}
+
+/* CSS for an archived task */
+.task--archive {
+  background-color: #eee;
+  color: #888;
+}
+
+.task--archive .task__content__button__desarchive,
+.task--archive .task__content__button__delete {
+  display: inline-block;
+}
+
+.task--archive .task__content__button__validate,
+.task--archive .task__content__button__modify,
+.task--archive .task__content__button__archive  {
+  display: none;
+}
+
 
 /* Media-queries */
 @media screen AND (min-width: 992px) {

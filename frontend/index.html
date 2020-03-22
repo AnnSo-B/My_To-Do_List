@@ -45,6 +45,7 @@
       </header>
 
       <main>
+        <!-- Task todo and not started -->
         <article class="task task--todo" data-category="Courses">
           <div class="task__content">
             <div class="task__content__title">
@@ -55,32 +56,80 @@
               <p class="task__content__category__p">Courses</p>
             </div>
             <div class="task__content__buttons">
-              <button class="btn btn-success">
+              <button class="task__content__button__incomplete btn btn-success">
                 <span class="icon">
                   <i class="fa fa-step-backward"></i>
                 </span>
               </button>
-              <button class="btn btn-success">
+              <button class="task__content__button__desarchive btn btn-success">
                 <span class="icon">
                   <i class="fa fa-undo"></i>
                 </span>
               </button>
-              <button class="btn btn-success">
+              <button class="task__content__button__validate btn btn-success">
                 <span class="icon">
                   <i class="fa fa-check-square-o"></i>
                 </span>
               </button>
-              <button class="btn btn-warning">
+              <button class="task__content__button__modify btn btn-warning">
                 <span class="icon">
                   <i class="fa fa-pencil-square-o"></i>
                 </span>
               </button>
-              <button class="btn btn-danger">
+              <button class="task__content__button__archive btn btn-danger">
                 <span class="icon">
                   <i class="fa fa-archive"></i>
                 </span>
               </button>
-              <button class="btn btn-danger">
+              <button class="task__content__button__delete btn btn-danger">
+                <span class="icon">
+                  <i class="fa fa-trash"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </article>
+
+        <!-- Task todo and started -->
+        <article class="task task--todo" data-category="Courses">
+          <div class="task__content">
+            <div class="task__content__title">
+              <input class="task__content__input" type="text" name="title" placeholder="Nom de la tâche" value="Planifier le road-trip">
+              <p class="task__content__p">Planifier le road-trip</p>
+            </div>
+            <div class="task__content__category">
+              <p class="task__content__category__p">Vacances</p>
+            </div>
+            <div class="task__content__buttons">
+              <button class="task__content__button__incomplete btn btn-success">
+                <span class="icon">
+                  <i class="fa fa-step-backward"></i>
+                </span>
+              </button>
+              <button class="task__content__button__desarchive btn btn-success">
+                <span class="icon">
+                  <i class="fa fa-undo"></i>
+                </span>
+              </button>
+              <button class="task__content__button__validate btn btn-success">
+                <span class="icon">
+                  <i class="fa fa-check-square-o"></i>
+                </span>
+              </button>
+              <button class="task__content__button__modify btn btn-warning">
+                <span class="icon">
+                  <i class="fa fa-pencil-square-o"></i>
+                </span>
+              </button>
+              <button class="task__content__button__archive btn btn-danger">
+                <span class="icon">
+                  <i class="fa fa-archive"></i>
+                </span>
+              </button>
+              <button class="task__content__button__delete btn btn-danger">
                 <span class="icon">
                   <i class="fa fa-trash"></i>
                 </span>
@@ -92,6 +141,151 @@
           </div>
         </article>
 
+        <!-- a done task -->
+        <article class="task task--done" data-category="Courses">
+          <div class="task__content">
+            <div class="task__content__title">
+              <input class="task__content__input" type="text" name="title" placeholder="Nom de la tâche" value="Acheter les billets">
+              <p class="task__content__p">Acheter les billets</p>
+            </div>
+            <div class="task__content__category">
+              <p class="task__content__category__p">Vacances</p>
+            </div>
+            <div class="task__content__buttons">
+              <button class="task__content__button__incomplete btn btn-success">
+                <span class="icon">
+                  <i class="fa fa-step-backward"></i>
+                </span>
+              </button>
+              <button class="task__content__button__desarchive btn btn-success">
+                <span class="icon">
+                  <i class="fa fa-undo"></i>
+                </span>
+              </button>
+              <button class="task__content__button__validate btn btn-success">
+                <span class="icon">
+                  <i class="fa fa-check-square-o"></i>
+                </span>
+              </button>
+              <button class="task__content__button__modify btn btn-warning">
+                <span class="icon">
+                  <i class="fa fa-pencil-square-o"></i>
+                </span>
+              </button>
+              <button class="task__content__button__archive btn btn-danger">
+                <span class="icon">
+                  <i class="fa fa-archive"></i>
+                </span>
+              </button>
+              <button class="task__content__button__delete btn btn-danger">
+                <span class="icon">
+                  <i class="fa fa-trash"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </article>
+
+        <!-- an edited task -->
+        <article class="task task--edit" data-category="Courses">
+          <div class="task__content">
+            <div class="task__content__title">
+              <input class="task__content__input" type="text" name="title" placeholder="Nom de la tâche" value="Acheter le gui">
+              <p class="task__content__p">Acheter le gui</p>
+            </div>
+            <div class="task__content__category">
+              <p class="task__content__category__p">Vacances</p>
+            </div>
+            <div class="task__content__buttons">
+              <button class="task__content__button__incomplete btn btn-success">
+                <span class="icon">
+                  <i class="fa fa-step-backward"></i>
+                </span>
+              </button>
+              <button class="task__content__button__desarchive btn btn-success">
+                <span class="icon">
+                  <i class="fa fa-undo"></i>
+                </span>
+              </button>
+              <button class="task__content__button__validate btn btn-success">
+                <span class="icon">
+                  <i class="fa fa-check-square-o"></i>
+                </span>
+              </button>
+              <button class="task__content__button__modify btn btn-warning">
+                <span class="icon">
+                  <i class="fa fa-pencil-square-o"></i>
+                </span>
+              </button>
+              <button class="task__content__button__archive btn btn-danger">
+                <span class="icon">
+                  <i class="fa fa-archive"></i>
+                </span>
+              </button>
+              <button class="task__content__button__delete btn btn-danger">
+                <span class="icon">
+                  <i class="fa fa-trash"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </article>
+
+        <!-- an archived task -->
+        <article class="task task--archive" data-category="Courses">
+          <div class="task__content">
+            <div class="task__content__title">
+              <input class="task__content__input" type="text" name="title" placeholder="Nom de la tâche" value="Vérifier les dates de vacances">
+              <p class="task__content__p">Vérifier les dates de vacances</p>
+            </div>
+            <div class="task__content__category">
+              <p class="task__content__category__p">Ecole</p>
+            </div>
+            <div class="task__content__buttons">
+              <button class="task__content__button__incomplete btn btn-success">
+                <span class="icon">
+                  <i class="fa fa-step-backward"></i>
+                </span>
+              </button>
+              <button class="task__content__button__desarchive btn btn-success">
+                <span class="icon">
+                  <i class="fa fa-undo"></i>
+                </span>
+              </button>
+              <button class="task__content__button__validate btn btn-success">
+                <span class="icon">
+                  <i class="fa fa-check-square-o"></i>
+                </span>
+              </button>
+              <button class="task__content__button__modify btn btn-warning">
+                <span class="icon">
+                  <i class="fa fa-pencil-square-o"></i>
+                </span>
+              </button>
+              <button class="task__content__button__archive btn btn-danger">
+                <span class="icon">
+                  <i class="fa fa-archive"></i>
+                </span>
+              </button>
+              <button class="task__content__button__delete btn btn-danger">
+                <span class="icon">
+                  <i class="fa fa-trash"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </article>
+
+        <!-- add a task -->
         <article class="task task--add">
           <form class="task--add__form">
             <div class="task__content">
@@ -99,7 +293,7 @@
                 <input class="task__content__input" type="text" name="title" placeholder="Nom de la tâche" />
               </div>
             </div>
-            <div id="task__category-select" class="task-form-group my-3">
+            <div id="task--add__category-select" class="task-form-group my-3">
               <select class="custom-select category-select">
                 <option selected>Toutes les catégories</option>
                 <option value="1">Courses</option>
