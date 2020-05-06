@@ -54,6 +54,20 @@ const app = {
     const taskCategory = addTaskFormData.get('category');
     console.log(taskTitle, taskCategory);
 
+    // get the template in index.html
+    const emptyTaskTemplate = document.getElementById('empty-task');
+    // clone its content
+    const newTask = emptyTaskTemplate.content.querySelector('.task').cloneNode(true);
+    console.log(newTask);
+    // complete the clone with form's data
+    newTask.querySelector('.task__content__p').textContent = taskTitle;
+    newTask.querySelector('.task__content__category__p').textContent = taskCategory;
+
+    // insert the new task
+    // get the task container
+    const taskListContainer = document.getElementById('taskList-container');
+    taskListContainer.prepend(newTask);
+
   }
 }
 
