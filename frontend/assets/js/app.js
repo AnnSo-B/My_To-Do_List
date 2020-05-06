@@ -16,7 +16,8 @@ const app = {
   },
 
   /**
-   * handler on validate button
+   * handler on validate button : 
+   * change current class and change progression bar
    */
   handleValidateButton: function() {
     // find the task associated with the validate button
