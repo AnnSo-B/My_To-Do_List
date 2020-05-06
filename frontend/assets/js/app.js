@@ -10,9 +10,15 @@ const app = {
       let task = taskList[taskIndex];
       // we select the validate button 
       let validateButton = task.querySelector('.task__content__button__validate');
-      // we had the handler
+      // we add the listener
       validateButton.addEventListener('click', app.handleValidateButton)
     }
+
+    // get the form to add a task
+    const addTaskForm = document.querySelector('.task--add');
+    console.log(addTaskForm);
+    // we add the listener
+    addTaskForm.addEventListener('submit', app.handleAddTaskFormSubmit);
   },
 
   /**
@@ -30,6 +36,16 @@ const app = {
     let currentTaskProgressBar = currentTask.querySelector('.progress-bar');
     // change its completion percentage
     currentTaskProgressBar.style.width = '100%';
+  },
+
+  /**
+   * handler on add task form
+   */
+  handleAddTaskFormSubmit: function(event) {
+    // prevent the page from refreshing itself on submit
+    event.preventDefault();
+    
+    console.log('formulaire soumis');
   }
 }
 
