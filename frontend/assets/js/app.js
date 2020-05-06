@@ -8,10 +8,8 @@ const app = {
     // for each task we'll add a listener on the validate button
     for (let taskIndex = 0; taskIndex < taskList.length ; taskIndex++) {
       let task = taskList[taskIndex];
-      // we select the validate button 
-      let validateButton = task.querySelector('.task__content__button__validate');
       // we add the listener
-      validateButton.addEventListener('click', app.handleValidateButton)
+      app.addTaskEventListener(task);
     }
 
     // get the form to add a task
@@ -19,6 +17,16 @@ const app = {
     // we add the listener
     addTaskForm.addEventListener('submit', app.handleAddTaskFormSubmit);
   },
+
+  /**
+   * add event listener on a task
+   */
+  addTaskEventListener: function(task) {
+    // we select the validate button 
+    let validateButton = task.querySelector('.task__content__button__validate');
+    // we add the listener
+    validateButton.addEventListener('click', app.handleValidateButton)
+  },
 
   /**
    * handler on validate button : 
@@ -52,16 +60,17 @@ const app = {
     const addTaskFormData = new FormData(addTaskForm);
     const taskTitle = addTaskFormData.get('title');
     const taskCategory = addTaskFormData.get('category');
-    console.log(taskTitle, taskCategory);
 
     // get the template in index.html
     const emptyTaskTemplate = document.getElementById('empty-task');
     // clone its content
     const newTask = emptyTaskTemplate.content.querySelector('.task').cloneNode(true);
-    console.log(newTask);
     // complete the clone with form's data
     newTask.querySelector('.task__content__p').textContent = taskTitle;
     newTask.querySelector('.task__content__category__p').textContent = taskCategory;
+
+    // add listener on newTask button
+    app.addTaskEventListener(newTask);
 
     // insert the new task
     // get the task container
