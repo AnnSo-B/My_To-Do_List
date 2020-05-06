@@ -44,7 +44,57 @@
         </nav>
       </header>
 
-      <main>
+      <main id="taskList-container">
+        <!-- EMPTY TASK TEMPLATE - BEGINNING -->
+        <template id="empty-task">
+          <article class="task task--todo" data-category="">
+            <div class="task__content">
+              <div class="task__content__title">
+                <input class="task__content__input" type="text" name="title" placeholder="Nom de la tâche" value="">
+                <p class="task__content__p"></p>
+              </div>
+              <div class="task__content__category">
+                <p class="task__content__category__p"></p>
+              </div>
+              <div class="task__content__buttons">
+                <button class="task__content__button__incomplete btn btn-success">
+                  <span class="icon">
+                    <i class="fa fa-step-backward"></i>
+                  </span>
+                </button>
+                <button class="task__content__button__desarchive btn btn-success">
+                  <span class="icon">
+                    <i class="fa fa-undo"></i>
+                  </span>
+                </button>
+                <button class="task__content__button__validate btn btn-success">
+                  <span class="icon">
+                    <i class="fa fa-check-square-o"></i>
+                  </span>
+                </button>
+                <button class="task__content__button__modify btn btn-warning">
+                  <span class="icon">
+                    <i class="fa fa-pencil-square-o"></i>
+                  </span>
+                </button>
+                <button class="task__content__button__archive btn btn-danger">
+                  <span class="icon">
+                    <i class="fa fa-archive"></i>
+                  </span>
+                </button>
+                <button class="task__content__button__delete btn btn-danger">
+                  <span class="icon">
+                    <i class="fa fa-trash"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </article>
+        </template>
+        <!-- EMPTY TASK TEMPLATE - END -->
         <!-- Task todo and not started -->
         <article class="task task--todo" data-category="Courses">
           <div class="task__content">
@@ -294,11 +344,11 @@
               </div>
             </div>
             <div id="task--add__category-select" class="task-form-group my-3">
-              <select class="custom-select category-select">
-                <option selected>Toutes les catégories</option>
-                <option value="1">Courses</option>
-                <option value="2">Ecoles</option>
-                <option value="3">Vacances</option>
+              <select class="custom-select category-select" name="category">
+                <option selected value="Toutes les catégories">Toutes les catégories</option>
+                <option value="Courses">Courses</option>
+                <option value="Ecoles">Ecoles</option>
+                <option value="Vacances">Vacances</option>
               </select>
             </div>
             <button type="submit" class="btn btn-primary task--add__button">
