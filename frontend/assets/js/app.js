@@ -16,7 +16,6 @@ const app = {
 
     // get the form to add a task
     const addTaskForm = document.querySelector('.task--add');
-    console.log(addTaskForm);
     // we add the listener
     addTaskForm.addEventListener('submit', app.handleAddTaskFormSubmit);
   },
@@ -27,25 +26,34 @@ const app = {
    */
   handleValidateButton: function() {
     // find the task associated with the validate button
-    let currentTask = event.currentTarget.closest('.task');
+    const currentTask = event.currentTarget.closest('.task');
     // change its classes so it becomes a completed task
     currentTask.classList.remove('task--todo');
     currentTask.classList.add('task--done');
 
     // find the progress bar to fill it
-    let currentTaskProgressBar = currentTask.querySelector('.progress-bar');
+    const currentTaskProgressBar = currentTask.querySelector('.progress-bar');
     // change its completion percentage
     currentTaskProgressBar.style.width = '100%';
   },
 
   /**
-   * handler on add task form
+   * handler on add task form submission
+   * 
+   * @param {event} event EventObject representation
+   * @link pour FormData https://developer.mozilla.org/en-US/docs/Web/API/FormData
    */
   handleAddTaskFormSubmit: function(event) {
     // prevent the page from refreshing itself on submit
     event.preventDefault();
     
-    console.log('formulaire soumis');
+    // get the form data
+    const addTaskForm = event.currentTarget.querySelector('.task--add__form');
+    const addTaskFormData = new FormData(addTaskForm);
+    const taskTitle = addTaskFormData.get('title');
+    const taskCategory = addTaskFormData.get('category');
+    console.log(taskTitle, taskCategory);
+
   }
 }
 
