@@ -77,6 +77,14 @@ const app = {
     const taskListContainer = document.getElementById('taskList-container');
     taskListContainer.prepend(newTask);
 
+    // empty the category in the form
+    const addTaskCategory = addTaskForm.querySelector('.task--add .category-select');
+    addTaskCategory.value = 'Toutes les catégories';
+    // empty the input and place yourself back on the input for data entry
+    const addTaskInput = addTaskForm.querySelector('.task__content__input');
+    addTaskInput.value = '';
+    addTaskInput.focus();
+    addTaskInput.select();
   }
 }
 
