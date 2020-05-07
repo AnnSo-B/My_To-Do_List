@@ -22,17 +22,32 @@ const app = {
    * add event listener on a task
    */
   addTaskEventListener: function(task) {
+
+    // VALIDATE BUTTON
     // we select the validate button 
-    let validateButton = task.querySelector('.task__content__button__validate');
+    const validateButton = task.querySelector('.task__content__button__validate');
     // we add the listener
-    validateButton.addEventListener('click', app.handleValidateButton)
+    validateButton.addEventListener('click', app.handleValidateButton);
+
+    // ARCHIVE BUTTON
+    // we select the archive button 
+    const archiveButton = task.querySelector('.task__content__button__archive');
+    // we add the listener
+    archiveButton.addEventListener('click', app.handleArchiveButton);
   },
+
+
+  /***************************************************************
+   * BUTTONS HANDLERS
+   **************************************************************/
 
   /**
    * handler on validate button : 
    * change current class and change progression bar
+   * 
+   * @param {event} event EventObject representation
    */
-  handleValidateButton: function() {
+  handleValidateButton: function(event) {
     // find the task associated with the validate button
     const currentTask = event.currentTarget.closest('.task');
     // change its classes so it becomes a completed task
@@ -44,6 +59,31 @@ const app = {
     // change its completion percentage
     currentTaskProgressBar.style.width = '100%';
   },
+
+  /**
+   * handler on archive button
+   * 
+   * @param {event} event EventObject representation
+   */
+  handleArchiveButton: function(event) {
+    // get current task
+    const currentTask = event.currentTarget.closest('.task');
+
+    // confirm the action
+    const result = window.confirm('Etes vous sûr de vouloir archiver cette tâche ?');
+    console.log(currentTask);
+    // if the action is confirmed
+    if (result) {
+      currentTask.classList.remove('task--todo');
+      currentTask.classList.remove('task--done');
+      currentTask.classList.add('task--archive');
+    }
+  },
+
+
+  /***************************************************************
+   * NEW TASK HANDLER
+   **************************************************************/
 
   /**
    * handler on add task form submission
