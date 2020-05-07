@@ -1,0 +1,144 @@
+.container {
+  padding: 0.5em;
+}
+
+/* category selections from navbar and task-add*/
+#navbar__category-select,
+#task--add__category-select {
+  max-width: 300px;
+}
+
+/* tasks */
+.task {
+  margin-top: 1.5em;
+  border: 1px solid #b1b1b1;
+  border-radius: 9px;
+  padding: 0.5em;
+  font-size: 1.2em;
+}
+
+.task__content {
+  padding: 0.5em;
+  border: solid 1px #ededed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.task__content__title {
+  font-weight: 400;
+  font-size: 0.9em;
+  width: 65%;
+}
+
+.task__content__input {
+  display: none;
+  width: 100%;
+}
+
+.task__content__p,
+.task__content__category__p {
+  margin-bottom: 0;
+}
+
+.task__content__category__p{
+  margin-left: 2em;
+}
+
+.task__content__category {
+  font-size: 0.7em;
+  color: #b1b1b1;
+}
+
+.task__content__buttons {
+  margin: 0.5em auto 0 auto;
+}
+
+.task__content__buttons > .button {
+  font-size: 0.9em;
+}
+
+.progress {
+  height: 10px;
+  border-radius: 0 0 9px 9px;
+  background-color: #ddd;
+}
+
+/* task--add */
+.task--add__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.task--add .task__content__input {
+  display: block;
+  border: none;
+}
+
+/* By default, incomplete, desarchive and delete buttons are not displayed */
+.task__content__button__incomplete,
+.task__content__button__desarchive,
+.task__content__button__delete {
+  display: none;
+}
+
+/* CSS for a done task */
+.task--done .task__content__p {
+  text-decoration: line-through;
+}
+
+.task--done .task__content__button__incomplete {
+  display: inline-block;
+}
+
+.task--done .task__content__button__validate {
+  display: none;
+}
+
+/* CSS for an edited task */
+.task--edit .task__content__input{
+  display: block;
+}
+
+.task--edit .task__content__p{
+  display: none;
+}
+
+/* CSS for an archived task */
+.task--archive {
+  background-color: #eee;
+  color: #888;
+}
+
+.task--archive .task__content__button__desarchive,
+.task--archive .task__content__button__delete {
+  display: inline-block;
+}
+
+.task--archive .task__content__button__validate,
+.task--archive .task__content__button__modify,
+.task--archive .task__content__button__archive  {
+  display: none;
+}
+
+.task--archive .progress-bar {
+  background-color: #888;
+}
+
+
+/* Media-queries */
+@media screen AND (min-width: 992px) {
+  .task--add__form {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 2.5em;
+  }
+
+  .task--add .task__content__input {
+    width: 600px;
+  }
+  
+}
