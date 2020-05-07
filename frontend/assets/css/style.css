@@ -123,6 +123,10 @@
   display: none;
 }
 
+.task--archive .progress-bar {
+  background-color: #888;
+}
+
 
 /* Media-queries */
 @media screen AND (min-width: 992px) {
