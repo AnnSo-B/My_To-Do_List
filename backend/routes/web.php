@@ -28,3 +28,14 @@ $router->get(
         'as'    =>  'task_list'
     ]
 );
+
+/**
+ * Endpoint to create a task
+ */
+$router->post(
+    '/tasks',
+    [
+        'uses' => 'TaskController@add',
+        'as' => 'task_add'
+    ]
+);
