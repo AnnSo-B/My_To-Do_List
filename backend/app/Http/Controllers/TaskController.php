@@ -22,7 +22,7 @@ class TaskController extends Controller {
     /**
      * Add a task
      */
-    public function add(Request $request) {
+     public function add(Request $request) {
 
         //* Received data from the front validation
         // https://lumen.laravel.com/docs/7.x/validation
@@ -32,7 +32,7 @@ class TaskController extends Controller {
             $request,
             [
                 'title'         =>  'required|min:1|max:128',
-                'categoryId'    =>  'required|integer'
+                'categoryId'    =>  'required|integer|exists:categories,id'
             ]
         );
 
@@ -44,6 +44,9 @@ class TaskController extends Controller {
         // Data with default values
         $task->completion   = $request->input('completion', 0);
         $task->status       = $request->input('status', Task::STATUS_TODO);
+
+        //* Link to the corresponding category
+        $task->load('category');
 
         //* Save changes and answer to the front
         // in case of failure, answer with a server error
