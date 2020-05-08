@@ -61,7 +61,7 @@ class TaskController extends Controller {
     /**
      *  Update task
      *
-     * @param Request $request HTTP request Object - préférer l'envoi en Json
+     * @param Request $request HTTP request Object
      * @param int $id task id - argument sent by Lumen - from PUT request
      */
     public function update(Request $request, int $id) {
@@ -99,5 +99,29 @@ class TaskController extends Controller {
         }
         // in case of success, send the task to the front and answer that creation is ok
         return response()->json($task, Response::HTTP_OK);
+    }
+
+    /**
+     * Delete a task
+     *
+     * @param Request $request HTTP request Object
+     * @param int $id task id - argument sent by Lumen - from DELETE request
+     */
+    public function delete(Request $request, int $id) {
+
+        // find the task and check if it exists
+        // if it doesn't send an error
+        if (!Task::find($id)) {
+            return abort(Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        $task = Task::find($id);
+
+        // deletion and answer to the front
+        // in case of failure
+        if (!$task->delete()) {
+            return abort(Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        // in case of success
+        return response('', Response::HTTP_NO_CONTENT);
     }
 }
