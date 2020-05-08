@@ -28,7 +28,6 @@ const app = {
    * Fetch Categories from API
    */
   fetchCategories: function() {
-    console.log('fecth categories');
     fetch(
       app.apiURL + '/categories',
       {
@@ -36,9 +35,12 @@ const app = {
       }
     )
     .then(function(response) {
-      console.log(response);
+      // transform the response into usable data
+      return response.json();
     })
-
+    .then(function(categoryList) {
+      console.log(categoryList);
+    })
   },
 
   /**
