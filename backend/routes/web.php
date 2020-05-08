@@ -57,3 +57,26 @@ $router->post(
         'as' => 'task_add'
     ]
 );
+
+
+/**
+ * Endpoint to update a task according to the provided id
+ */
+$router->put(
+    '/tasks/{id}',
+    [
+        'uses' => 'TaskController@update',
+        'as' => 'task_update'
+    ]
+);
+
+/**
+ * Endpoint to delete a task according to the provided id
+ */
+$router->delete(
+    '/tasks/{id}',
+    [
+        'uses' => 'TaskController@delete',
+        'as' => 'task_delete'
+    ]
+);

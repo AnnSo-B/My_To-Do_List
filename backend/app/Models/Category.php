@@ -23,6 +23,7 @@ class Category extends Model {
 
     /**
      * Relationship with Tasks
+     * https://laravel.com/docs/7.x/eloquent-relationships#introduction
      */
     public function tasks() {
         return $this->hasMany('App\Models\Task');

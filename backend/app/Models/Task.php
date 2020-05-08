@@ -23,6 +23,15 @@ class Task extends Model
     static public function list() {
 
         // https://laravel.com/docs/7.x/eloquent#retrieving-models
-        return Task::all();
+        // we'll get categories at the same time
+        return Task::all()->load('category');
+    }
+
+    /**
+     * Relationship with categories
+     * https://laravel.com/docs/7.x/eloquent-relationships#introduction
+     */
+    public function category() {
+        return $this->belongsTo('App\Models\Category');
     }
 }
