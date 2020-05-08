@@ -11,6 +11,31 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+
+/*
+|--------------------------------------------------------------------------
+| tasks Endpoints
+|--------------------------------------------------------------------------
+*/
+
+/**
+ * Endpoint to retrieve a task list
+ */
+$router->get(
+    '/tasks',
+    [
+        'uses'  =>  'TaskController@list',
+        'as'    =>  'task_list'
+    ]
+);
+
+/**
+ * Endpoint to create a task
+ */
+$router->post(
+    '/tasks',
+    [
+        'uses' => 'TaskController@add',
+        'as' => 'task_add'
+    ]
+);
