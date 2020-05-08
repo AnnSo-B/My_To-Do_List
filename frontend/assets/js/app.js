@@ -12,6 +12,9 @@ const app = {
     //* initialise the request to the API to retrieve the categoryList
     app.fetchCategories();
 
+    //* initialise the request to the API to retrieve the taskList
+    app.fetchTasks();
+
     //* get the list of the tasks
     const taskList = document.querySelectorAll('.task--todo, .task--complete, .task--done, .task--edit, .task--archive');
 
@@ -76,7 +79,6 @@ const app = {
    * @param categoryList
    */
   createCategoryMenu: function (categoryList) {
-    console.log('list from create category menu method', categoryList);
 
     //* create and place the select
     const selectElement = document.createElement('select');
@@ -119,6 +121,96 @@ const app = {
   /***************************************************************
    * Tasks
    ***************************************************************/
+
+  /**
+   * Fetch Tasks from API
+   */
+  fetchTasks: function() {
+    fetch(
+      app.apiURL + '/tasks',
+      {
+        method: 'GET'
+      }
+    )
+    .then(function(response) {
+      // check if the response is not ok
+      if (!response.ok) {
+        console.log(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API')
+      }
+      // transform the response into usable data
+      return response.json();
+    })
+    .then(function(taskList) {
+      // display all tasks
+      app.displayAllTasks(taskList);
+    })
+  },
+
+  /**
+   * Method to display all tasks
+   * 
+   * @param taskList from API
+   */
+  displayAllTasks: function(taskList) {
+    
+    // for each task we'll want to add it into the DOM
+    for (taskIndex = 0; taskIndex < taskList.length; taskIndex++) {
+      const task = taskList[taskIndex];
+      app.displayOneTask(task.id, task.title, task.category.id, task.category.name, task.status, task.completion);
+    }
+  },
+
+  /**
+   * Method to display a task
+   * 
+   * @param {string} id Task id
+   * @param {string} title Task title
+   * @param {int} categoryId task's category ID
+   * @param {string} categoryName task's category name
+   * @param {int} status Task status
+   * @param {int} completion Task completion
+   */
+  displayOneTask: function(id, title, categoryId, categoryName, status, completion) {
+    //* Templating
+    // get the template in index.html
+    const emptyTaskTemplate = document.getElementById('empty-task');
+    // clone its content
+    const task = emptyTaskTemplate.content.querySelector('.task').cloneNode(true);
+
+    //* Save data into DOM element
+    task.dataset.id = id;
+    task.dataset.name = name;
+    task.dataset.categoryId = categoryId;
+    task.dataset.status = status;
+    task.dataset.completion = completion;
+
+    //* CSS Classes
+    switch (status) {
+      case 2:
+        task.classList.add('task--done')
+        break;
+      case 3:
+        task.classList.add('task--archive', 'task--display_none')
+        break;
+      default: // 1 - todo
+        task.classList.add('task--todo')
+        break;
+    }
+
+    //* complete the clone with task data
+    task.querySelector('.task__content__p').textContent = title;
+    task.querySelector('.task__content__category__p').textContent = categoryName;
+    console.log(completion);
+    task.querySelector('.progress-bar').style.width = completion + '%';
+
+    // add listener on newTask button
+    app.addTaskEventListener(task);
+
+    // insert the new task
+    // get the task container
+    const taskListContainer = document.getElementById('taskList-container');
+    taskListContainer.prepend(task);
+  },
 
   /**
    * add event listener on a task
@@ -203,6 +295,8 @@ const app = {
     const taskTitle = addTaskFormData.get('title');
     const taskCategory = addTaskFormData.get('category');
 
+    // TODO : change it when create the request to the API with app.displayOneTask
+
     // get the template in index.html
     const emptyTaskTemplate = document.getElementById('empty-task');
     // clone its content
@@ -218,6 +312,8 @@ const app = {
     // get the task container
     const taskListContainer = document.getElementById('taskList-container');
     taskListContainer.prepend(newTask);
+
+    // TODO END
 
     // empty the category in the form
     const addTaskCategory = addTaskForm.querySelector('.task--add .category-select');
