@@ -197,11 +197,11 @@ const app = {
         break;
     }
 
-    // complete the clone with form's data
+    //* complete the clone with task data
     task.querySelector('.task__content__p').textContent = title;
     task.querySelector('.task__content__category__p').textContent = categoryName;
-    // add an id attribute
-    task.dataset.id = id;
+    console.log(completion);
+    task.querySelector('.progress-bar').style.width = completion + '%';
 
     // add listener on newTask button
     app.addTaskEventListener(task);
