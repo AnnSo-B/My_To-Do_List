@@ -200,7 +200,6 @@ const app = {
     //* complete the clone with task data
     task.querySelector('.task__content__p').textContent = title;
     task.querySelector('.task__content__category__p').textContent = categoryName;
-    console.log(completion);
     task.querySelector('.progress-bar').style.width = completion + '%';
 
     // add listener on newTask button
@@ -265,7 +264,6 @@ const app = {
 
     // confirm the action
     const result = window.confirm('Etes vous sûr de vouloir archiver cette tâche ?');
-    console.log(currentTask);
     // if the action is confirmed
     if (result) {
       currentTask.classList.remove('task--todo');
