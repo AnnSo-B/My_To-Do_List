@@ -1,8 +1,18 @@
 const app = {
+
+  /***************************************************************
+   * Initialization
+   ***************************************************************/
+
+  apiURL: "http://localhost:8080/",
+
   init: function() {
     console.log('init');
 
-    // get the list of the tasks
+    //* initialise the request to the API to retrieve the categoryList
+    app.fetchCategories();
+
+    //* get the list of the tasks
     const taskList = document.querySelectorAll('.task--todo, .task--complete, .task--done, .task--edit, .task--archive');
 
     // for each task we'll add a listener on the validate button
@@ -12,11 +22,103 @@ const app = {
       app.addTaskEventListener(task);
     }
 
-    // get the form to add a task
+    //* get the form to add a task
     const addTaskForm = document.querySelector('.task--add');
     // we add the listener
     addTaskForm.addEventListener('submit', app.handleAddTaskFormSubmit);
   },
+
+  /***************************************************************
+   * Categories
+   ***************************************************************/
+
+  /**
+   * Fetch Categories from API
+   */
+  fetchCategories: function() {
+    fetch(
+      app.apiURL + '/categories',
+      {
+        method: 'GET'
+      }
+    )
+    .then(function(response) {
+      // check if the response is not ok
+      if (!response.ok) {
+        console.log(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API')
+      }
+      // transform the response into usable data
+      return response.json();
+    })
+    .then(function(categoryList) {
+      // display category menus
+      app.displayCategoryMenus(categoryList);
+    })
+  },
+
+  /**
+   * Method to display both categoryMenus 
+   * @param categoryList
+   */
+  displayCategoryMenus: function(categoryList) {
+    // we get all the category menus
+    let navList = document.querySelectorAll('.selectCategoryMenu');
+
+    // for each menu, we will execute the method to create the menu
+    for (nav of navList) {
+      app.createCategoryMenu(categoryList);
+    }
+  },
+
+  /**
+   * Method to create category menu
+   * 
+   * @param categoryList
+   */
+  createCategoryMenu: function (categoryList) {
+    console.log('list from create category menu method', categoryList);
+
+    //* create and place the select
+    const selectElement = document.createElement('select');
+    // give it the name attribute
+    selectElement.name = "categoryId";
+    // give it CSS classes
+    selectElement.classList.add('custom-select', 'category-select');
+    // insert into the DOM
+    nav.appendChild(selectElement);
+
+    //* create the placeholder
+    const selectPlaceHolderElement = document.createElement('option');
+    // selected by default
+    selectPlaceHolderElement.selected = true;
+    // cannot be chosen
+    selectPlaceHolderElement.disabled = true;
+    // is not displayed
+    selectPlaceHolderElement.style.display = 'none';
+    // content
+    selectPlaceHolderElement.textContent = 'Choisir une catégorie';
+    // CSS class
+    selectPlaceHolderElement.classList.add('selectedOptionByDefault');
+    // insert into select
+    selectElement.appendChild(selectPlaceHolderElement);
+
+    //* create the different options according to the category list
+    for (category of categoryList) {
+      // create the option tag
+      const optionElement = document.createElement('option');
+      // give it the name of the category
+      optionElement.textContent = category.name;
+      // give it the id as value
+      optionElement.value = category.id;
+      // insert into select
+      selectElement.appendChild(optionElement);
+    }
+
+  },
+
+  /***************************************************************
+   * Tasks
+   ***************************************************************/
 
   /**
    * add event listener on a task
@@ -38,7 +140,7 @@ const app = {
 
 
   /***************************************************************
-   * BUTTONS HANDLERS
+   * Task button handlers
    **************************************************************/
 
   /**
@@ -82,7 +184,7 @@ const app = {
 
 
   /***************************************************************
-   * NEW TASK HANDLER
+   * New task handler
    **************************************************************/
 
   /**
