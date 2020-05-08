@@ -12,6 +12,9 @@ const app = {
     //* initialise the request to the API to retrieve the categoryList
     app.fetchCategories();
 
+    //* initialise the request to the API to retrieve the taskList
+    app.fetchTasks();
+
     //* get the list of the tasks
     const taskList = document.querySelectorAll('.task--todo, .task--complete, .task--done, .task--edit, .task--archive');
 
@@ -76,7 +79,6 @@ const app = {
    * @param categoryList
    */
   createCategoryMenu: function (categoryList) {
-    console.log('list from create category menu method', categoryList);
 
     //* create and place the select
     const selectElement = document.createElement('select');
@@ -119,6 +121,157 @@ const app = {
   /***************************************************************
    * Tasks
    ***************************************************************/
+
+  /**
+   * Fetch Tasks from API
+   */
+  fetchTasks: function() {
+    fetch(
+      app.apiURL + '/tasks',
+      {
+        method: 'GET'
+      }
+    )
+    .then(function(response) {
+      // check if the response is not ok
+      if (!response.ok) {
+        console.log(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API')
+      }
+      // transform the response into usable data
+      return response.json();
+    })
+    .then(function(taskList) {
+      // display all tasks
+      app.displayAllTasks(taskList);
+    })
+  },
+
+  /**
+   * Method to display all tasks
+   * 
+   * @param taskList from API
+   */
+  displayAllTasks: function(taskList) {
+    
+    // for each task we'll want to add it into the DOM
+    for (taskIndex = 0; taskIndex < taskList.length; taskIndex++) {
+      const task = taskList[taskIndex];
+      app.displayOneTask(task.id, task.title, task.category.id, task.category.name, task.status, task.completion);
+    }
+  },
+
+  /**
+   * Method to display a task
+   * 
+   * @param {string} id Task id
+   * @param {string} title Task title
+   * @param {int} categoryId task's category ID
+   * @param {string} categoryName task's category name
+   * @param {int} status Task status
+   * @param {int} completion Task completion
+   */
+  displayOneTask: function(id, title, categoryId, categoryName, status, completion) {
+    //* Templating
+    // get the template in index.html
+    const emptyTaskTemplate = document.getElementById('empty-task');
+    // clone its content
+    const task = emptyTaskTemplate.content.querySelector('.task').cloneNode(true);
+
+    //* Save data into DOM element
+    task.dataset.id = id;
+    task.dataset.name = name;
+    task.dataset.categoryId = categoryId;
+    task.dataset.status = status;
+    task.dataset.completion = completion;
+
+    //* CSS Classes
+    switch (status) {
+      case 2:
+        task.classList.add('task--done')
+        break;
+      case 3:
+        task.classList.add('task--archive', 'task--display_none')
+        break;
+      default: // 1 - todo
+        task.classList.add('task--todo')
+        break;
+    }
+
+    //* complete the clone with task data
+    task.querySelector('.task__content__p').textContent = title;
+    task.querySelector('.task__content__category__p').textContent = categoryName;
+    task.querySelector('.progress-bar').style.width = completion + '%';
+
+    // add listener on newTask button
+    app.addTaskEventListener(task);
+
+    // insert the new task
+    // get the task container
+    const taskListContainer = document.getElementById('taskList-container');
+    taskListContainer.prepend(task);
+  },
+
+
+  /***************************************************************
+   * New task handler
+   **************************************************************/
+
+  /**
+   * handler on add task form submission
+   * 
+   * @param {event} event EventObject representation
+   * @link pour FormData https://developer.mozilla.org/en-US/docs/Web/API/FormData
+   */
+  handleAddTaskFormSubmit: function(event) {
+    //* prevent the page from refreshing itself on submit
+    event.preventDefault();
+    
+    //* get the form data
+    const addTaskForm = event.currentTarget.querySelector('.task--add__form');
+    const addTaskFormData = new FormData(addTaskForm);
+    const taskTitle = addTaskFormData.get('title');
+    const taskCategory = addTaskFormData.get('categoryId');
+
+    //* create the request body
+    const fetchBody = {
+      title: taskTitle,
+      categoryId: taskCategory
+    };
+
+    //* fetch new task to the API
+    fetch(
+      app.apiURL + 'tasks',
+      {
+        method: 'POST',
+        headers: {
+          "Content-Type" : "application/json" // we send Json data
+        },
+        body: JSON.stringify(fetchBody)
+      }
+    )
+    .then(function(response) {
+      console.log(response);
+      // check if the response is not ok
+      if (!response.ok) {
+        return console.log('Une erreur est survenue lors de l\'ajout de la tâche. Merci de reessayer ultérieurement');
+      }
+      // transform the response into usable data
+      return response.json()
+    })
+    .then(function(task) {
+      app.displayOneTask(task.id, task.title, task.category.id, task.category.name, task.status, task.completion);
+
+      // empty the category in the form
+      const addTaskSelectedByDefault = addTaskForm.querySelector('.selectedOptionByDefault');
+      addTaskSelectedByDefault.selected = true;
+      
+      // empty the input and place yourself back on the input for data entry
+      const addTaskInput = addTaskForm.querySelector('.task__content__input');
+      addTaskInput.value = '';
+      addTaskInput.focus();
+      addTaskInput.select();
+    });
+  },
 
   /**
    * add event listener on a task
@@ -173,7 +326,6 @@ const app = {
 
     // confirm the action
     const result = window.confirm('Etes vous sûr de vouloir archiver cette tâche ?');
-    console.log(currentTask);
     // if the action is confirmed
     if (result) {
       currentTask.classList.remove('task--todo');
@@ -181,53 +333,6 @@ const app = {
       currentTask.classList.add('task--archive');
     }
   },
-
-
-  /***************************************************************
-   * New task handler
-   **************************************************************/
-
-  /**
-   * handler on add task form submission
-   * 
-   * @param {event} event EventObject representation
-   * @link pour FormData https://developer.mozilla.org/en-US/docs/Web/API/FormData
-   */
-  handleAddTaskFormSubmit: function(event) {
-    // prevent the page from refreshing itself on submit
-    event.preventDefault();
-    
-    // get the form data
-    const addTaskForm = event.currentTarget.querySelector('.task--add__form');
-    const addTaskFormData = new FormData(addTaskForm);
-    const taskTitle = addTaskFormData.get('title');
-    const taskCategory = addTaskFormData.get('category');
-
-    // get the template in index.html
-    const emptyTaskTemplate = document.getElementById('empty-task');
-    // clone its content
-    const newTask = emptyTaskTemplate.content.querySelector('.task').cloneNode(true);
-    // complete the clone with form's data
-    newTask.querySelector('.task__content__p').textContent = taskTitle;
-    newTask.querySelector('.task__content__category__p').textContent = taskCategory;
-
-    // add listener on newTask button
-    app.addTaskEventListener(newTask);
-
-    // insert the new task
-    // get the task container
-    const taskListContainer = document.getElementById('taskList-container');
-    taskListContainer.prepend(newTask);
-
-    // empty the category in the form
-    const addTaskCategory = addTaskForm.querySelector('.task--add .category-select');
-    addTaskCategory.value = 'Toutes les catégories';
-    // empty the input and place yourself back on the input for data entry
-    const addTaskInput = addTaskForm.querySelector('.task__content__input');
-    addTaskInput.value = '';
-    addTaskInput.focus();
-    addTaskInput.select();
-  }
 }
 
 /* Listen to the end of the DOM loading to initialize app */
