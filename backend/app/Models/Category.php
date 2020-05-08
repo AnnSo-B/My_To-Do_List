@@ -16,7 +16,7 @@ class Category extends Model {
     /**
      * Method to retrieve a list of categories
      */
-    public function list() {
+    static public function list() {
         // https://laravel.com/docs/7.x/eloquent#retrieving-models
         return Category::all();
     }
