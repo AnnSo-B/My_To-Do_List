@@ -39,6 +39,24 @@
         </nav>
       </header>
 
+
+      <!-- add a task -->
+      <article class="task task--add">
+        <form class="task--add__form">
+          <div class="task__content">
+            <div class="task__content__title">
+              <input class="task__content__input" type="text" name="title" placeholder="Nom de la tâche" />
+            </div>
+          </div>
+          <div id="task--add__category-select" class="task-form-group my-3 selectCategoryMenu">
+            <!-- Menu displayed in JS with data from API -->
+          </div>
+          <button type="submit" class="btn btn-primary task--add__button">
+            <span>+</span> Ajouter
+          </button>
+        </form>
+      </article>
+
       <main id="taskList-container">
         <!-- EMPTY TASK TEMPLATE - BEGINNING -->
         <template id="empty-task">
@@ -90,23 +108,6 @@
           </article>
         </template>
         <!-- EMPTY TASK TEMPLATE - END -->
-
-        <!-- add a task -->
-        <article class="task task--add">
-          <form class="task--add__form">
-            <div class="task__content">
-              <div class="task__content__title">
-                <input class="task__content__input" type="text" name="title" placeholder="Nom de la tâche" />
-              </div>
-            </div>
-            <div id="task--add__category-select" class="task-form-group my-3 selectCategoryMenu">
-              <!-- Menu displayed in JS with data from API -->
-            </div>
-            <button type="submit" class="btn btn-primary task--add__button">
-              <span>+</span> Ajouter
-            </button>
-          </form>
-        </article>
       </main>
     </div>
 
