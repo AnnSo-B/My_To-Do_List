@@ -211,6 +211,68 @@ const app = {
     taskListContainer.prepend(task);
   },
 
+
+  /***************************************************************
+   * New task handler
+   **************************************************************/
+
+  /**
+   * handler on add task form submission
+   * 
+   * @param {event} event EventObject representation
+   * @link pour FormData https://developer.mozilla.org/en-US/docs/Web/API/FormData
+   */
+  handleAddTaskFormSubmit: function(event) {
+    //* prevent the page from refreshing itself on submit
+    event.preventDefault();
+    
+    //* get the form data
+    const addTaskForm = event.currentTarget.querySelector('.task--add__form');
+    const addTaskFormData = new FormData(addTaskForm);
+    const taskTitle = addTaskFormData.get('title');
+    const taskCategory = addTaskFormData.get('categoryId');
+
+    //* create the request body
+    const fetchBody = {
+      title: taskTitle,
+      categoryId: taskCategory
+    };
+
+    //* fetch new task to the API
+    fetch(
+      app.apiURL + 'tasks',
+      {
+        method: 'POST',
+        headers: {
+          "Content-Type" : "application/json" // we send Json data
+        },
+        body: JSON.stringify(fetchBody)
+      }
+    )
+    .then(function(response) {
+      console.log(response);
+      // check if the response is not ok
+      if (!response.ok) {
+        return console.log('Une erreur est survenue lors de l\'ajout de la tâche. Merci de reessayer ultérieurement');
+      }
+      // transform the response into usable data
+      return response.json()
+    })
+    .then(function(task) {
+      app.displayOneTask(task.id, task.title, task.category.id, task.category.name, task.status, task.completion);
+
+      // empty the category in the form
+      const addTaskSelectedByDefault = addTaskForm.querySelector('.selectedOptionByDefault');
+      addTaskSelectedByDefault.selected = true;
+      
+      // empty the input and place yourself back on the input for data entry
+      const addTaskInput = addTaskForm.querySelector('.task__content__input');
+      addTaskInput.value = '';
+      addTaskInput.focus();
+      addTaskInput.select();
+    });
+  },
+
   /**
    * add event listener on a task
    */
@@ -271,57 +333,6 @@ const app = {
       currentTask.classList.add('task--archive');
     }
   },
-
-
-  /***************************************************************
-   * New task handler
-   **************************************************************/
-
-  /**
-   * handler on add task form submission
-   * 
-   * @param {event} event EventObject representation
-   * @link pour FormData https://developer.mozilla.org/en-US/docs/Web/API/FormData
-   */
-  handleAddTaskFormSubmit: function(event) {
-    // prevent the page from refreshing itself on submit
-    event.preventDefault();
-    
-    // get the form data
-    const addTaskForm = event.currentTarget.querySelector('.task--add__form');
-    const addTaskFormData = new FormData(addTaskForm);
-    const taskTitle = addTaskFormData.get('title');
-    const taskCategory = addTaskFormData.get('category');
-
-    // TODO : change it when create the request to the API with app.displayOneTask
-
-    // get the template in index.html
-    const emptyTaskTemplate = document.getElementById('empty-task');
-    // clone its content
-    const newTask = emptyTaskTemplate.content.querySelector('.task').cloneNode(true);
-    // complete the clone with form's data
-    newTask.querySelector('.task__content__p').textContent = taskTitle;
-    newTask.querySelector('.task__content__category__p').textContent = taskCategory;
-
-    // add listener on newTask button
-    app.addTaskEventListener(newTask);
-
-    // insert the new task
-    // get the task container
-    const taskListContainer = document.getElementById('taskList-container');
-    taskListContainer.prepend(newTask);
-
-    // TODO END
-
-    // empty the category in the form
-    const addTaskCategory = addTaskForm.querySelector('.task--add .category-select');
-    addTaskCategory.value = 'Toutes les catégories';
-    // empty the input and place yourself back on the input for data entry
-    const addTaskInput = addTaskForm.querySelector('.task__content__input');
-    addTaskInput.value = '';
-    addTaskInput.focus();
-    addTaskInput.select();
-  }
 }
 
 /* Listen to the end of the DOM loading to initialize app */
