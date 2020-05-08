@@ -102,6 +102,18 @@ const app = {
     // insert into select
     selectElement.appendChild(selectPlaceHolderElement);
 
+    //* create the different options according to the category list
+    for (category of categoryList) {
+      // create the option tag
+      const optionElement = document.createElement('option');
+      // give it the name of the category
+      optionElement.textContent = category.name;
+      // give it the id as value
+      optionElement.value = category.id;
+      // insert into select
+      selectElement.appendChild(optionElement);
+    }
+
   },
 
   /***************************************************************
