@@ -12,6 +12,7 @@ class TaskController extends Controller {
      * Get a list of all Tasks
      */
     public function list() {
+
         //* we execute the list Method from the Task model to retrieve the list
         $taskList = Task::list();
 
@@ -22,7 +23,7 @@ class TaskController extends Controller {
     /**
      * Add a task
      */
-     public function add(Request $request) {
+    public function add(Request $request) {
 
         //* Received data from the front validation
         // https://lumen.laravel.com/docs/7.x/validation
@@ -57,4 +58,46 @@ class TaskController extends Controller {
         return response()->json($task, Response::HTTP_CREATED);
     }
 
+    /**
+     *  Update task
+     *
+     * @param Request $request HTTP request Object - préférer l'envoi en Json
+     * @param int $id task id - argument sent by Lumen - from PUT request
+     */
+    public function update(Request $request, int $id) {
+
+        //* Find and check if the task exists
+        $task = Task::findOrFail($id);
+
+        //* Data validation
+        // https://lumen.laravel.com/docs/7.x/validation
+        // https://laravel.com/docs/7.x
+        // https://laravel.com/docs/7.x/validation#available-validation-rules
+        $this->validate(
+            $request,
+            [
+                'title'          => 'max:128',
+                'status'         => 'integer|in:1,2,3', // must be 1 or 2 or 3
+                'completion'     => 'integer|min:0|max:100',
+                'categoryId'     => 'integer|exists:categories,id'
+            ]
+        );
+
+        //* Complete the new object
+        $task->title        = $request->input('title', $task->title);
+        $task->category_id  = $request->input('categoryId', $task->category_id);
+        $task->completion   = $request->input('completion', $task->completion);
+        $task->status       = $request->input('status', $task->status);
+
+        //* Link to the corresponding category
+        $task->load('category');
+
+        //* Save changes and answer to the front
+        // in case of failure, answer with a server error
+        if (!$task->save()) {
+            return abort(Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        // in case of success, send the task to the front and answer that creation is ok
+        return response()->json($task, Response::HTTP_OK);
+    }
 }
