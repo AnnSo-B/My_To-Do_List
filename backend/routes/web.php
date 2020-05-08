@@ -1,0 +1,82 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Application Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register all of the routes for an application.
+| It is a breeze. Simply tell Lumen the URIs it should respond to
+| and give it the Closure to call when that URI is requested.
+|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| categories Endpoints
+|--------------------------------------------------------------------------
+*/
+
+/**
+ * Endpoint to get categoryList
+ */
+$router->get(
+    '/categories',
+    [
+        'uses'  =>  'CategoryController@list',
+        'as'    =>  'category_list'
+    ]
+);
+
+
+/*
+|--------------------------------------------------------------------------
+| tasks Endpoints
+|--------------------------------------------------------------------------
+*/
+
+/**
+ * Endpoint to retrieve a task list
+ */
+$router->get(
+    '/tasks',
+    [
+        'uses'  =>  'TaskController@list',
+        'as'    =>  'task_list'
+    ]
+);
+
+/**
+ * Endpoint to create a task
+ */
+$router->post(
+    '/tasks',
+    [
+        'uses' => 'TaskController@add',
+        'as' => 'task_add'
+    ]
+);
+
+
+/**
+ * Endpoint to update a task according to the provided id
+ */
+$router->put(
+    '/tasks/{id}',
+    [
+        'uses' => 'TaskController@update',
+        'as' => 'task_update'
+    ]
+);
+
+/**
+ * Endpoint to delete a task according to the provided id
+ */
+$router->delete(
+    '/tasks/{id}',
+    [
+        'uses' => 'TaskController@delete',
+        'as' => 'task_delete'
+    ]
+);
