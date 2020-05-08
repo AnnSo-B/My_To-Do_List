@@ -156,33 +156,60 @@ const app = {
     // for each task we'll want to add it into the DOM
     for (taskIndex = 0; taskIndex < taskList.length; taskIndex++) {
       const task = taskList[taskIndex];
-      console.log(task);
-      app.displayOneTask(task.id, task.title, task.category.name);
+      app.displayOneTask(task.id, task.title, task.category.id, task.category.name, task.status, task.completion);
     }
   },
 
   /**
    * Method to display a task
-   * @param 
+   * 
+   * @param {string} id Task id
+   * @param {string} title Task title
+   * @param {int} categoryId task's category ID
+   * @param {string} categoryName task's category name
+   * @param {int} status Task status
+   * @param {int} completion Task completion
    */
-  displayOneTask: function(id, title, categoryName) {
+  displayOneTask: function(id, title, categoryId, categoryName, status, completion) {
+    //* Templating
     // get the template in index.html
     const emptyTaskTemplate = document.getElementById('empty-task');
     // clone its content
-    const newTask = emptyTaskTemplate.content.querySelector('.task').cloneNode(true);
+    const task = emptyTaskTemplate.content.querySelector('.task').cloneNode(true);
+
+    //* Save data into DOM element
+    task.dataset.id = id;
+    task.dataset.name = name;
+    task.dataset.categoryId = categoryId;
+    task.dataset.status = status;
+    task.dataset.completion = completion;
+
+    //* CSS Classes
+    switch (status) {
+      case 2:
+        task.classList.add('task--done')
+        break;
+      case 3:
+        task.classList.add('task--archive', 'task--display_none')
+        break;
+      default: // 1 - todo
+        task.classList.add('task--todo')
+        break;
+    }
+
     // complete the clone with form's data
-    newTask.querySelector('.task__content__p').textContent = title;
-    newTask.querySelector('.task__content__category__p').textContent = categoryName;
+    task.querySelector('.task__content__p').textContent = title;
+    task.querySelector('.task__content__category__p').textContent = categoryName;
     // add an id attribute
-    newTask.dataset.id = id;
+    task.dataset.id = id;
 
     // add listener on newTask button
-    app.addTaskEventListener(newTask);
+    app.addTaskEventListener(task);
 
     // insert the new task
     // get the task container
     const taskListContainer = document.getElementById('taskList-container');
-    taskListContainer.prepend(newTask);
+    taskListContainer.prepend(task);
   },
 
   /**
