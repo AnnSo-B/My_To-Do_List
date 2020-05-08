@@ -9,10 +9,10 @@ const app = {
   init: function() {
     console.log('init');
 
-    // initialise the request to the API to retrieve the categoryList
+    //* initialise the request to the API to retrieve the categoryList
     app.fetchCategories();
 
-    // get the list of the tasks
+    //* get the list of the tasks
     const taskList = document.querySelectorAll('.task--todo, .task--complete, .task--done, .task--edit, .task--archive');
 
     // for each task we'll add a listener on the validate button
@@ -22,7 +22,7 @@ const app = {
       app.addTaskEventListener(task);
     }
 
-    // get the form to add a task
+    //* get the form to add a task
     const addTaskForm = document.querySelector('.task--add');
     // we add the listener
     addTaskForm.addEventListener('submit', app.handleAddTaskFormSubmit);
@@ -77,6 +77,30 @@ const app = {
    */
   createCategoryMenu: function (categoryList) {
     console.log('list from create category menu method', categoryList);
+
+    //* create and place the select
+    const selectElement = document.createElement('select');
+    // give it the name attribute
+    selectElement.name = "categoryId";
+    // give it CSS classes
+    selectElement.classList.add('custom-select', 'category-select');
+    // insert into the DOM
+    nav.appendChild(selectElement);
+
+    //* create the placeholder
+    const selectPlaceHolderElement = document.createElement('option');
+    // selected by default
+    selectPlaceHolderElement.selected = true;
+    // cannot be chosen
+    selectPlaceHolderElement.disabled = true;
+    // is not displayed
+    selectPlaceHolderElement.style.display = 'none';
+    // content
+    selectPlaceHolderElement.textContent = 'Choisir une catégorie';
+    // CSS class
+    selectPlaceHolderElement.classList.add('selectedOptionByDefault');
+    // insert into select
+    selectElement.appendChild(selectPlaceHolderElement);
 
   },
 
