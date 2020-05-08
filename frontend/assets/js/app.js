@@ -12,6 +12,9 @@ const app = {
     //* initialise the request to the API to retrieve the categoryList
     app.fetchCategories();
 
+    //* initialise the request to the API to retrieve the taskList
+    app.fetchTasks();
+
     //* get the list of the tasks
     const taskList = document.querySelectorAll('.task--todo, .task--complete, .task--done, .task--edit, .task--archive');
 
@@ -76,7 +79,6 @@ const app = {
    * @param categoryList
    */
   createCategoryMenu: function (categoryList) {
-    console.log('list from create category menu method', categoryList);
 
     //* create and place the select
     const selectElement = document.createElement('select');
@@ -119,6 +121,29 @@ const app = {
   /***************************************************************
    * Tasks
    ***************************************************************/
+
+  /**
+   * Fetch Tasks from API
+   */
+  fetchTasks: function() {
+    fetch(
+      app.apiURL + '/tasks',
+      {
+        method: 'GET'
+      }
+    )
+    .then(function(response) {
+      // check if the response is not ok
+      if (!response.ok) {
+        console.log(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API')
+      }
+      // transform the response into usable data
+      return response.json();
+    })
+    .then(function(taskList) {
+      console.log(taskList);
+    })
+  },
 
   /**
    * add event listener on a task
