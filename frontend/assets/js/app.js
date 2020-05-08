@@ -1,5 +1,9 @@
 const app = {
 
+  /***************************************************************
+   * Initialization
+   ***************************************************************/
+
   apiURL: "http://localhost:8080/",
 
   init: function() {
@@ -24,6 +28,10 @@ const app = {
     addTaskForm.addEventListener('submit', app.handleAddTaskFormSubmit);
   },
 
+  /***************************************************************
+   * Categories
+   ***************************************************************/
+
   /**
    * Fetch Categories from API
    */
@@ -35,13 +43,46 @@ const app = {
       }
     )
     .then(function(response) {
+      // check if the response is not ok
+      if (!response.ok) {
+        console.log(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API')
+      }
       // transform the response into usable data
       return response.json();
     })
     .then(function(categoryList) {
-      console.log(categoryList);
+      // display category menus
+      app.displayCategoryMenus(categoryList);
     })
   },
+
+  /**
+   * Method to display both categoryMenus 
+   * @param categoryList
+   */
+  displayCategoryMenus: function(categoryList) {
+    // we get all the category menus
+    let navList = document.querySelectorAll('.selectCategoryMenu');
+
+    // for each menu, we will execute the method to create the menu
+    for (nav of navList) {
+      app.createCategoryMenu(categoryList);
+    }
+  },
+
+  /**
+   * Method to create category menu
+   * 
+   * @param categoryList
+   */
+  createCategoryMenu: function (categoryList) {
+    console.log('list from create category menu method', categoryList);
+
+  },
+
+  /***************************************************************
+   * Tasks
+   ***************************************************************/
 
   /**
    * add event listener on a task
@@ -63,7 +104,7 @@ const app = {
 
 
   /***************************************************************
-   * BUTTONS HANDLERS
+   * Task button handlers
    **************************************************************/
 
   /**
@@ -107,7 +148,7 @@ const app = {
 
 
   /***************************************************************
-   * NEW TASK HANDLER
+   * New task handler
    **************************************************************/
 
   /**
