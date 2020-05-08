@@ -1,6 +1,12 @@
 const app = {
+
+  apiURL: "http://localhost:8080/",
+
   init: function() {
     console.log('init');
+
+    // initialise the request to the API to retrieve the categoryList
+    app.fetchCategories();
 
     // get the list of the tasks
     const taskList = document.querySelectorAll('.task--todo, .task--complete, .task--done, .task--edit, .task--archive');
@@ -17,6 +23,23 @@ const app = {
     // we add the listener
     addTaskForm.addEventListener('submit', app.handleAddTaskFormSubmit);
   },
+
+  /**
+   * Fetch Categories from API
+   */
+  fetchCategories: function() {
+    console.log('fecth categories');
+    fetch(
+      app.apiURL + '/categories',
+      {
+        method: 'GET'
+      }
+    )
+    .then(function(response) {
+      console.log(response);
+    })
+
+  },
 
   /**
    * add event listener on a task
