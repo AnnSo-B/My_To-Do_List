@@ -49,7 +49,7 @@ class CorsMiddleware
             }
         }
 
-        // return the answer to the client side so it can be forwarded to the controller
+        // return the answer to the client side so it can be forwarded to the controller again
         return $response;
     }
 }
