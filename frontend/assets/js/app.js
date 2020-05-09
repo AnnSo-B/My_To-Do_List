@@ -368,10 +368,19 @@ const app = {
         }
       )
       .then(function(response) {
+
         // check if the response is not ok
         if (!response.ok) {
           return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
         }
+        // transform the response into usable data
+        return response.json()
+      })
+      .then(function(task) {
+        // change current task status
+        currentTask.dataset.status = task.status;
+
+        // change CSS
         currentTask.classList.remove('task--todo');
         currentTask.classList.remove('task--done');
         currentTask.classList.add('task--archive');
