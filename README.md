@@ -7,6 +7,8 @@
   - Add, update and delete a task.
   - CORS
 - Todo :
+  - retrieve completed tasks or incomplete tasks
+  - retrieve archived tasks
   - Authorization
   - Authentification
 
@@ -23,5 +25,7 @@
   - mark a task as incomplete when it's done (including DB)
   - mark a task as not archived anymore (including DB)
 - Todo
-  - code factorisation
+  - code factorization
   - display error messages
+  - display only completed tasks or incomplete tasks
+  - display the archived tasks
