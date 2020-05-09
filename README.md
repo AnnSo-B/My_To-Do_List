@@ -18,7 +18,7 @@
   - add a task (including DB)
   - mark a task as done (including DB)
   - mark a task as archived (including DB)
-- Todo
   - edit a task and update the title (including DB)
+- Todo
   - delete a task (including DB)
   - display error messages

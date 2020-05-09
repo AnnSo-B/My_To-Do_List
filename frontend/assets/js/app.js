@@ -188,6 +188,7 @@ const app = {
     }
 
     //* complete the clone with task data
+    task.querySelector('.task__content__input').value = title;
     task.querySelector('.task__content__p').textContent = title;
     task.querySelector('.task__content__category__p').textContent = categoryName;
     task.querySelector('.progress-bar').style.width = completion + '%';
@@ -203,7 +204,7 @@ const app = {
 
 
   /***************************************************************
-   * New task handler
+   * Tasks handlers
    **************************************************************/
 
   /**
@@ -279,12 +280,20 @@ const app = {
     const archiveButton = task.querySelector('.task__content__button__archive');
     // we add the listener
     archiveButton.addEventListener('click', app.handleArchiveButton);
+
+    // MODIFY BUTTON
+    // we select the modify button 
+    const modifyButton = task.querySelector('.task__content__button__modify');
+    // we add the listener
+    modifyButton.addEventListener('click', app.handleModifyButton);
+
+    // TITLE INPUT
+    // we select the title input 
+    const titleInput = task.querySelector('.task__content__input[name="title"]');
+    // we add the listeners
+    titleInput.addEventListener('blur', app.handleEditTitle);
+    titleInput.addEventListener('keydown', app.handleEditTitle);
   },
-
-
-  /***************************************************************
-   * Task button handlers
-   **************************************************************/
 
   /**
    * handler on validate button : 
@@ -349,7 +358,7 @@ const app = {
     if (result) {
       // get current task
       const currentTask = event.currentTarget.closest('.task');
-      const currentTaskId = event.currentTarget.closest('.task').dataset.id;
+      const currentTaskId = currentTask.dataset.id;
 
       //* create the request body
       const fetchBody = {
@@ -386,6 +395,76 @@ const app = {
         currentTask.classList.add('task--archive');
       });
     }
+  },
+
+  /**
+   * handler on modify button
+   * 
+   * @param {event} event EventObject representation
+   */
+  handleModifyButton: function(event) {
+    //* get current task
+    const currentTask = event.currentTarget.closest('.task');
+
+    //* change its CSS
+    currentTask.classList.add('task--edit');
+
+    //* focus on the input
+    const inputTitleElement = currentTask.querySelector('.task__content__input');
+    inputTitleElement.focus();
+    inputTitleElement.select();  
+  },
+
+  /**
+   * handler on input to edit
+   * 
+   * @param {event} event EventObject representation
+   */
+  handleEditTitle: function(event) {
+    // we want that the entry key to validate changes otherwise we do nothing
+    if (event.type === 'keydown' && event.keyCode !== 13) {
+      return;
+    }
+
+    // if the event is keydown on 13 or blur, we want to update the task
+    //* find the task id associated with the edited input and get the value
+    const currentTask = event.currentTarget.closest('.task');
+    const currentTaskId = currentTask.dataset.id;
+
+    //* modified title
+    const modifiedTitle = event.currentTarget.value;
+
+    //* create the request body
+    const fetchBody = {
+      title: modifiedTitle,
+    };
+
+    //* fetch changes to the API
+    fetch(
+      app.apiURL + 'tasks/' + currentTaskId,
+      {
+        method: 'PUT',
+        headers: {
+          "Content-Type" : "application/json" // we send Json data
+        },
+        body: JSON.stringify(fetchBody)
+      }
+    )
+    .then(function(response) {
+      // check if the response is not ok
+      if (!response.ok) {
+        return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+      }
+      // transform the response into usable data
+      return response.json()
+    })
+    .then(function(task) {
+      // change title in paragraph
+      const titleElement = currentTask.querySelector('.task__content__p');
+      titleElement.textContent = task.title;
+      // change CSS
+      currentTask.classList.remove('task--edit');
+    })
   },
 }
 
