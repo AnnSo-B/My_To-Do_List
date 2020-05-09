@@ -21,4 +21,6 @@
   - edit a task and update the title (including DB)
 - Todo
   - delete a task (including DB)
+  - mark a task as incomplete when it's done (including DB)
+  - mark a task as incomplete when it's archived (including DB)
   - display error messages

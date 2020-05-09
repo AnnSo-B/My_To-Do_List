@@ -293,6 +293,12 @@ const app = {
     // we add the listeners
     titleInput.addEventListener('blur', app.handleEditTitle);
     titleInput.addEventListener('keydown', app.handleEditTitle);
+
+    // DELETE BUTTON
+    // we select the delete button 
+    const deleteButton = task.querySelector('.task__content__button__delete');
+    // we add the listener
+    deleteButton.addEventListener('click', app.handleDeleteButton);
   },
 
   /**
@@ -466,6 +472,15 @@ const app = {
       currentTask.classList.remove('task--edit');
     })
   },
+
+  /**
+   * handler on delete button
+   * 
+   * @param {event} event EventObject representation
+   */
+  handleDeleteButton: function(event) {
+    console.log('click');
+  }
 }
 
 /* Listen to the end of the DOM loading to initialize app */
