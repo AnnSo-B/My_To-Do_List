@@ -337,16 +337,40 @@ const app = {
    * @param {event} event EventObject representation
    */
   handleArchiveButton: function(event) {
-    // get current task
-    const currentTask = event.currentTarget.closest('.task');
-
     // confirm the action
     const result = window.confirm('Etes vous sûr de vouloir archiver cette tâche ?');
+    
     // if the action is confirmed
     if (result) {
-      currentTask.classList.remove('task--todo');
-      currentTask.classList.remove('task--done');
-      currentTask.classList.add('task--archive');
+      // get current task
+      const currentTask = event.currentTarget.closest('.task');
+      const currentTaskId = event.currentTarget.closest('.task').dataset.id;
+
+      //* create the request body
+      const fetchBody = {
+        status: 3 // 3 = archive status
+      };
+
+      //* fetch changes to the API
+      fetch(
+        app.apiURL + 'tasks/' + currentTaskId,
+        {
+          method: 'PUT',
+          headers: {
+            "Content-Type" : "application/json" // we send Json data
+          },
+          body: JSON.stringify(fetchBody)
+        }
+      )
+      .then(function(response) {
+        // check if the response is not ok
+        if (!response.ok) {
+          return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+        }
+        currentTask.classList.remove('task--todo');
+        currentTask.classList.remove('task--done');
+        currentTask.classList.add('task--archive');
+      });
     }
   },
 }
