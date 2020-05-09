@@ -20,7 +20,8 @@
   - mark a task as archived (including DB)
   - edit a task and update the title (including DB)
   - delete a task (including DB)
-- Todo
   - mark a task as incomplete when it's done (including DB)
-  - mark a task as incomplete when it's archived (including DB)
+  - mark a task as not archived anymore (including DB)
+- Todo
+  - code factorisation
   - display error messages

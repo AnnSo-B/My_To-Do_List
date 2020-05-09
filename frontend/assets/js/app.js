@@ -275,11 +275,11 @@ const app = {
     // we add the listener
     validateButton.addEventListener('click', app.handleValidateButton);
 
-    // ARCHIVE BUTTON
-    // we select the archive button 
-    const archiveButton = task.querySelector('.task__content__button__archive');
+    // INCOMPLETE BUTTON
+    // we select the delete button 
+    const incompleteButton = task.querySelector('.task__content__button__incomplete');
     // we add the listener
-    archiveButton.addEventListener('click', app.handleArchiveButton);
+    incompleteButton.addEventListener('click', app.handleIncompleteButton);
 
     // MODIFY BUTTON
     // we select the modify button 
@@ -293,6 +293,18 @@ const app = {
     // we add the listeners
     titleInput.addEventListener('blur', app.handleEditTitle);
     titleInput.addEventListener('keydown', app.handleEditTitle);
+
+    // ARCHIVE BUTTON
+    // we select the archive button 
+    const archiveButton = task.querySelector('.task__content__button__archive');
+    // we add the listener
+    archiveButton.addEventListener('click', app.handleArchiveButton);
+
+    // DESARCHIVE BUTTON
+    // we select the archive button 
+    const desarchiveButton = task.querySelector('.task__content__button__desarchive');
+    // we add the listener
+    desarchiveButton.addEventListener('click', app.handleDesarchiveButton);
 
     // DELETE BUTTON
     // we select the delete button 
@@ -351,55 +363,52 @@ const app = {
   },
 
   /**
-   * handler on archive button
+   * handler on validate button : 
+   * change current class and change progression bar
    * 
    * @param {event} event EventObject representation
    */
-  handleArchiveButton: function(event) {
-    // confirm the action
-    const result = window.confirm('Etes vous sûr de vouloir archiver cette tâche ?');
-    
-    // if the action is confirmed
-    if (result) {
-      // get current task
-      const currentTask = event.currentTarget.closest('.task');
-      const currentTaskId = currentTask.dataset.id;
+  handleIncompleteButton: function(event) {
+    //* find the task id associated with the incomplete button
+    const currentTask = event.currentTarget.closest('.task');
+    const currentTaskId = event.currentTarget.closest('.task').dataset.id;
 
-      //* create the request body
-      const fetchBody = {
-        status: 3 // 3 = archive status
-      };
+    //* create the request body
+    const fetchBody = {
+      completion: 0, // at the time we decide to change its completion to 0%
+      status: 1 // 1 = todo status
+    };
 
-      //* fetch changes to the API
-      fetch(
-        app.apiURL + 'tasks/' + currentTaskId,
-        {
-          method: 'PUT',
-          headers: {
-            "Content-Type" : "application/json" // we send Json data
-          },
-          body: JSON.stringify(fetchBody)
-        }
-      )
-      .then(function(response) {
+    //* fetch changes to the API
+    fetch(
+      app.apiURL + 'tasks/' + currentTaskId,
+      {
+        method: 'PUT',
+        headers: {
+          "Content-Type" : "application/json" // we send Json data
+        },
+        body: JSON.stringify(fetchBody)
+      }
+    )
+    .then(function(response) {
+      // check if the response is not ok
+      if (!response.ok) {
+        return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+      }
+      // transform the response into usable data
+      return response.json()
+    })
+    .then(function(task) {
+      //change current task status
+      currentTask.dataset.status = task.status;
+      // change current task completion
+      currentTask.dataset.completion = task.completion;
+      currentTask.querySelector('.progress-bar').style.width = task.completion + '%';
 
-        // check if the response is not ok
-        if (!response.ok) {
-          return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
-        }
-        // transform the response into usable data
-        return response.json()
-      })
-      .then(function(task) {
-        // change current task status
-        currentTask.dataset.status = task.status;
-
-        // change CSS
-        currentTask.classList.remove('task--todo');
-        currentTask.classList.remove('task--done');
-        currentTask.classList.add('task--archive');
-      });
-    }
+      // change its classes so it becomes a todo task
+      currentTask.classList.remove('task--done');
+      currentTask.classList.add('task--todo');
+    });
   },
 
   /**
@@ -470,6 +479,103 @@ const app = {
       // change CSS
       currentTask.classList.remove('task--edit');
     })
+  },
+
+  /**
+   * handler on archive button
+   * 
+   * @param {event} event EventObject representation
+   */
+  handleArchiveButton: function(event) {
+    // confirm the action
+    const result = window.confirm('Etes vous sûr de vouloir archiver cette tâche ?');
+    
+    // if the action is confirmed
+    if (result) {
+      // get current task
+      const currentTask = event.currentTarget.closest('.task');
+      const currentTaskId = currentTask.dataset.id;
+
+      //* create the request body
+      const fetchBody = {
+        status: 3 // 3 = archive status
+      };
+
+      //* fetch changes to the API
+      fetch(
+        app.apiURL + 'tasks/' + currentTaskId,
+        {
+          method: 'PUT',
+          headers: {
+            "Content-Type" : "application/json" // we send Json data
+          },
+          body: JSON.stringify(fetchBody)
+        }
+      )
+      .then(function(response) {
+
+        // check if the response is not ok
+        if (!response.ok) {
+          return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+        }
+        // transform the response into usable data
+        return response.json()
+      })
+      .then(function(task) {
+        // change current task status
+        currentTask.dataset.status = task.status;
+
+        // change CSS
+        currentTask.classList.remove('task--todo');
+        currentTask.classList.remove('task--done');
+        currentTask.classList.add('task--archive');
+      });
+    }
+  },
+
+  /**
+   * handler on archive button
+   * 
+   * @param {event} event EventObject representation
+   */
+  handleDesarchiveButton: function(event) {
+    // get current task
+    const currentTask = event.currentTarget.closest('.task');
+    const currentTaskId = currentTask.dataset.id;
+
+    //* create the request body
+    const fetchBody = {
+      status: 2 // 2 = done status
+    };
+
+    //* fetch changes to the API
+    fetch(
+      app.apiURL + 'tasks/' + currentTaskId,
+      {
+        method: 'PUT',
+        headers: {
+          "Content-Type" : "application/json" // we send Json data
+        },
+        body: JSON.stringify(fetchBody)
+      }
+    )
+    .then(function(response) {
+
+      // check if the response is not ok
+      if (!response.ok) {
+        return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+      }
+      // transform the response into usable data
+      return response.json()
+    })
+    .then(function(task) {
+      // change current task status
+      currentTask.dataset.status = task.status;
+
+      // change CSS
+      currentTask.classList.remove('task--archive');
+      currentTask.classList.add('task--done');
+    });
   },
 
   /**
