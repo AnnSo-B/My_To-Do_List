@@ -2,9 +2,13 @@
 
 ## Back end - Lumen
 
-- Retrieve category and task lists from DB.
-- Add, update and delete a task.
-- CORS
+- Done :
+  - Retrieve category and task lists from DB.
+  - Add, update and delete a task.
+  - CORS
+- Todo :
+  - Authorization
+  - Authentification
 
 ## Front end - Javascript
 
@@ -13,10 +17,9 @@
   - display the task list from tasks fetched from API
   - add a task (including DB)
 - WIP 
-  - mark a task as done
-  - mark a task as archived
+  - mark a task as done (including DB)
+  - mark a task as archived (including DB)
 - Todo
-  - mark a task as done, archived to the DB
-  - update the title of a task and change the DB
-  - delete a task from the DB
+  - edit a task and update the title (including DB)
+  - delete a task (including DB)
   - display error messages
