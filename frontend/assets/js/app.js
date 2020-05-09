@@ -390,7 +390,7 @@ const app = {
     currentTask.classList.add('task--edit');
 
     //* focus on the input
-    const inputTitleElement = document.querySelector('.task--edit input[name="name"]');
+    const inputTitleElement = currentTask.querySelector('.task__content__input');
     inputTitleElement.focus();
     inputTitleElement.select();
 
