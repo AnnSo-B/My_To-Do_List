@@ -188,6 +188,7 @@ const app = {
     }
 
     //* complete the clone with task data
+    task.querySelector('.task__content__input').value = title;
     task.querySelector('.task__content__p').textContent = title;
     task.querySelector('.task__content__category__p').textContent = categoryName;
     task.querySelector('.progress-bar').style.width = completion + '%';
@@ -203,7 +204,7 @@ const app = {
 
 
   /***************************************************************
-   * New task handler
+   * Tasks handlers
    **************************************************************/
 
   /**
@@ -279,12 +280,13 @@ const app = {
     const archiveButton = task.querySelector('.task__content__button__archive');
     // we add the listener
     archiveButton.addEventListener('click', app.handleArchiveButton);
+
+    // MODIFY BUTTON
+    // we select the modify button 
+    const modifyButton = task.querySelector('.task__content__button__modify');
+    // we add the listener
+    modifyButton.addEventListener('click', app.handleModifyButton);
   },
-
-
-  /***************************************************************
-   * Task button handlers
-   **************************************************************/
 
   /**
    * handler on validate button : 
@@ -344,7 +346,7 @@ const app = {
     if (result) {
       // get current task
       const currentTask = event.currentTarget.closest('.task');
-      const currentTaskId = event.currentTarget.closest('.task').dataset.id;
+      const currentTaskId = currentTask.dataset.id;
 
       //* create the request body
       const fetchBody = {
@@ -372,6 +374,27 @@ const app = {
         currentTask.classList.add('task--archive');
       });
     }
+  },
+
+  /**
+   * handler on modify button
+   * 
+   * @param {event} event EventObject representation
+   */
+  handleModifyButton: function(event) {
+    console.log('modify button');
+    //* get current task
+    const currentTask = event.currentTarget.closest('.task');
+
+    //* change its CSS
+    currentTask.classList.add('task--edit');
+
+    //* focus on the input
+    const inputTitleElement = document.querySelector('.task--edit input[name="name"]');
+    inputTitleElement.focus();
+    inputTitleElement.select();
+
+    
   },
 }
 
