@@ -275,6 +275,12 @@ const app = {
     // we add the listener
     validateButton.addEventListener('click', app.handleValidateButton);
 
+    // INCOMPLETE BUTTON
+    // we select the delete button 
+    const incompleteButton = task.querySelector('.task__content__button__incomplete');
+    // we add the listener
+    incompleteButton.addEventListener('click', app.handleIncompleteButton);
+
     // ARCHIVE BUTTON
     // we select the archive button 
     const archiveButton = task.querySelector('.task__content__button__archive');
@@ -348,6 +354,55 @@ const app = {
       currentTask.classList.remove('task--todo');
       currentTask.classList.add('task--done');
     })
+  },
+
+  /**
+   * handler on validate button : 
+   * change current class and change progression bar
+   * 
+   * @param {event} event EventObject representation
+   */
+  handleIncompleteButton: function(event) {
+    //* find the task id associated with the incomplete button
+    const currentTask = event.currentTarget.closest('.task');
+    const currentTaskId = event.currentTarget.closest('.task').dataset.id;
+
+    //* create the request body
+    const fetchBody = {
+      completion: 0, // at the time we decide to change its completion to 0%
+      status: 1 // 1 = todo status
+    };
+
+    //* fetch changes to the API
+    fetch(
+      app.apiURL + 'tasks/' + currentTaskId,
+      {
+        method: 'PUT',
+        headers: {
+          "Content-Type" : "application/json" // we send Json data
+        },
+        body: JSON.stringify(fetchBody)
+      }
+    )
+    .then(function(response) {
+      // check if the response is not ok
+      if (!response.ok) {
+        return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+      }
+      // transform the response into usable data
+      return response.json()
+    })
+    .then(function(task) {
+      //change current task status
+      currentTask.dataset.status = task.status;
+      // change current task completion
+      currentTask.dataset.completion = task.completion;
+      currentTask.querySelector('.progress-bar').style.width = task.completion + '%';
+
+      // change its classes so it becomes a todo task
+      currentTask.classList.remove('task--done');
+      currentTask.classList.add('task--todo');
+    });
   },
 
   /**
