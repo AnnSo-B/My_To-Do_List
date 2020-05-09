@@ -6,6 +6,8 @@ const app = {
 
   apiURL: "http://localhost:8080/",
 
+  taskListContainer: document.getElementById('taskList-container'),
+
   init: function() {
     console.log('init');
 
@@ -198,8 +200,7 @@ const app = {
 
     // insert the new task
     // get the task container
-    const taskListContainer = document.getElementById('taskList-container');
-    taskListContainer.prepend(task);
+    app.taskListContainer.prepend(task);
   },
 
 
@@ -241,7 +242,6 @@ const app = {
       }
     )
     .then(function(response) {
-      console.log(response);
       // check if the response is not ok
       if (!response.ok) {
         return console.log('Une erreur est survenue lors de l\'ajout de la tâche. Merci de reessayer ultérieurement');
@@ -293,6 +293,12 @@ const app = {
     // we add the listeners
     titleInput.addEventListener('blur', app.handleEditTitle);
     titleInput.addEventListener('keydown', app.handleEditTitle);
+
+    // DELETE BUTTON
+    // we select the delete button 
+    const deleteButton = task.querySelector('.task__content__button__delete');
+    // we add the listener
+    deleteButton.addEventListener('click', app.handleDeleteButton);
   },
 
   /**
@@ -324,7 +330,6 @@ const app = {
       }
     )
     .then(function(response) {
-      console.log(response);
       // check if the response is not ok
       if (!response.ok) {
         return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
@@ -466,6 +471,33 @@ const app = {
       currentTask.classList.remove('task--edit');
     })
   },
+
+  /**
+   * handler on delete button
+   * 
+   * @param {event} event EventObject representation
+   */
+  handleDeleteButton: function(event) {
+    // get current task id
+    const currentTaskId = event.currentTarget.closest('.task').dataset.id;
+
+    //* fetch changes to the API
+    fetch(
+      app.apiURL + 'tasks/' + currentTaskId,
+      {
+        method: 'DELETE'
+      }
+    )
+    .then(function(response) {
+      // check if the response is not ok
+      if (!response.ok) {
+        return console.log('Une erreur est survenue lors de la tentative de suppression de la tâche. Merci de reessayer ultérieurement');
+      }
+      app.taskListContainer.innerHTML = '';
+      app.fetchTasks();
+    })
+
+  }
 }
 
 /* Listen to the end of the DOM loading to initialize app */
