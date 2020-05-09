@@ -15,21 +15,11 @@ const app = {
     //* initialise the request to the API to retrieve the taskList
     app.fetchTasks();
 
-    //* get the list of the tasks
-    const taskList = document.querySelectorAll('.task--todo, .task--complete, .task--done, .task--edit, .task--archive');
-
-    // for each task we'll add a listener on the validate button
-    for (let taskIndex = 0; taskIndex < taskList.length ; taskIndex++) {
-      let task = taskList[taskIndex];
-      // we add the listener
-      app.addTaskEventListener(task);
-    }
-
     //* get the form to add a task
     const addTaskForm = document.querySelector('.task--add');
     // we add the listener
     addTaskForm.addEventListener('submit', app.handleAddTaskFormSubmit);
-  },
+},
 
   /***************************************************************
    * Categories
@@ -303,16 +293,42 @@ const app = {
    * @param {event} event EventObject representation
    */
   handleValidateButton: function(event) {
-    // find the task associated with the validate button
+    //* find the task id associated with the validate button
     const currentTask = event.currentTarget.closest('.task');
-    // change its classes so it becomes a completed task
-    currentTask.classList.remove('task--todo');
-    currentTask.classList.add('task--done');
+    const currentTaskId = event.currentTarget.closest('.task').dataset.id;
 
-    // find the progress bar to fill it
-    const currentTaskProgressBar = currentTask.querySelector('.progress-bar');
-    // change its completion percentage
-    currentTaskProgressBar.style.width = '100%';
+    //* create the request body
+    const fetchBody = {
+      completion: 100, // at the time we decide to change its completion to 100%
+      status: 2 // 2 = done status
+    };
+
+    //* fetch changes to the API
+    fetch(
+      app.apiURL + 'tasks/' + currentTaskId,
+      {
+        method: 'PUT',
+        headers: {
+          "Content-Type" : "application/json" // we send Json data
+        },
+        body: JSON.stringify(fetchBody)
+      }
+    )
+    .then(function(response) {
+      console.log(response);
+      // check if the response is not ok
+      if (!response.ok) {
+        return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+      }
+      // change its classes so it becomes a completed task
+      currentTask.classList.remove('task--todo');
+      currentTask.classList.add('task--done');
+  
+      // find the progress bar to fill it
+      const currentTaskProgressBar = currentTask.querySelector('.progress-bar');
+      // change its completion percentage
+      currentTaskProgressBar.style.width = '100%';
+    })
   },
 
   /**

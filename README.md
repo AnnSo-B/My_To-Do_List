@@ -16,8 +16,8 @@
   - display category menus from categories fetched from API
   - display the task list from tasks fetched from API
   - add a task (including DB)
-- WIP 
   - mark a task as done (including DB)
+- WIP 
   - mark a task as archived (including DB)
 - Todo
   - edit a task and update the title (including DB)
