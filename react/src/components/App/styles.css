@@ -31,6 +31,7 @@
   font-weight: 400;
   font-size: 0.9em;
   width: 65%;
+  border: none;
 }
 
 .task__content__input {
@@ -55,6 +56,8 @@
 
 .task__content__buttons {
   margin: 0.5em auto 0 auto;
+  display: flex;
+  justify-content: center;
 }
 
 .task__content__buttons > .button {

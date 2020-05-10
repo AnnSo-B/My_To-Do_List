@@ -1,5 +1,6 @@
 // npm imports
 import React from 'react';
+import { ProgressBar } from 'react-bootstrap';
 
 // local imports
 import TaskTitleInput from '../TaskTitleInput';
@@ -9,7 +10,7 @@ import StatusButton from './StatusButton';
 const Task = () => (
   <article className="task task--todo">
     <div className="task__content">
-      <div className="task__content_title">
+      <div className="task__content__title">
         <TaskTitleInput value="Acheter les billets d'avion" />
         <p className="task__content__p">Acheter les billets d'avion</p>
       </div>
@@ -20,11 +21,9 @@ const Task = () => (
         <StatusButton />
         <StatusButton />
         <StatusButton />
-        <StatusButton />
-        <StatusButton />
-        <StatusButton />
       </div>
     </div>
+    <ProgressBar now={25} />
   </article>
 );
 
