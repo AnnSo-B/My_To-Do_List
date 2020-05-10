@@ -2,11 +2,12 @@
 import React from 'react';
 
 // local imports
+import Task from './Task';
 
 // component
 const TaskList = () => (
   <section id="taskList-container">
-    TaskList
+    <Task />
   </section>
 );
 

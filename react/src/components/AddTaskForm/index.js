@@ -4,6 +4,7 @@ import React from 'react';
 // local imports
 import './style.css';
 import CategoryMenu from '../CategoryMenu';
+import TaskTitleInput from '../TaskTitleInput';
 
 // component
 const AddTaskForm = () => (
@@ -11,7 +12,7 @@ const AddTaskForm = () => (
     <form class="task--add__form">
       <div class="task__content">
         <div class="task__content__title">
-          <input class="task__content__input" type="text" name="title" placeholder="Nom de la tâche" />
+          <TaskTitleInput />
         </div>
       </div>
       <div id="task--add__category-select" class="task-form-group my-3 selectCategoryMenu">
