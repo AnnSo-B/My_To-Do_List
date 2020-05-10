@@ -1,5 +1,6 @@
 // npm imports
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ProgressBar } from 'react-bootstrap';
 
 // local imports
@@ -7,7 +8,7 @@ import TaskTitleInput from '../TaskTitleInput';
 import StatusButton from './StatusButton';
 
 // component
-const Task = () => (
+const Task = ({ statusButtons }) => (
   <article className="task task--todo">
     <div className="task__content">
       <div className="task__content__title">
@@ -18,9 +19,11 @@ const Task = () => (
         <p className="task__content__category__p">Vacances</p>
       </div>
       <div className="task__content__buttons">
-        <StatusButton />
-        <StatusButton />
-        <StatusButton />
+        {
+          statusButtons.map((button) => (
+            <StatusButton key={button.id} {...button} />
+          ))
+        }
       </div>
     </div>
     <ProgressBar now={25} />
@@ -28,6 +31,15 @@ const Task = () => (
 );
 
 // Props validation
+Task.propTypes = {
+  statusButtons: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      cssClass: PropTypes.string.isRequired,
+      icon: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
 
 // export
 export default Task;

@@ -2,7 +2,7 @@
 import React from 'react';
 
 // local imports
-import Task from './Task';
+import Task from '../../containers/Task';
 
 // component
 const TaskList = () => (

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import testButton from './testButton';
+import statusButton from './statusButton';
 
 export default combineReducers({
-  testButton,
+  statusButton,
 });
