@@ -8,6 +8,9 @@ import Task from './Task';
 const TaskList = () => (
   <section id="taskList-container">
     <Task />
+    <Task />
+    <Task />
+    <Task />
   </section>
 );
 

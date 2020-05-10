@@ -5,7 +5,12 @@ import React from 'react';
 
 // component
 const TaskTitleInput = () => (
-  <input class="task__content__input" type="text" name="title" placeholder="Nom de la tâche" />
+  <input
+    className="task__content__input"
+    type="text"
+    name="title"
+    placeholder="Nom de la tâche"
+  />
 );
 
 // Props validation
