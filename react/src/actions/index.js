@@ -1,7 +1,7 @@
 // action types
-export const TEST_MIDDLEWARE = 'TEST_MIDDLEWARE';
+export const FETCH_TASK_LIST = 'FETCH_TASK_LIST';
 
 // action creators
-export const testMiddleware = () => ({
-  type: TEST_MIDDLEWARE,
+export const fetchTaskList = () => ({
+  type: FETCH_TASK_LIST,
 });
