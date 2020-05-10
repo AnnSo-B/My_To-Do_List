@@ -1,7 +1,6 @@
 // npm imports
 
 // local imports
-import { TEST_MIDDLEWARE } from '../actions';
 
 // state
 const initialState = {

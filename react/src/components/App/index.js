@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // local imports
 import Header from 'src/components/Header';
 import AddTaskForm from 'src/components/AddTaskForm';
-import TaskList from 'src/components/TaskList';
+import TaskList from 'src/containers/TaskList';
 import './styles.css';
 
 // component
