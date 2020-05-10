@@ -18,10 +18,15 @@ const Header = () => (
           <Button variant="light">Complètes</Button>
           <Button variant="light">Incomplètes</Button>
         </ButtonGroup>
-        <CategoryMenu />
-          <div className="navbar-archive-link my-3">
-              <a href="#">Voir les archives</a>
-          </div>
+        <div
+          id="navbar__category-select"
+          className="navbar-form-group my-3 selectCategoryMenu"
+        >
+          <CategoryMenu />
+        </div>
+        <div className="navbar-archive-link my-3">
+            <a href="#">Voir les archives</a>
+        </div>
       </Navbar.Collapse>
     </Navbar>
   </header>
