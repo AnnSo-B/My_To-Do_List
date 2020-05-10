@@ -5,7 +5,7 @@ import { ProgressBar } from 'react-bootstrap';
 
 // local imports
 import TaskTitleInput from '../TaskTitleInput';
-import StatusButton from './StatusButton';
+import StatusButton from '../../containers/StatusButton';
 
 // component
 const Task = ({ title, completion, status, category, statusButtons }) => {

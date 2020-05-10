@@ -7,19 +7,38 @@ import { Button } from 'react-bootstrap';
 import './style.css';
 
 // component
-const StatusButton = ({ cssClass, variant, icon }) => (
-  <Button className={cssClass} variant={variant}>
-    <span className="icon">
-      <i className={`fa ${icon}`}></i>
-    </span>
-  </Button>
-);
+const StatusButton = ({
+  cssClass,
+  variant,
+  icon,
+  onClickAction,
+  validateTask
+}) => {
+  let actionToDispatch = '';
+  switch (onClickAction) {
+    case 'validateTask':
+      actionToDispatch = validateTask;
+  };
+
+  return (
+    <Button
+      className={cssClass}
+      variant={variant}
+      onClick={() => actionToDispatch()}
+    >
+      <span className="icon">
+        <i className={`fa ${icon}`}></i>
+      </span>
+    </Button>
+  );
+};
 
 // Props validation
 StatusButton.propTypes = {
   cssClass: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
+  onClickAction: PropTypes.string.isRequired,
 }
 
 // export
