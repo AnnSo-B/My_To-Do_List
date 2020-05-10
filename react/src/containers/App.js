@@ -8,7 +8,11 @@ import App from '../components/App';
 const mapStateToProps = null;
 
 // actions
-const mapDispatchToProps = {};
+const mapDispatchToProps = () => ({
+  fetchTaskList: () => {
+    console.log('fetchTaskList');
+  },
+});
 
 // export
 export default connect(mapStateToProps, mapDispatchToProps)(App);
