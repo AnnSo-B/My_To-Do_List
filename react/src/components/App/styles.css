@@ -1,13 +1,3 @@
 .app {
-  width: 500px;
-  margin: 3em auto;
-  text-align: center;
-}
-
-.app__title {
-  font-size: 3em;
-}
-
-.app img {
-  max-width: 300px;
+  padding: 0.5em;
 }
