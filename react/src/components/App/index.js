@@ -1,5 +1,6 @@
 // npm imports
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // local imports
 import TestButton from 'src/containers/TestButton';

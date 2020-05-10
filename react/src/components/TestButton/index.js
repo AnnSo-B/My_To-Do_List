@@ -1,15 +1,16 @@
 // npm imports
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
 
 // local imports
 import './style.css';
 
 // component
 const Test = ({ testMiddleware }) => (
-  <button className="test-button" type="button" onClick={testMiddleware}>
+  <Button className="test-button" type="button" onClick={testMiddleware}>
     Test du middleware
-  </button>
+  </Button>
 );
 
 // Props validation

@@ -57,8 +57,10 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "bootstrap": "^4.4.1",
     "prop-types": "*",
     "react": "*",
+    "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-redux": "*",
     "redux": "*"
