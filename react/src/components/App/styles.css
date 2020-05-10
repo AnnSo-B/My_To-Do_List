@@ -38,33 +38,10 @@
   width: 100%;
 }
 
-/* task--add */
-.task--add__form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.task--add .task__content__input {
-  display: block;
-  border: none;
-}
-
 @media screen AND (min-width: 769px) {
   .app {
     max-width: 1200px;
     padding: 0.5em 2em;
     margin: 0 auto;
-  }
-  
-  .task--add__form {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: 2.5em;
-  }
-
-  .task--add .task__content__input {
-    width: 600px;
   }
 }

@@ -2,6 +2,7 @@
 import React from 'react';
 
 // local imports
+import './style.css';
 import CategoryMenu from '../CategoryMenu';
 
 // component
