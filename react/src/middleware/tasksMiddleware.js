@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 // local import
-import { FETCH_TASK_LIST } from '../actions';
+import { FETCH_TASK_LIST, fetchTaskListSuccess } from '../actions';
 import { apiURL } from '../app.config';
 
 // middleware de test
@@ -11,8 +11,12 @@ export default (store) => (next) => (action) => {
     case FETCH_TASK_LIST: 
       axios.get(`${apiURL}/tasks`)
       .then((response) => {
-        console.log(response.data);
+        // send data to the store via fetchTaskListSuccess action creator
+        store.dispatch(fetchTaskListSuccess(response.data))
       })
+      .catch((error) => {
+        console.log(error);
+      });
       break;
     default: 
       next(action);

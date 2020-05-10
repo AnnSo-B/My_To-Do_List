@@ -7,6 +7,7 @@
   - Add, update and delete a task.
   - CORS
 - Todo :
+  - order taskList by creation date
   - retrieve completed tasks or incomplete tasks
   - retrieve archived tasks
   - Authorization
