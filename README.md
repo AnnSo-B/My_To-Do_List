@@ -29,3 +29,13 @@
   - display error messages
   - display only completed tasks or incomplete tasks
   - display the archived tasks
+
+## Front end - React
+
+- Done :
+  - Static components
+- Todo :
+  - display task list from API
+  - add a task through API
+  - change task status through API
+  - modify task title through API
