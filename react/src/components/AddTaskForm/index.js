@@ -9,16 +9,16 @@ import TaskTitleInput from '../TaskTitleInput';
 // component
 const AddTaskForm = () => (
   <section className="task task--add">
-    <form class="task--add__form">
-      <div class="task__content">
-        <div class="task__content__title">
+    <form className="task--add__form">
+      <div className="task__content">
+        <div className="task__content__title">
           <TaskTitleInput />
         </div>
       </div>
-      <div id="task--add__category-select" class="task-form-group my-3 selectCategoryMenu">
+      <div id="task--add__category-select" className="task-form-group my-3 selectCategoryMenu">
         <CategoryMenu />
       </div>
-      <button type="submit" class="btn btn-primary task--add__button">
+      <button type="submit" className="btn btn-primary task--add__button">
         <span>+</span> Ajouter
       </button>
     </form>
