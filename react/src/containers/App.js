@@ -6,7 +6,9 @@ import App from '../components/App';
 import { fetchTaskList } from '../actions';
 
 // state
-const mapStateToProps = null;
+const mapStateToProps = (state) => ({
+  error: state.taskList.fetchError,
+});
 
 // actions
 const mapDispatchToProps = (dispatch) => ({
