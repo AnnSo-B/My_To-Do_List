@@ -16,6 +16,7 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         taskList: action.payload,
+        fetchError: '',
       }
     case FETCH_TASK_LIST_ERROR: 
       return {
