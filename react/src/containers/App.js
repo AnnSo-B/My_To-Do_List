@@ -15,6 +15,9 @@ const mapDispatchToProps = (dispatch) => ({
   fetchTaskList: () => {
     dispatch(fetchTaskList());
   },
+  fetchCategoryList: () => {
+    console.log('fetchCategoryList');
+  },
 });
 
 // export
