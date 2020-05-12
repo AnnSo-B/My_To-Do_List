@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // local imports
 import App from '../components/App';
-import { fetchTaskList } from '../actions';
+import { fetchTaskList, fetchCategoryList } from '../actions';
 
 // state
 const mapStateToProps = (state) => ({
@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchTaskList());
   },
   fetchCategoryList: () => {
-    console.log('fetchCategoryList');
+    dispatch(fetchCategoryList());
   },
 });
 
