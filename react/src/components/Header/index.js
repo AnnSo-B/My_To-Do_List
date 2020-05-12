@@ -4,7 +4,7 @@ import { Navbar, ButtonGroup, Button } from 'react-bootstrap';
 
 // local imports
 import './style.css';
-import CategoryMenu from '../CategoryMenu';
+import CategoryMenu from '../../containers/CategoryMenu';
 
 // component
 const Header = () => (
