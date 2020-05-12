@@ -7,7 +7,8 @@ import { fetchTaskList, fetchCategoryList } from '../actions';
 
 // state
 const mapStateToProps = (state) => ({
-  error: state.taskList.fetchError,
+  taskListError: state.taskList.fetchError,
+  categoryListError: state.categoryList.fetchError,
 });
 
 // actions

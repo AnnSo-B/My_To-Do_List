@@ -11,7 +11,7 @@ import TaskList from 'src/containers/TaskList';
 import './styles.css';
 
 // component
-const App = ({ error, fetchTaskList, fetchCategoryList }) => {
+const App = ({ taskListError, categoryListError, fetchTaskList, fetchCategoryList }) => {
   useEffect(fetchTaskList, []);
   useEffect(fetchCategoryList, []);
 
@@ -19,7 +19,11 @@ const App = ({ error, fetchTaskList, fetchCategoryList }) => {
     <div className="app">
       <Header />
       <main>
-        { error !== '' && <ErrorMessage /> }
+        {
+          (taskListError
+            || categoryListError !== '')
+            && <ErrorMessage />
+        }
         <AddTaskForm />
         <TaskList />
       </main>

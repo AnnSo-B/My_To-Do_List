@@ -6,15 +6,39 @@ import { Alert } from 'react-bootstrap';
 // local imports
 
 // component
-const ErrorMessage = ({ error }) => (
-  <Alert key={1} variant="danger">
-    {error}
-  </Alert>
+const ErrorMessage = ({ taskListError, categoryListError }) => (
+  <>
+    {
+      taskListError
+        && (
+          <Alert
+            key={taskListError}
+            variant="danger"
+            className="my-3"
+          >
+            {taskListError}
+          </Alert>
+        )
+    }
+    {
+      categoryListError
+        && (
+          <Alert
+            key={categoryListError}
+            variant="danger"
+            className="my-3"
+          >
+            {categoryListError}
+          </Alert>
+        )
+    }
+  </>
 );
 
 // Props validation
 ErrorMessage.propTypes = {
-  error: PropTypes.string.isRequired,
+  taskListError: PropTypes.string,
+  categoryListError: PropTypes.string,
 };
 
 // export
