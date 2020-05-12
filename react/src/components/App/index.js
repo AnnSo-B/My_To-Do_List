@@ -11,14 +11,19 @@ import TaskList from 'src/containers/TaskList';
 import './styles.css';
 
 // component
-const App = ({ error, fetchTaskList }) => {
+const App = ({ taskListError, categoryListError, fetchTaskList, fetchCategoryList }) => {
   useEffect(fetchTaskList, []);
+  useEffect(fetchCategoryList, []);
 
   return (
     <div className="app">
       <Header />
       <main>
-        { error !== '' && <ErrorMessage /> }
+        {
+          (taskListError
+            || categoryListError !== '')
+            && <ErrorMessage />
+        }
         <AddTaskForm />
         <TaskList />
       </main>
@@ -31,6 +36,7 @@ const App = ({ error, fetchTaskList }) => {
 App.propTypes = {
   error: PropTypes.string,
   fetchTaskList: PropTypes.func.isRequired,
+  fetchCategoryList: PropTypes.func.isRequired,
 };
 
 // export
