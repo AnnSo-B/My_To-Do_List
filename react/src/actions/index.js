@@ -29,7 +29,7 @@ export const fetchTaskListError = (payload) => ({
 
 // Task's buttons
 export const fetchTaskUpdate = (payload) => ({
-  type: FETCH_TASK_LIST,
+  type: FETCH_TASK_UPDATE,
   payload,
 });
 
