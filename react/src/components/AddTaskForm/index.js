@@ -3,7 +3,7 @@ import React from 'react';
 
 // local imports
 import './style.css';
-import CategoryMenu from '../CategoryMenu';
+import CategoryMenu from '../../containers/CategoryMenu';
 import TaskTitleInput from '../TaskTitleInput';
 
 // component

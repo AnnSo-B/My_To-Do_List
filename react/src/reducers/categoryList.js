@@ -1,24 +1,26 @@
 // npm imports
 
 // local imports
-import { FETCH_TASK_LIST_SUCCESS, FETCH_TASK_LIST_ERROR } from '../actions';
+import { FETCH_CATEGORY_LIST_SUCCESS, FETCH_CATEGORY_LIST_ERROR } from '../actions';
 
 // state
 const initialState = {
-  taskList: [],
+  categoryList: [],
   fetchError: '',
 };
 
 // reducer
 export default (state = initialState, action = {}) => {
   switch (action.type) {
-    case FETCH_TASK_LIST_SUCCESS: 
+    case FETCH_CATEGORY_LIST_SUCCESS:
       return {
         ...state,
-        taskList: action.payload,
+        categoryList: [
+          ...action.payload
+        ],
         fetchError: '',
-      }
-    case FETCH_TASK_LIST_ERROR: 
+      };
+    case FETCH_CATEGORY_LIST_ERROR: 
       return {
         ...state,
         fetchError: action.payload,

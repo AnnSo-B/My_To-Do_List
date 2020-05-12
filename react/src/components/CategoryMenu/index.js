@@ -1,11 +1,12 @@
 // npm imports
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // local imports
 import './style.css';
 
 // component
-const CategoryMenu = () => (
+const CategoryMenu = ({ categoryList }) => (
   <select
     className="custom-select category-select"
     name="categoryId"
@@ -18,25 +19,28 @@ const CategoryMenu = () => (
     >
       Choisir une catégorie
     </option>
-    <option
-      value={1}
-    >
-      Courses
-    </option>
-    <option
-      value={2}
-    >
-      Ecoles
-    </option>
-    <option
-      value={3}
-    >
-      Vacances
-    </option>
+    {
+      categoryList.map((category) => (
+        <option
+          key={category.id}
+          value={category.id}
+        >
+          {category.name}
+        </option>
+      ))
+    }
   </select>
 );
 
 // Props validation
+CategoryMenu.propTypes = {
+  categoryList: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
 
 // export
 export default CategoryMenu;

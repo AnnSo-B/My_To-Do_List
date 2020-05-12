@@ -13,7 +13,6 @@ export default (store) => (next) => (action) => {
       .then((response) => {
         // send data to the store via fetchTaskListSuccess action creator
         store.dispatch(fetchTaskListSuccess(response.data));
-        store.dispatch(fetchTaskListError(''));
       })
       .catch((error) => {
         store.dispatch(fetchTaskListError('Une erreur est survenue au chargement de la liste des tâches'));
