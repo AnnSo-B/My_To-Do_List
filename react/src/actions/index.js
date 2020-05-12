@@ -5,6 +5,8 @@ export const FETCH_TASK_LIST_SUCCESS = 'FETCH_TASK_LIST_SUCCESS';
 export const FETCH_TASK_LIST_ERROR = 'FETCH_TASK_LIST_ERROR';
 // Categories
 export const FETCH_CATEGORY_LIST = 'FETCH_CATEGORY_LIST';
+export const FETCH_CATEGORY_LIST_SUCCESS = 'FETCH_CATEGORY_LIST_SUCCESS';
+export const FETCH_CATEGORY_LIST_ERROR = 'FETCH_CATEGORY_LIST_ERROR';
 // Common
 
 
@@ -29,3 +31,12 @@ export const fetchCategoryList = () => ({
   type: FETCH_CATEGORY_LIST,
 });
 
+export const fetchCategoryListSuccess = (payload) => ({
+  type: FETCH_CATEGORY_LIST_SUCCESS,
+  payload,
+});
+
+export const fetchCategoryListError = (payload) => ({
+  type: FETCH_CATEGORY_LIST_ERROR,
+  payload,
+});
