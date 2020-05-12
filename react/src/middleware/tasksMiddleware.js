@@ -2,7 +2,12 @@
 import axios from 'axios';
 
 // local import
-import { FETCH_TASK_LIST, fetchTaskListSuccess, fetchTaskListError } from '../actions';
+import {
+  FETCH_TASK_LIST,
+  fetchTaskListSuccess,
+  fetchTaskListError,
+  FETCH_TASK_UPDATE,
+} from '../actions';
 import { apiURL } from '../app.config';
 
 // middleware de test
@@ -18,6 +23,9 @@ export default (store) => (next) => (action) => {
         store.dispatch(fetchTaskListError('Une erreur est survenue au chargement de la liste des tâches'));
       });
       break;
+    case FETCH_TASK_UPDATE: {
+      console.log(payload);
+    }
     default: 
       next(action);
   }

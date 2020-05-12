@@ -24,7 +24,9 @@ const StatusButton = ({
     <Button
       className={cssClass}
       variant={variant}
-      onClick={() => actionToDispatch()}
+      onClick={
+        (event) => actionToDispatch(event.currentTarget.closest('.task').id)
+      }
     >
       <span className="icon">
         <i className={`fa ${icon}`}></i>
