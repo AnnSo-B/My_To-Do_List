@@ -14,6 +14,7 @@ import {
   taskDeletionError,
   NEW_TASK_SUBMISSION,
   newTaskSubmissionSuccess,
+  newTaskSubmissionError,
 } from '../actions';
 import { apiURL } from '../app.config';
 
@@ -74,6 +75,9 @@ export default (store) => (next) => (action) => {
       .then((response) => {
         store.dispatch(newTaskSubmissionSuccess(response.data));
       })
+      .catch(() => {
+        store.dispatch(newTaskSubmissionError('Une erreur est survenue lors de la tentative d\'ajout de la tâche.'))
+      });
       break;
     default: 
       next(action);

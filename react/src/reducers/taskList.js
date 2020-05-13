@@ -12,6 +12,7 @@ import {
   CHANGE_TASK_TITLE,
   CHANGE_NEW_TASK_CATEGORY,
   NEW_TASK_SUBMISSION_SUCCESS,
+  NEW_TASK_SUBMISSION_ERROR,
 } from '../actions';
 
 // state
@@ -136,6 +137,11 @@ export default (state = initialState, action = {}) => {
           title: '',
           categoryId: 0,
         },
+      };
+    case NEW_TASK_SUBMISSION_ERROR: 
+      return {
+        ...state,
+        fetchError: action.payload,
       };
   default: 
       return state;
