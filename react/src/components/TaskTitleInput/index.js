@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 // local imports
 
 // component
-const TaskTitleInput = ({ value = '', onInputChange }) => (
+const TaskTitleInput = ({ value = '', onInputChange, onInputBlur }) => (
   <input
     className="task__content__input"
     type="text"
@@ -15,6 +15,7 @@ const TaskTitleInput = ({ value = '', onInputChange }) => (
     onChange={
       (event) => onInputChange(event.target.value)
     }
+    onBlur={onInputBlur}
   />
 );
 
@@ -22,6 +23,7 @@ const TaskTitleInput = ({ value = '', onInputChange }) => (
 TaskTitleInput.propTypes = {
   value: PropTypes.string,
   onInputChange: PropTypes.func.isRequired,
+  onInputBlur: PropTypes.func.isRequired,
 };
 
 // export

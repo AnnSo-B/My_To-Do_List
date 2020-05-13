@@ -11,7 +11,6 @@ const mapStateToProps = null;
 // actions
 const mapDispatchToProps = (dispatch) => ({
   onInputChange: (title) => {
-    console.log(title);
     dispatch(changeTaskTitle(title));
   },
 });

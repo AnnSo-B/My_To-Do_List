@@ -15,7 +15,8 @@ const Task = ({
   status,
   category,
   currentEditedTaskTitle,
-  statusButtons
+  statusButtons,
+  updateTaskTitle,
 }) => {
   // define class according to status
   let statusClass = '';
@@ -37,7 +38,7 @@ const Task = ({
     <article id={id} className={`task ${statusClass}`}>
       <div className="task__content">
         <div className="task__content__title">
-          <TaskTitleInput value={currentEditedTaskTitle} />
+          <TaskTitleInput value={currentEditedTaskTitle} onInputBlur={() => updateTaskTitle({taskId: id, title: currentEditedTaskTitle})} />
           <p className="task__content__p">{title}</p>
         </div>
         <div className="task__content__category">
@@ -73,6 +74,7 @@ Task.propTypes = {
       icon: PropTypes.string.isRequired,
     })
   ).isRequired,
+  updateTaskTitle: PropTypes.func.isRequired,
 };
 
 // export

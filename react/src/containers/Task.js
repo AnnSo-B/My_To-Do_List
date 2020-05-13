@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 // local imports
 import Task from '../components/TaskList/Task';
+import { taskUpdate } from '../actions';
 
 // state
 const mapStateToProps = (state) => ({
@@ -11,7 +12,11 @@ const mapStateToProps = (state) => ({
 });
 
 // actions
-const mapDispatchToProps = {};
+const mapDispatchToProps = (dispatch) => ({
+  updateTaskTitle: (taskToEdit) => {
+    dispatch(taskUpdate(taskToEdit));
+  },
+});
 
 // export
 export default connect(mapStateToProps, mapDispatchToProps)(Task);
