@@ -8,9 +8,15 @@ import CategoryMenu from '../../containers/CategoryMenu';
 import TaskTitleInput from '../../containers/TaskTitleInput';
 
 // component
-const AddTaskForm = ({ addTaskCategoryId, newTaskTitle, changeNewTaskCategory }) => (
+const AddTaskForm = ({ addTaskCategoryId, newTaskTitle, changeNewTaskCategory, onNewTaskSubmit }) => (
   <section className="task task--add">
-    <form className="task--add__form">
+    <form
+      className="task--add__form"
+      onSubmit={(event) => {
+        event.preventDefault();
+        onNewTaskSubmit();
+      }}
+    >
       <div className="task__content">
         <div className="task__content__title">
           <TaskTitleInput value={newTaskTitle} />
@@ -37,6 +43,7 @@ AddTaskForm.propTypes = {
   ]).isRequired,
   newTaskTitle: PropTypes.string.isRequired,
   changeNewTaskCategory: PropTypes.func.isRequired,
+  onNewTaskSubmit: PropTypes.func.isRequired,
 };
 
 // export

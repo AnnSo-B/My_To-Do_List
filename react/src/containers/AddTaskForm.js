@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch) => ({
   changeNewTaskCategory: (categoryId) => {
     dispatch(changeNewTaskCategory(categoryId));
   },
+  onNewTaskSubmit: () => {
+    console.log('onNewTaskSubmit');
+  },
 });
 
 // export
