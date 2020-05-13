@@ -4,7 +4,7 @@ import React from 'react';
 // local imports
 import './style.css';
 import CategoryMenu from '../../containers/CategoryMenu';
-import TaskTitleInput from '../TaskTitleInput';
+import TaskTitleInput from '../../containers/TaskTitleInput';
 
 // component
 const AddTaskForm = () => (

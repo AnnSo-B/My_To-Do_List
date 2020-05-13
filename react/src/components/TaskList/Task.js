@@ -4,11 +4,20 @@ import PropTypes from 'prop-types';
 import { ProgressBar } from 'react-bootstrap';
 
 // local imports
-import TaskTitleInput from '../TaskTitleInput';
+import TaskTitleInput from '../../containers/TaskTitleInput';
 import StatusButton from '../../containers/StatusButton';
 
 // component
-const Task = ({ id, title, completion, status, category, statusButtons }) => {
+const Task = ({
+  id,
+  title,
+  completion,
+  status,
+  category,
+  currentEditedTaskTitle,
+  statusButtons,
+  updateTaskTitle,
+}) => {
   // define class according to status
   let statusClass = '';
   switch (status) {
@@ -18,6 +27,9 @@ const Task = ({ id, title, completion, status, category, statusButtons }) => {
     case 3:
       statusClass = 'task--archive';
       break;
+    case 4:
+      statusClass = 'task--edit';
+      break;
     default: 
       statusClass = 'task--todo'; // status 1
   };
@@ -26,7 +38,17 @@ const Task = ({ id, title, completion, status, category, statusButtons }) => {
     <article id={id} className={`task ${statusClass}`}>
       <div className="task__content">
         <div className="task__content__title">
-          <TaskTitleInput value={title} />
+          <form onSubmit={
+            (event) => {
+              event.preventDefault();
+              updateTaskTitle(id, currentEditedTaskTitle);
+            }
+          }>
+            <TaskTitleInput
+              value={currentEditedTaskTitle}
+              onInputBlur={() => updateTaskTitle(id, currentEditedTaskTitle)}
+            />
+          </form>
           <p className="task__content__p">{title}</p>
         </div>
         <div className="task__content__category">
@@ -54,6 +76,7 @@ Task.propTypes = {
   category: PropTypes.shape({
     name: PropTypes.string.isRequired
   }),
+  currentEditedTaskTitle: PropTypes.string.isRequired,
   statusButtons: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -61,6 +84,7 @@ Task.propTypes = {
       icon: PropTypes.string.isRequired,
     })
   ).isRequired,
+  updateTaskTitle: PropTypes.func.isRequired,
 };
 
 // export

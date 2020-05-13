@@ -17,6 +17,7 @@ const StatusButton = ({
   archiveTask,
   desarchiveTask,
   deleteTask,
+  editTask,
 }) => {
   let actionToDispatch = '';
   switch (onClickAction) {
@@ -34,6 +35,9 @@ const StatusButton = ({
       break;
     case 'deleteTask':
       actionToDispatch = deleteTask;
+      break;
+    case 'editTask':
+      actionToDispatch = editTask;
       break;
   };
 
@@ -63,6 +67,7 @@ StatusButton.propTypes = {
   archiveTask: PropTypes.func.isRequired,
   desarchiveTask: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,
+  editTask: PropTypes.func.isRequired,
 }
 
 // export

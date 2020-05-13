@@ -31,7 +31,7 @@ const initialState = {
       cssClass: 'task__content__button__modify',
       variant: 'warning',
       icon:'fa fa-pencil-square-o',
-      onClickAction: '',
+      onClickAction: 'editTask',
     },
     {
       id: 5,

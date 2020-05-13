@@ -35,6 +35,7 @@ export default (store) => (next) => (action) => {
       axios.put(
         `${apiURL}tasks/${id}`,
         {
+          title: action.payload.title,
           completion: action.payload.completion,
           status: action.payload.status,
         }
