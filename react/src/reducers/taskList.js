@@ -9,13 +9,17 @@ import {
   TASK_DELETION_SUCCESS,
   TASK_DELETION_ERROR,
   TASK_EDIT,
+  CHANGE_TASK_TITLE,
 } from '../actions';
 
 // state
 const initialState = {
   taskList: [],
   fetchError: '',
-  currentTaskTitle: '',
+  taskToEdit: {
+    id: null,
+    title: '',
+  },
 };
 
 // reducer
@@ -83,17 +87,27 @@ export default (state = initialState, action = {}) => {
         }
         return task;
       });
-      const updatedTaskTitleToEdit = state.taskList.find(task => task.id === taskToEditId).title;
-      console.log(updatedTaskTitleToEdit);
+      const taskTitleToEdit = state.taskList.find(task => task.id === taskToEditId).title;
       return {
         ...state,
         fetchError: '',
         taskList: [
           ...updatedTaskList,
         ],
-        currentTaskTitle: updatedTaskTitleToEdit,
+        taskToEdit: {
+          id: taskToEditId,
+          title: taskTitleToEdit,
+        },
+      };
+    case CHANGE_TASK_TITLE: 
+      return {
+        ...state,
+        taskToEdit: {
+          ...state.taskToEdit,
+          title: action.payload,
+        },
       };
   default: 
       return state;
-  }
+  };
 };

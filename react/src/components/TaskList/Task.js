@@ -8,7 +8,15 @@ import TaskTitleInput from '../../containers/TaskTitleInput';
 import StatusButton from '../../containers/StatusButton';
 
 // component
-const Task = ({ id, title, completion, status, category, statusButtons }) => {
+const Task = ({
+  id,
+  title,
+  completion,
+  status,
+  category,
+  currentEditedTaskTitle,
+  statusButtons
+}) => {
   // define class according to status
   let statusClass = '';
   switch (status) {
@@ -29,7 +37,7 @@ const Task = ({ id, title, completion, status, category, statusButtons }) => {
     <article id={id} className={`task ${statusClass}`}>
       <div className="task__content">
         <div className="task__content__title">
-          <TaskTitleInput />
+          <TaskTitleInput value={currentEditedTaskTitle} />
           <p className="task__content__p">{title}</p>
         </div>
         <div className="task__content__category">
@@ -57,6 +65,7 @@ Task.propTypes = {
   category: PropTypes.shape({
     name: PropTypes.string.isRequired
   }),
+  currentEditedTaskTitle: PropTypes.string.isRequired,
   statusButtons: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,

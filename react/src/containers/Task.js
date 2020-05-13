@@ -6,6 +6,7 @@ import Task from '../components/TaskList/Task';
 
 // state
 const mapStateToProps = (state) => ({
+  currentEditedTaskTitle: state.taskList.taskToEdit.title,
   statusButtons: state.statusButton.buttons,
 });
 
