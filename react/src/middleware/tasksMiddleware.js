@@ -8,6 +8,7 @@ import {
   fetchTaskListError,
   TASK_UPDATE,
   taskUpdateSuccess,
+  taskUpdateError,
 } from '../actions';
 import { apiURL } from '../app.config';
 
@@ -21,7 +22,7 @@ export default (store) => (next) => (action) => {
         store.dispatch(fetchTaskListSuccess(response.data));
       })
       .catch(() => {
-        store.dispatch(fetchTaskListError('Une erreur est survenue au chargement de la liste des tâches'));
+        store.dispatch(fetchTaskListError('Une erreur est survenue au chargement de la liste des tâches.'));
       });
       break;
     case TASK_UPDATE: {
@@ -38,7 +39,10 @@ export default (store) => (next) => (action) => {
         // send the task with its changes to update the state
         store.dispatch(taskUpdateSuccess(response.data));
       })
-
+      .catch(() => {
+          // send an error message if task can't be updated
+          store.dispatch(taskUpdateError('Une erreur est survenue lors de la mise à jour de la tâche.'));
+      });
     }
     default: 
       next(action);

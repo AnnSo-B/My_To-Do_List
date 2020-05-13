@@ -5,6 +5,7 @@ import {
   FETCH_TASK_LIST_SUCCESS,
   FETCH_TASK_LIST_ERROR,
   TASK_UPDATE_SUCCESS,
+  TASK_UPDATE_ERROR,
 } from '../actions';
 
 // state
@@ -41,7 +42,12 @@ export default (state = initialState, action = {}) => {
           ...updatedTaskList,
         ],
       };
-    default: 
+    case TASK_UPDATE_ERROR: 
+      return {
+        ...state,
+        fetchError: action.payload,
+      };
+  default: 
       return state;
   }
 };
