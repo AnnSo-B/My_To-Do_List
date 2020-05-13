@@ -35,8 +35,8 @@
 
 - Done :
   - Static components
-- Todo :
   - display task list from API
-  - add a task through API
   - change task status through API
+- Todo :
   - modify task title through API
+  - add a task through API

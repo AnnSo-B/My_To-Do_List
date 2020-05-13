@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // local imports
 import StatusButton from '../components/TaskList/StatusButton';
-import { taskUpdate } from '../actions';
+import { taskUpdate, taskDeletion } from '../actions';
 
 // state
 const mapStateToProps = null;
@@ -21,6 +21,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   desarchiveTask: (taskId) => {
     dispatch(taskUpdate({taskId, status: 2}));
+  },
+  deleteTask: (taskId) => {
+    dispatch(taskDeletion({taskId}));
   },
 });
 

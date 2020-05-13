@@ -45,7 +45,7 @@ const initialState = {
       cssClass: 'task__content__button__delete',
       variant: 'danger',
       icon:'fa fa-trash',
-      onClickAction: '',
+      onClickAction: 'deleteTask',
     },
   ]
 };
