@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch) => ({
   undoTask: (taskId) => {
     dispatch(taskUpdate({taskId, completion: 0, status: 1}));
   },
+  archiveTask: (taskId) => {
+    dispatch(taskUpdate({taskId, status: 3}));
+  },
 });
 
 // export

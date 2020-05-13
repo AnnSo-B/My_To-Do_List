@@ -13,7 +13,8 @@ const StatusButton = ({
   icon,
   onClickAction,
   validateTask,
-  undoTask
+  undoTask,
+  archiveTask,
 }) => {
   let actionToDispatch = '';
   switch (onClickAction) {
@@ -22,6 +23,9 @@ const StatusButton = ({
       break;
     case 'undoTask':
       actionToDispatch = undoTask;
+      break;
+    case 'archiveTask':
+      actionToDispatch = archiveTask;
       break;
   };
 

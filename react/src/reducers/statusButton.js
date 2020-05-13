@@ -38,7 +38,7 @@ const initialState = {
       cssClass: 'task__content__button__archive',
       variant: 'danger',
       icon:'fa fa-archive',
-      onClickAction: '',
+      onClickAction: 'archiveTask',
     },
     {
       id: 6,
