@@ -38,7 +38,7 @@ const Task = ({
     <article id={id} className={`task ${statusClass}`}>
       <div className="task__content">
         <div className="task__content__title">
-          <TaskTitleInput value={currentEditedTaskTitle} onInputBlur={() => updateTaskTitle({taskId: id, title: currentEditedTaskTitle})} />
+          <TaskTitleInput value={currentEditedTaskTitle} onInputBlur={() => updateTaskTitle(id, currentEditedTaskTitle)} />
           <p className="task__content__p">{title}</p>
         </div>
         <div className="task__content__category">
