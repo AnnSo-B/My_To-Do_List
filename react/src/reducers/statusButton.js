@@ -10,7 +10,7 @@ const initialState = {
       cssClass: 'task__content__button__incomplete',
       variant: 'success',
       icon:'fa fa-step-backward',
-      onClickAction: '',
+      onClickAction: 'undoTask',
     },
     {
       id: 2,
