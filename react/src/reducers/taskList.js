@@ -51,6 +51,10 @@ export default (state = initialState, action = {}) => {
         taskList: [
           ...updatedTaskList,
         ],
+        taskToEdit: {
+          id: null,
+          title: '',
+        },
       };
     case TASK_UPDATE_ERROR: 
       return {
