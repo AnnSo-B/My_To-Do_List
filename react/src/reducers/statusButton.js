@@ -17,7 +17,7 @@ const initialState = {
       cssClass: 'task__content__button__desarchive',
       variant: 'success',
       icon:'fa fa-undo',
-      onClickAction: '',
+      onClickAction: 'desarchiveTask',
     },
     {
       id: 3,

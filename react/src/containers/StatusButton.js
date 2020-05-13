@@ -19,6 +19,9 @@ const mapDispatchToProps = (dispatch) => ({
   archiveTask: (taskId) => {
     dispatch(taskUpdate({taskId, status: 3}));
   },
+  desarchiveTask: (taskId) => {
+    dispatch(taskUpdate({taskId, status: 2}));
+  },
 });
 
 // export

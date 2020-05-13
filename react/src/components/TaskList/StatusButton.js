@@ -15,6 +15,7 @@ const StatusButton = ({
   validateTask,
   undoTask,
   archiveTask,
+  desarchiveTask,
 }) => {
   let actionToDispatch = '';
   switch (onClickAction) {
@@ -26,6 +27,9 @@ const StatusButton = ({
       break;
     case 'archiveTask':
       actionToDispatch = archiveTask;
+      break;
+    case 'desarchiveTask':
+      actionToDispatch = desarchiveTask;
       break;
   };
 
@@ -50,6 +54,10 @@ StatusButton.propTypes = {
   variant: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
   onClickAction: PropTypes.string.isRequired,
+  validateTask: PropTypes.string.isRequired,
+  undoTask: PropTypes.string.isRequired,
+  archiveTask: PropTypes.string.isRequired,
+  desarchiveTask: PropTypes.string.isRequired,
 }
 
 // export
