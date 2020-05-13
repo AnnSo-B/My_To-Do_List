@@ -12,6 +12,8 @@ import {
   TASK_DELETION,
   taskDeletionSuccess,
   taskDeletionError,
+  NEW_TASK_SUBMISSION,
+  newTaskSubmissionSuccess,
 } from '../actions';
 import { apiURL } from '../app.config';
 
@@ -61,6 +63,18 @@ export default (store) => (next) => (action) => {
         store.dispatch(taskDeletionError('Une erreur est survenue lors de la tentative de suppression de la tâche.'))
       });
       break;   
+    case NEW_TASK_SUBMISSION: 
+      axios.post(
+        `${apiURL}tasks`,
+        {
+          title: store.getState().taskList.task.title,
+          categoryId: store.getState().taskList.task.categoryId,
+        }
+      )
+      .then((response) => {
+        store.dispatch(newTaskSubmissionSuccess(response.data));
+      })
+      break;
     default: 
       next(action);
   }

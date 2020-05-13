@@ -11,6 +11,7 @@ import {
   TASK_EDIT,
   CHANGE_TASK_TITLE,
   CHANGE_NEW_TASK_CATEGORY,
+  NEW_TASK_SUBMISSION_SUCCESS,
 } from '../actions';
 
 // state
@@ -120,6 +121,20 @@ export default (state = initialState, action = {}) => {
         task: {
           ...state.task,
           categoryId: action.payload,
+        },
+      };
+    case NEW_TASK_SUBMISSION_SUCCESS: 
+      return {
+        ...state,
+        taskList: [
+          ...state.taskList,
+          action.payload,
+        ],
+        fetchError: '',
+        task: {
+          id: null,
+          title: '',
+          categoryId: 0,
         },
       };
   default: 

@@ -13,8 +13,10 @@ export const TASK_DELETION_ERROR = 'TASK_DELETION_ERROR';
 export const TASK_EDIT = 'TASK_EDIT';
 // Task input 
 export const CHANGE_TASK_TITLE = 'CHANGE_TASK_TITLE';
-// Add task category
+// Add task
 export const CHANGE_NEW_TASK_CATEGORY = 'CHANGE_NEW_TASK_CATEGORY';
+export const NEW_TASK_SUBMISSION = 'NEW_TASK_SUBMISSION';
+export const NEW_TASK_SUBMISSION_SUCCESS = 'NEW_TASK_SUBMISSION_SUCCESS';
 // Categories
 export const FETCH_CATEGORY_LIST = 'FETCH_CATEGORY_LIST';
 export const FETCH_CATEGORY_LIST_SUCCESS = 'FETCH_CATEGORY_LIST_SUCCESS';
@@ -82,6 +84,15 @@ export const changeTaskTitle = (payload) => ({
 // Add task category
 export const changeNewTaskCategory = (payload) => ({
   type: CHANGE_NEW_TASK_CATEGORY,
+  payload,
+});
+
+export const submitNewTask = () => ({
+  type: NEW_TASK_SUBMISSION,
+});
+
+export const newTaskSubmissionSuccess = (payload) => ({
+  type: NEW_TASK_SUBMISSION_SUCCESS,
   payload,
 });
 
