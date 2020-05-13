@@ -11,9 +11,16 @@ const mapStateToProps = null;
 // actions
 const mapDispatchToProps = (dispatch) => ({
   validateTask: (taskId) => {
-    console.log('validateTask id', taskId);
     dispatch(taskUpdate({taskId, completion: 100, status: 2}));
-    // TODO --> changer le status de la tâche en  BDD et l'afficher après modif dans le DOM
+  },
+  undoTask: (taskId) => {
+    dispatch(taskUpdate({taskId, completion: 0, status: 1}));
+  },
+  archiveTask: (taskId) => {
+    dispatch(taskUpdate({taskId, status: 3}));
+  },
+  desarchiveTask: (taskId) => {
+    dispatch(taskUpdate({taskId, status: 2}));
   },
 });
 

@@ -10,14 +10,14 @@ const initialState = {
       cssClass: 'task__content__button__incomplete',
       variant: 'success',
       icon:'fa fa-step-backward',
-      onClickAction: '',
+      onClickAction: 'undoTask',
     },
     {
       id: 2,
       cssClass: 'task__content__button__desarchive',
       variant: 'success',
       icon:'fa fa-undo',
-      onClickAction: '',
+      onClickAction: 'desarchiveTask',
     },
     {
       id: 3,
@@ -38,7 +38,7 @@ const initialState = {
       cssClass: 'task__content__button__archive',
       variant: 'danger',
       icon:'fa fa-archive',
-      onClickAction: '',
+      onClickAction: 'archiveTask',
     },
     {
       id: 6,
