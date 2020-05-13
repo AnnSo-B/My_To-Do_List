@@ -38,5 +38,7 @@
   - display task list from API
   - change task status through API
   - change task title through API
-- Todo :
   - add a task through API
+- Todo :
+  - filter tasks according to their status
+  - filter tasks according to their category
