@@ -1,7 +1,12 @@
 // npm imports
 
 // local imports
-import { FETCH_TASK_LIST_SUCCESS, FETCH_TASK_LIST_ERROR } from '../actions';
+import {
+  FETCH_TASK_LIST_SUCCESS,
+  FETCH_TASK_LIST_ERROR,
+  TASK_UPDATE_SUCCESS,
+  TASK_UPDATE_ERROR,
+} from '../actions';
 
 // state
 const initialState = {
@@ -17,13 +22,32 @@ export default (state = initialState, action = {}) => {
         ...state,
         taskList: action.payload,
         fetchError: '',
-      }
+      };
     case FETCH_TASK_LIST_ERROR: 
       return {
         ...state,
         fetchError: action.payload,
-      }
-    default: 
+      };
+    case TASK_UPDATE_SUCCESS: 
+      const updatedTaskList = state.taskList.map((task) => {
+        if (task.id === action.payload.id) {
+          return action.payload
+        }
+        return task;
+      });
+      return {
+        ...state,
+        fetchError: '',
+        taskList: [
+          ...updatedTaskList,
+        ],
+      };
+    case TASK_UPDATE_ERROR: 
+      return {
+        ...state,
+        fetchError: action.payload,
+      };
+  default: 
       return state;
   }
 };

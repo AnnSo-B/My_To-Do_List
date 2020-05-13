@@ -3,11 +3,14 @@
 export const FETCH_TASK_LIST = 'FETCH_TASK_LIST';
 export const FETCH_TASK_LIST_SUCCESS = 'FETCH_TASK_LIST_SUCCESS';
 export const FETCH_TASK_LIST_ERROR = 'FETCH_TASK_LIST_ERROR';
+// Task's buttons
+export const TASK_UPDATE = 'TASK_UPDATE';
+export const TASK_UPDATE_SUCCESS = 'TASK_UPDATE_SUCCESS';
+export const TASK_UPDATE_ERROR = 'TASK_UPDATE_ERROR';
 // Categories
 export const FETCH_CATEGORY_LIST = 'FETCH_CATEGORY_LIST';
 export const FETCH_CATEGORY_LIST_SUCCESS = 'FETCH_CATEGORY_LIST_SUCCESS';
 export const FETCH_CATEGORY_LIST_ERROR = 'FETCH_CATEGORY_LIST_ERROR';
-// Common
 
 
 //* action creators
@@ -23,6 +26,22 @@ export const fetchTaskListSuccess = (payload) => ({
 
 export const fetchTaskListError = (payload) => ({
   type: FETCH_TASK_LIST_ERROR,
+  payload,
+});
+
+// Task's buttons
+export const taskUpdate = (payload) => ({
+  type: TASK_UPDATE,
+  payload,
+});
+
+export const taskUpdateSuccess = (payload) => ({
+  type: TASK_UPDATE_SUCCESS,
+  payload,
+});
+
+export const taskUpdateError = (payload) => ({
+  type: TASK_UPDATE_ERROR,
   payload,
 });
 

@@ -5,10 +5,10 @@ import { ProgressBar } from 'react-bootstrap';
 
 // local imports
 import TaskTitleInput from '../TaskTitleInput';
-import StatusButton from './StatusButton';
+import StatusButton from '../../containers/StatusButton';
 
 // component
-const Task = ({ title, completion, status, category, statusButtons }) => {
+const Task = ({ id, title, completion, status, category, statusButtons }) => {
   // define class according to status
   let statusClass = '';
   switch (status) {
@@ -23,7 +23,7 @@ const Task = ({ title, completion, status, category, statusButtons }) => {
   };
 
   return (
-    <article className={`task ${statusClass}`}>
+    <article id={id} className={`task ${statusClass}`}>
       <div className="task__content">
         <div className="task__content__title">
           <TaskTitleInput value={title} />
@@ -47,6 +47,7 @@ const Task = ({ title, completion, status, category, statusButtons }) => {
 
 // Props validation
 Task.propTypes = {
+  id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   completion: PropTypes.number.isRequired,
   status: PropTypes.number.isRequired,
