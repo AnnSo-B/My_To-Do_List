@@ -8,6 +8,7 @@ import {
   TASK_UPDATE_ERROR,
   TASK_DELETION_SUCCESS,
   TASK_DELETION_ERROR,
+  TASK_EDIT,
 } from '../actions';
 
 // state
@@ -69,6 +70,26 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         fetchError: action.payload,
+      };
+    case TASK_EDIT:
+      const taskToEditId = parseInt(action.payload.taskId);
+      updatedTaskList = state.taskList.map((task) => {
+        if (task.id == taskToEditId) {
+          console.log(task);
+          return {
+            ...task,
+            status: 4,
+          }
+        }
+        return task;
+      });
+      console.log('updatedTaskList', updatedTaskList);
+      return {
+        ...state,
+        fetchError: '',
+        taskList: [
+          ...updatedTaskList,
+        ],
       };
   default: 
       return state;

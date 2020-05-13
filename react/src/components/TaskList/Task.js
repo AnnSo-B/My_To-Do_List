@@ -18,6 +18,9 @@ const Task = ({ id, title, completion, status, category, statusButtons }) => {
     case 3:
       statusClass = 'task--archive';
       break;
+    case 4:
+      statusClass = 'task--edit';
+      break;
     default: 
       statusClass = 'task--todo'; // status 1
   };
