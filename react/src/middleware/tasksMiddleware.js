@@ -25,6 +25,18 @@ export default (store) => (next) => (action) => {
       break;
     case FETCH_TASK_UPDATE: {
       console.log('middleware', action.payload);
+      const id = parseInt(action.payload.taskId);
+      axios.put(
+        `${apiURL}tasks/${id}`,
+        {
+          completion: action.payload.completion,
+          status: action.payload.status,
+        }
+      )
+      .then(function (response) {
+        console.log(response.data);
+      })
+
     }
     default: 
       next(action);
