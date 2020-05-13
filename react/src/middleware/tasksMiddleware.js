@@ -6,8 +6,8 @@ import {
   FETCH_TASK_LIST,
   fetchTaskListSuccess,
   fetchTaskListError,
-  FETCH_TASK_UPDATE,
-  fetchTaskUpdateSuccess,
+  TASK_UPDATE,
+  taskUpdateSuccess,
 } from '../actions';
 import { apiURL } from '../app.config';
 
@@ -24,7 +24,7 @@ export default (store) => (next) => (action) => {
         store.dispatch(fetchTaskListError('Une erreur est survenue au chargement de la liste des tâches'));
       });
       break;
-    case FETCH_TASK_UPDATE: {
+    case TASK_UPDATE: {
       console.log('middleware', action.payload);
       const id = parseInt(action.payload.taskId);
       axios.put(
@@ -35,9 +35,8 @@ export default (store) => (next) => (action) => {
         }
       )
       .then(function (response) {
-        console.log(response.data);
         // send the task with its changes to update the state
-        store.dispatch(fetchTaskUpdateSuccess(response.data));
+        store.dispatch(taskUpdateSuccess(response.data));
       })
 
     }

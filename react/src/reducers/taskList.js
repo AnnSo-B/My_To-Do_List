@@ -4,7 +4,7 @@
 import {
   FETCH_TASK_LIST_SUCCESS,
   FETCH_TASK_LIST_ERROR,
-  FETCH_TASK_UPDATE_SUCCESS,
+  TASK_UPDATE_SUCCESS,
 } from '../actions';
 
 // state
@@ -27,7 +27,7 @@ export default (state = initialState, action = {}) => {
         ...state,
         fetchError: action.payload,
       };
-    case FETCH_TASK_UPDATE_SUCCESS: 
+    case TASK_UPDATE_SUCCESS: 
       const updatedTaskList = state.taskList.map((task) => {
         if (task.id === action.payload.id) {
           return action.payload
