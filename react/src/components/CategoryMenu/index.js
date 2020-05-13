@@ -6,11 +6,12 @@ import PropTypes from 'prop-types';
 import './style.css';
 
 // component
-const CategoryMenu = ({ selectedCategory, categoryList }) => (
+const CategoryMenu = ({ selectedCategory, categoryList, onCategoryChange }) => (
   <select
     className="custom-select category-select"
     name="categoryId"
     value={selectedCategory}
+    onChange={onCategoryChange}
   >
     <option
       className="selectedOptionByDefault"
@@ -35,13 +36,17 @@ const CategoryMenu = ({ selectedCategory, categoryList }) => (
 
 // Props validation
 CategoryMenu.propTypes = {
-  selectedCategory: PropTypes.number.isRequired,
+  selectedCategory: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   categoryList: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
     })
   ).isRequired,
+  onCategoryChange: PropTypes.func,
 };
 
 // export

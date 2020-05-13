@@ -10,6 +10,7 @@ import {
   TASK_DELETION_ERROR,
   TASK_EDIT,
   CHANGE_TASK_TITLE,
+  CHANGE_NEW_TASK_CATEGORY,
 } from '../actions';
 
 // state
@@ -111,6 +112,14 @@ export default (state = initialState, action = {}) => {
         task: {
           ...state.task,
           title: action.payload,
+        },
+      };
+    case CHANGE_NEW_TASK_CATEGORY: 
+      return {
+        ...state,
+        task: {
+          ...state.task,
+          categoryId: action.payload,
         },
       };
   default: 

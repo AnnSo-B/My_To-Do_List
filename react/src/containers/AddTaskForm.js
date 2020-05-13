@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 // local imports
 import AddTaskForm from '../components/AddTaskForm';
+import { changeNewTaskCategory } from '../actions';
 
 // state
 const mapStateToProps = (state) => ({
@@ -11,7 +12,11 @@ const mapStateToProps = (state) => ({
 });
 
 // actions
-const mapDispatchToProps = {};
+const mapDispatchToProps = (dispatch) => ({
+  changeNewTaskCategory: (categoryId) => {
+    dispatch(changeNewTaskCategory(categoryId));
+  },
+});
 
 // export
 export default connect(mapStateToProps, mapDispatchToProps)(AddTaskForm);

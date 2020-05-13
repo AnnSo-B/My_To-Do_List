@@ -11,8 +11,10 @@ export const TASK_DELETION = 'TASK_DELETION';
 export const TASK_DELETION_SUCCESS = 'TASK_DELETION_SUCCESS';
 export const TASK_DELETION_ERROR = 'TASK_DELETION_ERROR';
 export const TASK_EDIT = 'TASK_EDIT';
-// Task input
+// Task input 
 export const CHANGE_TASK_TITLE = 'CHANGE_TASK_TITLE';
+// Add task category
+export const CHANGE_NEW_TASK_CATEGORY = 'CHANGE_NEW_TASK_CATEGORY';
 // Categories
 export const FETCH_CATEGORY_LIST = 'FETCH_CATEGORY_LIST';
 export const FETCH_CATEGORY_LIST_SUCCESS = 'FETCH_CATEGORY_LIST_SUCCESS';
@@ -74,6 +76,12 @@ export const taskEdit = (payload) => ({
 // Task input
 export const changeTaskTitle = (payload) => ({
   type: CHANGE_TASK_TITLE,
+  payload,
+});
+
+// Add task category
+export const changeNewTaskCategory = (payload) => ({
+  type: CHANGE_NEW_TASK_CATEGORY,
   payload,
 });
 
