@@ -15,6 +15,7 @@ import {
 const initialState = {
   taskList: [],
   fetchError: '',
+  currentTaskTitle: '',
 };
 
 // reducer
@@ -74,8 +75,7 @@ export default (state = initialState, action = {}) => {
     case TASK_EDIT:
       const taskToEditId = parseInt(action.payload.taskId);
       updatedTaskList = state.taskList.map((task) => {
-        if (task.id == taskToEditId) {
-          console.log(task);
+        if (task.id === taskToEditId) {
           return {
             ...task,
             status: 4,
@@ -83,13 +83,15 @@ export default (state = initialState, action = {}) => {
         }
         return task;
       });
-      console.log('updatedTaskList', updatedTaskList);
+      const updatedTaskTitleToEdit = state.taskList.find(task => task.id === taskToEditId).title;
+      console.log(updatedTaskTitleToEdit);
       return {
         ...state,
         fetchError: '',
         taskList: [
           ...updatedTaskList,
         ],
+        currentTaskTitle: updatedTaskTitleToEdit,
       };
   default: 
       return state;

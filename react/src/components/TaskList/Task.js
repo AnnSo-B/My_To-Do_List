@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ProgressBar } from 'react-bootstrap';
 
 // local imports
-import TaskTitleInput from '../TaskTitleInput';
+import TaskTitleInput from '../../containers/TaskTitleInput';
 import StatusButton from '../../containers/StatusButton';
 
 // component
@@ -29,7 +29,7 @@ const Task = ({ id, title, completion, status, category, statusButtons }) => {
     <article id={id} className={`task ${statusClass}`}>
       <div className="task__content">
         <div className="task__content__title">
-          <TaskTitleInput value={title} />
+          <TaskTitleInput />
           <p className="task__content__p">{title}</p>
         </div>
         <div className="task__content__category">

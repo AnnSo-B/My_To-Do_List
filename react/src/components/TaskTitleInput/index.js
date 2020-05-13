@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 // local imports
 
 // component
-const TaskTitleInput = ({ value = '' }) => (
+const TaskTitleInput = ({ value }) => (
   <input
     className="task__content__input"
     type="text"
@@ -17,7 +17,7 @@ const TaskTitleInput = ({ value = '' }) => (
 
 // Props validation
 TaskTitleInput.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.string.isRequired,
 };
 
 // export
