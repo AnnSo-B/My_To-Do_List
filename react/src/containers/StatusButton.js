@@ -14,8 +14,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(taskUpdate({taskId, completion: 100, status: 2}));
   },
   undoTask: (taskId) => {
-    console.log('undoTask id', taskId);
-
+    dispatch(taskUpdate({taskId, completion: 0, status: 1}));
   },
 });
 
