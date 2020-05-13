@@ -7,6 +7,7 @@ import {
   fetchTaskListSuccess,
   fetchTaskListError,
   FETCH_TASK_UPDATE,
+  fetchTaskUpdateSuccess,
 } from '../actions';
 import { apiURL } from '../app.config';
 
@@ -35,6 +36,8 @@ export default (store) => (next) => (action) => {
       )
       .then(function (response) {
         console.log(response.data);
+        // send the task with its changes to update the state
+        store.dispatch(fetchTaskUpdateSuccess(response.data));
       })
 
     }
