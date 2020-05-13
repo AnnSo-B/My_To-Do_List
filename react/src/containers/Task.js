@@ -7,7 +7,7 @@ import { taskUpdate } from '../actions';
 
 // state
 const mapStateToProps = (state) => ({
-  currentEditedTaskTitle: state.taskList.taskToEdit.title,
+  currentEditedTaskTitle: state.taskList.task.title,
   statusButtons: state.statusButton.buttons,
 });
 

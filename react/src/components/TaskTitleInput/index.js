@@ -23,7 +23,7 @@ const TaskTitleInput = ({ value = '', onInputChange, onInputBlur }) => (
 TaskTitleInput.propTypes = {
   value: PropTypes.string,
   onInputChange: PropTypes.func.isRequired,
-  onInputBlur: PropTypes.func.isRequired,
+  onInputBlur: PropTypes.func,
 };
 
 // export

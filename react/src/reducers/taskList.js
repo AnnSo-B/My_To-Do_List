@@ -16,9 +16,10 @@ import {
 const initialState = {
   taskList: [],
   fetchError: '',
-  taskToEdit: {
+  task: {
     id: null,
     title: '',
+    categoryId: 0,
   },
 };
 
@@ -51,9 +52,10 @@ export default (state = initialState, action = {}) => {
         taskList: [
           ...updatedTaskList,
         ],
-        taskToEdit: {
+        task: {
           id: null,
           title: '',
+          categoryId: 0,
         },
       };
     case TASK_UPDATE_ERROR: 
@@ -81,9 +83,9 @@ export default (state = initialState, action = {}) => {
         fetchError: action.payload,
       };
     case TASK_EDIT:
-      const taskToEditId = parseInt(action.payload.taskId);
+      const taskId = parseInt(action.payload.taskId);
       updatedTaskList = state.taskList.map((task) => {
-        if (task.id === taskToEditId) {
+        if (task.id === taskId) {
           return {
             ...task,
             status: 4,
@@ -91,23 +93,23 @@ export default (state = initialState, action = {}) => {
         }
         return task;
       });
-      const taskTitleToEdit = state.taskList.find(task => task.id === taskToEditId).title;
+      const taskTitleToEdit = state.taskList.find(task => task.id === taskId).title;
       return {
         ...state,
         fetchError: '',
         taskList: [
           ...updatedTaskList,
         ],
-        taskToEdit: {
-          id: taskToEditId,
+        task: {
+          id: taskId,
           title: taskTitleToEdit,
         },
       };
     case CHANGE_TASK_TITLE: 
       return {
         ...state,
-        taskToEdit: {
-          ...state.taskToEdit,
+        task: {
+          ...state.task,
           title: action.payload,
         },
       };
