@@ -23,7 +23,6 @@
   - mark a task as not archived anymore (including DB)
   - display only completed tasks or incomplete tasks
   - display the archived tasks
-- Future release :
   - display error messages
 
 ## Front end - React
