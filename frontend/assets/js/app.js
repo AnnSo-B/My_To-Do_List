@@ -4,7 +4,7 @@ const app = {
    * Initialization
    ***************************************************************/
 
-  apiURL: "http://localhost:8080/",
+  apiURL: "http://localhost:8080",
 
   taskListContainer: document.getElementById('taskList-container'),
 
@@ -21,7 +21,26 @@ const app = {
     const addTaskForm = document.querySelector('.task--add');
     // we add the listener
     addTaskForm.addEventListener('submit', app.handleAddTaskFormSubmit);
+
+    //* initialise listener on status filter button
+    app.initStatusFilterButton();
 },
+
+  /***************************************************************
+   * Navigation filters
+   ***************************************************************/
+
+   /**
+    * Method to add listener to Status Filter Buttons which will execute fetchTasks method
+    */
+  initStatusFilterButton: function() {
+    // get the buttons
+    app.statusFilterButtons = document.querySelectorAll('.status-filter-button');
+    for (let buttonIndex = 0; buttonIndex < app.statusFilterButtons.length; buttonIndex++) {
+ 
+      app.statusFilterButtons[buttonIndex].addEventListener('click', app.fetchTasks)
+    }
+  },
 
   /***************************************************************
    * Categories
@@ -117,9 +136,26 @@ const app = {
   /**
    * Fetch Tasks from API
    */
-  fetchTasks: function() {
+  fetchTasks: function(event) {
+    //console.log(typeof(event))
+    let statusValue = 0;
+    let requestGoesTo = app.apiURL + '/tasks';
+    let currentStatusButton = '';
+
+    if (typeof(event) !== 'undefined') {
+      statusValue = parseInt(event.currentTarget.dataset.status);
+      currentStatusButton = event.currentTarget;
+    }
+
+    if (statusValue !== 0) {
+      requestGoesTo = app.apiURL + '/tasks/status/' + statusValue;
+    }
+
+    console.log(requestGoesTo);
+    console.log(currentStatusButton);
+
     fetch(
-      app.apiURL + '/tasks',
+      requestGoesTo,
       {
         method: 'GET'
       }
@@ -133,10 +169,50 @@ const app = {
       return response.json();
     })
     .then(function(taskList) {
+      // empty the containter
+      app.taskListContainer.innerHTML = '';
       // display all tasks
       app.displayAllTasks(taskList);
+      // change css on buttons only if the event is defined
+      if (typeof(event) !== 'undefined') {
+        // we want to take the focus off of every button
+        for (let buttonIndex = 0; buttonIndex < app.statusFilterButtons.length; buttonIndex++) {
+          app.statusFilterButtons[buttonIndex].classList.remove('btn-primary');
+          app.statusFilterButtons[buttonIndex].classList.add('btn-light');
+        }
+        // to apply it only on the current button
+        currentStatusButton.classList.remove('btn-light');
+        currentStatusButton.classList.add('btn-primary');
+      }
     })
   },
+
+  // /**
+  //  * Fetch Tasks according to their status from API
+  //  */
+  // fetchTasksByStatus: function(event) {
+  //   console.log('fetchTasksByStatus', event.currentTarget);
+  //   app.taskListContainer.innerHTML = '';
+  //   const status = event.currentTarget.dataset.status;
+  //   fetch(
+  //     app.apiURL + '/tasks/status/' + status,
+  //     {
+  //       method: 'GET'
+  //     }
+  //   )
+  //   .then(function(response) {
+  //     // check if the response is not ok
+  //     if (!response.ok) {
+  //       console.log(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API')
+  //     }
+  //     // transform the response into usable data
+  //     return response.json();
+  //   })
+  //   .then(function(taskList) {
+  //     // display all tasks
+  //     app.displayAllTasks(taskList);
+  //   })
+  // },
 
   /**
    * Method to display all tasks
