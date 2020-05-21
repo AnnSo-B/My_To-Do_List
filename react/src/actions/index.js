@@ -47,9 +47,8 @@ export const taskUpdate = (payload) => ({
   payload,
 });
 
-export const taskUpdateSuccess = (payload) => ({
+export const taskUpdateSuccess = () => ({
   type: TASK_UPDATE_SUCCESS,
-  payload,
 });
 
 export const taskUpdateError = (payload) => ({

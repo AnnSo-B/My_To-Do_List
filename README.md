@@ -3,11 +3,10 @@
 ## Back end - Lumen
 
 - Done :
-  - Retrieve category and task lists from DB.
+  - Retrieve category and unarchived task lists from DB.
   - Add, update and delete a task.
   - CORS
   - retrieve completed tasks or incomplete tasks
-- Future release :
   - retrieve archived tasks
 
 ## Front end - Javascript
@@ -23,9 +22,9 @@
   - mark a task as incomplete when it's done (including DB)
   - mark a task as not archived anymore (including DB)
   - display only completed tasks or incomplete tasks
+  - display the archived tasks
 - Future release :
   - display error messages
-  - display the archived tasks
 
 ## Front end - React
 
@@ -36,6 +35,4 @@
   - change task title through API
   - add a task through API
   - filter tasks according to their status
-- Future release :
-  - filter tasks according to their category
   - display the archived tasks

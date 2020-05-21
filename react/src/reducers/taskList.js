@@ -45,18 +45,18 @@ export default (state = initialState, action = {}) => {
         fetchError: action.payload,
       };
     case TASK_UPDATE_SUCCESS: 
-      updatedTaskList = state.taskList.map((task) => {
-        if (task.id === action.payload.id) {
-          return action.payload
-        }
-        return task;
-      });
+      // updatedTaskList = state.taskList.map((task) => {
+      //   if (task.id === action.payload.id) {
+      //     return action.payload
+      //   }
+      //   return task;
+      // });
       return {
         ...state,
         fetchError: '',
-        taskList: [
-          ...updatedTaskList,
-        ],
+        // taskList: [
+        //   ...updatedTaskList,
+        // ],
         task: {
           id: null,
           title: '',
