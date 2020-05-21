@@ -24,6 +24,9 @@ const app = {
 
     //* initialise listener on header button
     app.initHeaderButton();
+
+    //* initialise error message container
+    app.errorMessageContainer = document.querySelector('#error-message-container');
 },
 
   /***************************************************************
@@ -48,6 +51,34 @@ const app = {
   },
 
   /***************************************************************
+   * Error Messages
+   ***************************************************************/
+
+   /**
+    * Method to display Error Messages
+    */
+  displayErrorMessage: function(message) {
+    //* create and place the message
+    const errorMessageElement = document.createElement('div');
+    // give its css classes
+    errorMessageElement.classList.add('alert', 'alert-danger', 'my-3');
+    // git its content
+    errorMessageElement.textContent = message;
+    // insert into the DOM
+    app.errorMessageContainer.appendChild(errorMessageElement);
+
+    // delete the message after 10 secondes
+    setTimeout(app.deleteErrorMessage, 10000)
+  },
+
+  /**
+   * Method to delete error message
+   */
+ deleteErrorMessage: function() {
+   app.errorMessageContainer.innerHTML = '';
+ },
+
+  /***************************************************************
    * Categories
    ***************************************************************/
 
@@ -64,7 +95,7 @@ const app = {
     .then(function(response) {
       // check if the response is not ok
       if (!response.ok) {
-        console.log(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API')
+        app.displayErrorMessage(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API. Merci de recommencer ultérieurement.')
       }
       // transform the response into usable data
       return response.json();
@@ -184,7 +215,7 @@ const app = {
     .then(function(response) {
       // check if the response is not ok
       if (!response.ok) {
-        console.log(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API')
+        app.displayErrorMessage(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API. Merci de recommencer ultérieurement.')
       }
       // transform the response into usable data
       return response.json();
@@ -343,7 +374,7 @@ const app = {
     .then(function(response) {
       // check if the response is not ok
       if (!response.ok) {
-        return console.log('Une erreur est survenue lors de l\'ajout de la tâche. Merci de reessayer ultérieurement');
+        app.displayErrorMessage('Une erreur est survenue lors de l\'ajout de la tâche. Merci de reessayer ultérieurement')
       }
       // transform the response into usable data
       return response.json()
@@ -443,7 +474,7 @@ const app = {
     .then(function(response) {
       // check if the response is not ok
       if (!response.ok) {
-        return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+        app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
       }
       // transform the response into usable data
       return response.json()
@@ -492,7 +523,7 @@ const app = {
     .then(function(response) {
       // check if the response is not ok
       if (!response.ok) {
-        return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+        app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
       }
       // transform the response into usable data
       return response.json()
@@ -566,7 +597,7 @@ const app = {
     .then(function(response) {
       // check if the response is not ok
       if (!response.ok) {
-        return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+        app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
       }
       // transform the response into usable data
       return response.json()
@@ -615,7 +646,7 @@ const app = {
 
         // check if the response is not ok
         if (!response.ok) {
-          return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+          app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
         }
         // transform the response into usable data
         return response.json()
@@ -662,7 +693,7 @@ const app = {
 
       // check if the response is not ok
       if (!response.ok) {
-        return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+        app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
       }
       // transform the response into usable data
       return response.json()
@@ -696,7 +727,7 @@ const app = {
     .then(function(response) {
       // check if the response is not ok
       if (!response.ok) {
-        return console.log('Une erreur est survenue lors de la tentative de suppression de la tâche. Merci de reessayer ultérieurement');
+        app.displayErrorMessage('Une erreur est survenue lors de la tentative de suppression de la tâche. Merci de reessayer ultérieurement');
       }
       app.taskListContainer.innerHTML = '';
       app.fetchTasks();
