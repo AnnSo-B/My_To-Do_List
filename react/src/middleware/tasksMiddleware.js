@@ -4,6 +4,7 @@ import axios from 'axios';
 // local import
 import {
   FETCH_TASK_LIST,
+  fetchTaskList,
   fetchTaskListSuccess,
   fetchTaskListError,
   TASK_UPDATE,
@@ -26,12 +27,13 @@ export default (store) => (next) => (action) => {
     case FETCH_TASK_LIST: 
       // by default, we fetch all the tasks
       let requestGoesTo = `${apiURL}tasks`;
-      let status = 0;
+      // status takes the value of payload if it exists, or it takes the value in the state
+      let status = action.payload !== ''
+        ? action.payload : store.getState().taskList.statusFilter;
 
-      // if we have a status, we only fetch the tasks according to this status
-      if (action.payload !== 0 && action.payload !== '') {
-        requestGoesTo = `${apiURL}tasks/status/${action.payload}`;
-        status = action.payload;
+      // if we have a status, we only fetch the tasks according to their status
+      if (status !== 0) {
+        requestGoesTo = `${apiURL}tasks/status/${status}`;
       }
 
       axios.get(requestGoesTo)
@@ -55,7 +57,8 @@ export default (store) => (next) => (action) => {
       )
       .then((response) => {
         // send the task with its changes to update the state
-        store.dispatch(taskUpdateSuccess(response.data));
+        store.dispatch(taskUpdateSuccess());
+        store.dispatch(fetchTaskList());
       })
       .catch(() => {
           // send an error message if task can't be updated
