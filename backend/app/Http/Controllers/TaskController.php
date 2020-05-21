@@ -21,6 +21,18 @@ class TaskController extends Controller {
     }
 
     /**
+     * Get a list of Tasks according to their status
+     */
+    public function statusFilteredList(Request $request, int $status) {
+
+        //* we execute the list Method from the Task model to retrieve the list
+        $taskList = Task::getTaskByStatus($status);
+
+        //* we return the list and answer with a 200 HTTP Response
+        return response()->json($taskList, Response::HTTP_OK);
+    }
+
+    /**
      * Add a task
      */
     public function add(Request $request) {

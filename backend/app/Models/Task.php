@@ -16,9 +16,17 @@ class Task extends Model
 
 
     /**
+     * Relationship with categories
+     * https://laravel.com/docs/7.x/eloquent-relationships#introduction
+     */
+    public function category() {
+        return $this->belongsTo('App\Models\Category');
+    }
+
+    /**
      * Method to retrieve a list of tasks
      *
-     * @return taskList
+     * @return [array] taskList
      */
     static public function list() {
 
@@ -28,10 +36,12 @@ class Task extends Model
     }
 
     /**
-     * Relationship with categories
-     * https://laravel.com/docs/7.x/eloquent-relationships#introduction
+     * Method to retrieve a list of tasks according to their status
+     *
+     * @param [int] $statusCode
+     * @return [array] taskList
      */
-    public function category() {
-        return $this->belongsTo('App\Models\Category');
+    static public function getTaskByStatus($statusCode) {
+        return Task::where('status', $statusCode)->get()->load('category');
     }
 }
