@@ -8,6 +8,7 @@ import { changeNewTaskCategory, submitNewTask } from '../actions';
 // state
 const mapStateToProps = (state) => ({
   addTaskCategoryId: state.taskList.task.categoryId,
+  editedTask: state.taskList.task.id !== 0 ? true : false,
   newTaskTitle: state.taskList.task.title,
 });
 

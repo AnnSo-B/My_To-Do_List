@@ -8,7 +8,7 @@ import CategoryMenu from '../../containers/CategoryMenu';
 import TaskTitleInput from '../../containers/TaskTitleInput';
 
 // component
-const AddTaskForm = ({ addTaskCategoryId, newTaskTitle, changeNewTaskCategory, onNewTaskSubmit }) => (
+const AddTaskForm = ({ addTaskCategoryId, editedTask, newTaskTitle, changeNewTaskCategory, onNewTaskSubmit }) => (
   <section className="task task--add">
     <form
       className="task--add__form"
@@ -19,7 +19,7 @@ const AddTaskForm = ({ addTaskCategoryId, newTaskTitle, changeNewTaskCategory, o
     >
       <div className="task__content">
         <div className="task__content__title">
-          <TaskTitleInput value={newTaskTitle} />
+          <TaskTitleInput value={!editedTask ? newTaskTitle : ''} />
         </div>
       </div>
       <div id="task--add__category-select" className="task-form-group my-3 selectCategoryMenu">
@@ -41,6 +41,7 @@ AddTaskForm.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ]).isRequired,
+  editedTask: PropTypes.bool.isRequired,
   newTaskTitle: PropTypes.string.isRequired,
   changeNewTaskCategory: PropTypes.func.isRequired,
   onNewTaskSubmit: PropTypes.func.isRequired,
