@@ -8,7 +8,13 @@ import CategoryMenu from '../../containers/CategoryMenu';
 import TaskTitleInput from '../../containers/TaskTitleInput';
 
 // component
-const AddTaskForm = ({ addTaskCategoryId, editedTask, newTaskTitle, changeNewTaskCategory, onNewTaskSubmit }) => (
+const AddTaskForm = ({
+  addTaskCategoryId,
+  editedTask,
+  newTaskTitle,
+  changeNewTaskCategory,
+  onNewTaskSubmit
+}) => (
   <section className="task task--add">
     <form
       className="task--add__form"

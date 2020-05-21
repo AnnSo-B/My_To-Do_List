@@ -90,6 +90,7 @@ export default (state = initialState, action = {}) => {
         return task;
       });
       const taskTitleToEdit = state.taskList.find(task => task.id === taskId).title;
+      const taskCategoryToEdit = state.taskList.find(task => task.id === taskId).category.id;
       return {
         ...state,
         fetchError: '',
@@ -99,6 +100,7 @@ export default (state = initialState, action = {}) => {
         task: {
           id: taskId,
           title: taskTitleToEdit,
+          categoryId: taskCategoryToEdit,
         },
       };
     case CHANGE_TASK_TITLE: 
