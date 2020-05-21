@@ -8,6 +8,17 @@
   max-width: 300px;
 }
 
+.archive-button {
+  border: none;
+  background-color: #f8f9fa;
+  color: #007bff;
+}
+
+.archive-button:hover {
+  text-decoration: underline;
+  color: #0057bb;
+}
+
 /* tasks */
 .task {
   margin-top: 1.5em;
@@ -80,7 +91,8 @@
 /* By default, incomplete, desarchive and delete buttons are not displayed */
 .task__content__button__incomplete,
 .task__content__button__desarchive,
-.task__content__button__delete {
+.task__content__button__delete,
+.archive-button.to-hide {
   display: none;
 }
 
