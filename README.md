@@ -35,6 +35,4 @@
   - change task title through API
   - add a task through API
   - filter tasks according to their status
-- Future release :
-  - filter tasks according to their category
   - display the archived tasks
