@@ -1,7 +1,7 @@
 // npm imports
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Navbar, ButtonGroup, Button } from 'react-bootstrap';
+import { Navbar, ButtonGroup, Button, Link } from 'react-bootstrap';
 
 // local imports
 import './style.css';
@@ -41,7 +41,23 @@ const Header = ({ statusFilter, fetchTaskList }) => (
           <CategoryMenu />
         </div>
         <div className="navbar-archive-link my-3">
-            <a href="#">Voir les archives</a>
+          {
+            statusFilter !== 3
+              ? <button
+                  type="button"
+                  className="archive-button"
+                  onClick={() => fetchTaskList(3)}
+                >
+                    Voir les archives
+                  </button>
+              : <button
+                  type="button"
+                  className="archive-button"
+                  onClick={() => fetchTaskList(0)}
+                >
+                  Revenir à l'affichage des tâches non archivées
+                </button>
+          }
         </div>
       </Navbar.Collapse>
     </Navbar>
