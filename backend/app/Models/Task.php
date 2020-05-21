@@ -32,7 +32,8 @@ class Task extends Model
 
         // https://laravel.com/docs/7.x/eloquent#retrieving-models
         // we'll get categories at the same time
-        return Task::all()->load('category');
+        // return Task::all()->load('category');
+        return Task::where('status', '<>',3)->get()->load('category');
     }
 
     /**
