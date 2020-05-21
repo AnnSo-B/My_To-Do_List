@@ -25,6 +25,17 @@ class TaskController extends Controller {
      */
     public function statusFilteredList(Request $request, int $status) {
 
+        //* Received data from the front validation
+        // https://lumen.laravel.com/docs/7.x/validation
+        // https://laravel.com/docs/7.x
+        // https://laravel.com/docs/7.x/validation#available-validation-rules
+        $this->validate(
+            $request,
+            [
+                'status'         =>  'integer|in:1,2,3',
+            ]
+        );
+
         //* we execute the list Method from the Task model to retrieve the list
         $taskList = Task::getTaskByStatus($status);
 
