@@ -24,6 +24,7 @@ const initialState = {
     title: '',
     categoryId: 0,
   },
+  statusFilter: 0,
 };
 
 // reducer
@@ -34,8 +35,9 @@ export default (state = initialState, action = {}) => {
     case FETCH_TASK_LIST_SUCCESS: 
       return {
         ...state,
-        taskList: action.payload,
+        taskList: action.payload.taskList,
         fetchError: '',
+        statusFilter: action.payload.status,
       };
     case FETCH_TASK_LIST_ERROR: 
       return {
@@ -43,18 +45,18 @@ export default (state = initialState, action = {}) => {
         fetchError: action.payload,
       };
     case TASK_UPDATE_SUCCESS: 
-      updatedTaskList = state.taskList.map((task) => {
-        if (task.id === action.payload.id) {
-          return action.payload
-        }
-        return task;
-      });
+      // updatedTaskList = state.taskList.map((task) => {
+      //   if (task.id === action.payload.id) {
+      //     return action.payload
+      //   }
+      //   return task;
+      // });
       return {
         ...state,
         fetchError: '',
-        taskList: [
-          ...updatedTaskList,
-        ],
+        // taskList: [
+        //   ...updatedTaskList,
+        // ],
         task: {
           id: null,
           title: '',

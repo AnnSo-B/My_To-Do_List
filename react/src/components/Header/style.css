@@ -1,3 +1,14 @@
 .site-name {
   font-weight: bold;
 }
+
+.archive-button {
+  border: none;
+  background-color: #f8f9fa;
+  color: #007bff;
+}
+
+.archive-button:hover {
+  text-decoration: underline;
+  color: #0057bb;
+}

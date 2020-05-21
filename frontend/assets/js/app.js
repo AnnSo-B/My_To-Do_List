@@ -4,7 +4,7 @@ const app = {
    * Initialization
    ***************************************************************/
 
-  apiURL: "http://localhost:8080/",
+  apiURL: "http://localhost:8080",
 
   taskListContainer: document.getElementById('taskList-container'),
 
@@ -21,7 +21,31 @@ const app = {
     const addTaskForm = document.querySelector('.task--add');
     // we add the listener
     addTaskForm.addEventListener('submit', app.handleAddTaskFormSubmit);
+
+    //* initialise listener on header button
+    app.initHeaderButton();
 },
+
+  /***************************************************************
+   * Navigation filters
+   ***************************************************************/
+
+   /**
+    * Method to add listener to Status Filter Buttons and Archive Buttons which will execute fetchTasks method
+    */
+   initHeaderButton: function() {
+    // get the status buttons
+    app.statusFilterButtons = document.querySelectorAll('.status-filter-button');
+    for (let statusButtonIndex = 0; statusButtonIndex < app.statusFilterButtons.length; statusButtonIndex++) {
+      app.statusFilterButtons[statusButtonIndex].addEventListener('click', app.fetchTasks)
+    }
+
+    // get the archive buttons
+    app.archiveButtons = document.querySelectorAll('.archive-button');
+    for (let archiveButtonIndex = 0; archiveButtonIndex < app.archiveButtons.length; archiveButtonIndex++) {
+      app.archiveButtons[archiveButtonIndex].addEventListener('click', app.fetchTasks);
+    }
+  },
 
   /***************************************************************
    * Categories
@@ -117,9 +141,42 @@ const app = {
   /**
    * Fetch Tasks from API
    */
-  fetchTasks: function() {
+  fetchTasks: function(event) {
+    //console.log(typeof(event))
+    // by default, we'll fetch all the tasks
+    let requestGoesTo = app.apiURL + '/tasks';
+    // if this fetch follow a click we'll need some information to determine which button has been clicked
+    let currentTarget = '';
+    let statusValue = 0;
+    let currentStatusButton = '';
+    let currentArchiveButton = '';
+
+    // we need to determine which button has been clicked
+    // if the event is not undefined, it means that it's a click
+    if (typeof(event) !== 'undefined') {
+      // we retrieve the status from this button
+      statusValue = parseInt(event.currentTarget.dataset.status);
+      // if this button is one of the archive button
+      if (event.currentTarget.closest('.archive-button')) {
+        // we save the one that has been clicked
+        currentArchiveButton = event.currentTarget.closest('.archive-button');
+      }
+      // if this button is one of the staut filter button
+      else if (event.currentTarget.closest('.status-filter-button')) {
+        // we save the one that has been clicked
+        currentStatusButton = event.currentTarget.closest('.status-filter-button');
+      }
+    }
+
+    // if the status is different from 0, we know that we are looking for a task list accorind to their status
+    if (statusValue !== 0) {
+      requestGoesTo = app.apiURL + '/tasks/status/' + statusValue;
+    }
+
+    // we now can launch the request
     fetch(
-      app.apiURL + '/tasks',
+      // to the url previously determine
+      requestGoesTo,
       {
         method: 'GET'
       }
@@ -133,8 +190,50 @@ const app = {
       return response.json();
     })
     .then(function(taskList) {
+      // empty the containter
+      app.taskListContainer.innerHTML = '';
+
       // display all tasks
       app.displayAllTasks(taskList);
+
+      // change css on buttons only if the event is defined
+      if (typeof(event) !== 'undefined') {
+        if (
+          currentStatusButton !== ''
+          && (statusValue === 0 || statusValue === 1 || statusValue === 2)
+        ) {
+          //* for status Buttons
+          // we want to take the focus off of every button
+          for (let statusButtonIndex = 0; statusButtonIndex < app.statusFilterButtons.length; statusButtonIndex++) {
+            app.statusFilterButtons[statusButtonIndex].classList.remove('btn-primary');
+            app.statusFilterButtons[statusButtonIndex].classList.add('btn-light');
+          }
+          // to apply it only on the current button
+          currentStatusButton.classList.remove('btn-light');
+          currentStatusButton.classList.add('btn-primary');
+
+          //* for archive buttons
+          // we want to display "Voir les archives"
+          for (archiveButtonIndex = 0; archiveButtonIndex < app.archiveButtons.length; archiveButtonIndex++) {
+            if (app.archiveButtons[archiveButtonIndex].classList.contains('to-show')) {
+              app.archiveButtons[archiveButtonIndex].classList.remove('to-hide');
+            }
+            else {
+              app.archiveButtons[archiveButtonIndex].classList.add('to-hide');
+            }
+          }
+
+        }
+        else if (
+          currentArchiveButton !== ''
+          && (statusValue === 3 || statusValue === 0)
+        ) {
+          for (archiveButtonIndex = 0; archiveButtonIndex < app.archiveButtons.length; archiveButtonIndex++) {
+            app.archiveButtons[archiveButtonIndex].classList.remove('to-hide');;
+          }
+          currentArchiveButton.classList.add('to-hide');
+        }
+      }
     })
   },
 
@@ -232,7 +331,7 @@ const app = {
 
     //* fetch new task to the API
     fetch(
-      app.apiURL + 'tasks',
+      app.apiURL + '/tasks',
       {
         method: 'POST',
         headers: {
@@ -332,7 +431,7 @@ const app = {
 
     //* fetch changes to the API
     fetch(
-      app.apiURL + 'tasks/' + currentTaskId,
+      app.apiURL + '/tasks/' + currentTaskId,
       {
         method: 'PUT',
         headers: {
@@ -381,7 +480,7 @@ const app = {
 
     //* fetch changes to the API
     fetch(
-      app.apiURL + 'tasks/' + currentTaskId,
+      app.apiURL + '/tasks/' + currentTaskId,
       {
         method: 'PUT',
         headers: {
@@ -455,7 +554,7 @@ const app = {
 
     //* fetch changes to the API
     fetch(
-      app.apiURL + 'tasks/' + currentTaskId,
+      app.apiURL + '/tasks/' + currentTaskId,
       {
         method: 'PUT',
         headers: {
@@ -503,7 +602,7 @@ const app = {
 
       //* fetch changes to the API
       fetch(
-        app.apiURL + 'tasks/' + currentTaskId,
+        app.apiURL + '/tasks/' + currentTaskId,
         {
           method: 'PUT',
           headers: {
@@ -550,7 +649,7 @@ const app = {
 
     //* fetch changes to the API
     fetch(
-      app.apiURL + 'tasks/' + currentTaskId,
+      app.apiURL + '/tasks/' + currentTaskId,
       {
         method: 'PUT',
         headers: {
@@ -589,7 +688,7 @@ const app = {
 
     //* fetch changes to the API
     fetch(
-      app.apiURL + 'tasks/' + currentTaskId,
+      app.apiURL + '/tasks/' + currentTaskId,
       {
         method: 'DELETE'
       }

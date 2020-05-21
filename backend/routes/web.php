@@ -48,6 +48,17 @@ $router->get(
 );
 
 /**
+ * Endpoint to retrieve a list of tasks according to their status
+ */
+$router->get(
+    '/tasks/status/{status}',
+    [
+        'uses'  =>  'TaskController@statusFilteredList',
+        'as'    =>  'task_list'
+    ]
+);
+
+/**
  * Endpoint to create a task
  */
 $router->post(
