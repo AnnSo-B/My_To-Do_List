@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 
 // local imports
-import Header from 'src/components/Header';
+import Header from 'src/containers/Header';
 import AddTaskForm from 'src/containers/AddTaskForm';
 import ErrorMessage from 'src/containers/ErrorMessage';
 import TaskList from 'src/containers/TaskList';

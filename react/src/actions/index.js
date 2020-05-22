@@ -26,8 +26,9 @@ export const FETCH_CATEGORY_LIST_ERROR = 'FETCH_CATEGORY_LIST_ERROR';
 
 //* action creators
 // Tasks
-export const fetchTaskList = () => ({
+export const fetchTaskList = (payload = '') => ({
   type: FETCH_TASK_LIST,
+  payload,
 });
 
 export const fetchTaskListSuccess = (payload) => ({
@@ -46,9 +47,8 @@ export const taskUpdate = (payload) => ({
   payload,
 });
 
-export const taskUpdateSuccess = (payload) => ({
+export const taskUpdateSuccess = () => ({
   type: TASK_UPDATE_SUCCESS,
-  payload,
 });
 
 export const taskUpdateError = (payload) => ({

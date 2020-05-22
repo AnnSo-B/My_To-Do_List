@@ -4,6 +4,7 @@ import axios from 'axios';
 // local import
 import {
   FETCH_TASK_LIST,
+  fetchTaskList,
   fetchTaskListSuccess,
   fetchTaskListError,
   TASK_UPDATE,
@@ -24,10 +25,21 @@ export default (store) => (next) => (action) => {
 
   switch (action.type) {
     case FETCH_TASK_LIST: 
-      axios.get(`${apiURL}tasks`)
+      // by default, we fetch all the tasks
+      let requestGoesTo = `${apiURL}tasks`;
+      // status takes the value of payload if it exists, or it takes the value in the state
+      let status = action.payload !== ''
+        ? action.payload : store.getState().taskList.statusFilter;
+
+      // if we have a status, we only fetch the tasks according to their status
+      if (status !== 0) {
+        requestGoesTo = `${apiURL}tasks/status/${status}`;
+      }
+
+      axios.get(requestGoesTo)
       .then((response) => {
         // send data to the store via fetchTaskListSuccess action creator
-        store.dispatch(fetchTaskListSuccess(response.data));
+        store.dispatch(fetchTaskListSuccess({taskList: response.data, status}));
       })
       .catch(() => {
         store.dispatch(fetchTaskListError('Une erreur est survenue au chargement de la liste des tâches.'));
@@ -45,7 +57,8 @@ export default (store) => (next) => (action) => {
       )
       .then((response) => {
         // send the task with its changes to update the state
-        store.dispatch(taskUpdateSuccess(response.data));
+        store.dispatch(taskUpdateSuccess());
+        store.dispatch(fetchTaskList());
       })
       .catch(() => {
           // send an error message if task can't be updated

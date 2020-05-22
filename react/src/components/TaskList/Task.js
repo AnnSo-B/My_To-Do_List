@@ -14,6 +14,7 @@ const Task = ({
   completion,
   status,
   category,
+  currentEditedTaskId,
   currentEditedTaskTitle,
   statusButtons,
   updateTaskTitle,
@@ -45,7 +46,7 @@ const Task = ({
             }
           }>
             <TaskTitleInput
-              value={currentEditedTaskTitle}
+              value={currentEditedTaskId === id ? currentEditedTaskTitle : title}
               onInputBlur={() => updateTaskTitle(id, currentEditedTaskTitle)}
             />
           </form>
@@ -76,6 +77,7 @@ Task.propTypes = {
   category: PropTypes.shape({
     name: PropTypes.string.isRequired
   }),
+  currentEditedTaskId: PropTypes.number,
   currentEditedTaskTitle: PropTypes.string.isRequired,
   statusButtons: PropTypes.arrayOf(
     PropTypes.shape({

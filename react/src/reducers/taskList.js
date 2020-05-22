@@ -24,6 +24,7 @@ const initialState = {
     title: '',
     categoryId: 0,
   },
+  statusFilter: 0,
 };
 
 // reducer
@@ -34,8 +35,9 @@ export default (state = initialState, action = {}) => {
     case FETCH_TASK_LIST_SUCCESS: 
       return {
         ...state,
-        taskList: action.payload,
+        taskList: action.payload.taskList,
         fetchError: '',
+        statusFilter: action.payload.status,
       };
     case FETCH_TASK_LIST_ERROR: 
       return {
@@ -43,18 +45,9 @@ export default (state = initialState, action = {}) => {
         fetchError: action.payload,
       };
     case TASK_UPDATE_SUCCESS: 
-      updatedTaskList = state.taskList.map((task) => {
-        if (task.id === action.payload.id) {
-          return action.payload
-        }
-        return task;
-      });
       return {
         ...state,
         fetchError: '',
-        taskList: [
-          ...updatedTaskList,
-        ],
         task: {
           id: null,
           title: '',
@@ -97,6 +90,7 @@ export default (state = initialState, action = {}) => {
         return task;
       });
       const taskTitleToEdit = state.taskList.find(task => task.id === taskId).title;
+      const taskCategoryToEdit = state.taskList.find(task => task.id === taskId).category.id;
       return {
         ...state,
         fetchError: '',
@@ -106,6 +100,7 @@ export default (state = initialState, action = {}) => {
         task: {
           id: taskId,
           title: taskTitleToEdit,
+          categoryId: taskCategoryToEdit,
         },
       };
     case CHANGE_TASK_TITLE: 

@@ -23,9 +23,9 @@
           </button>
           <div class="collapse navbar-collapse justify-content-lg-around" id="navbarSupportedContent">
             <div class="btn-group my-3" role="group" aria-label="status-connection">
-              <button type="button" class="btn btn-primary">Toutes</button>
-              <button type="button" class="btn btn-light">Complètes</button>
-              <button type="button" class="btn btn-light">Incomplètes</button>
+              <button type="button" class="status-filter-button btn btn-primary" data-status="0">Toutes</button>
+              <button type="button" class="status-filter-button btn btn-light" data-status="2">Complètes</button>
+              <button type="button" class="status-filter-button btn btn-light" data-status="1">Incomplètes</button>
             </div>
             <form>
               <div id="navbar__category-select" class="navbar-form-group my-3 selectCategoryMenu">
@@ -33,13 +33,18 @@
               </div>
             </form>
             <div class="navbar-archive-link my-3">
-              <a href="#">Voir les archives</a>
+              <button type="button" class="archive-button to-show" data-status="3">Voir les archives</button>
+              <button type="button" class="archive-button to-hide" data-status="0">Revenir à l'affichage des tâches non archivées</button>
             </div>
           </div>
         </nav>
       </header>
 
       <main>
+        <!-- error messages -->
+        <section id="error-message-container">
+        </section>
+
         <!-- add a task -->
         <article class="task task--add">
           <form class="task--add__form">
@@ -57,60 +62,60 @@
           </form>
         </article>
 
+        <!-- task list -->
         <section id="taskList-container">
         </section>
 
-
-          <!-- EMPTY TASK TEMPLATE - BEGINNING -->
-          <template id="empty-task">
-            <article class="task" data-category="">
-              <div class="task__content">
-                <div class="task__content__title">
-                  <input class="task__content__input" type="text" name="title" placeholder="Nom de la tâche" value="">
-                  <p class="task__content__p"></p>
-                </div>
-                <div class="task__content__category">
-                  <p class="task__content__category__p"></p>
-                </div>
-                <div class="task__content__buttons">
-                  <button class="task__content__button__incomplete btn btn-success">
-                    <span class="icon">
-                      <i class="fa fa-step-backward"></i>
-                    </span>
-                  </button>
-                  <button class="task__content__button__desarchive btn btn-success">
-                    <span class="icon">
-                      <i class="fa fa-undo"></i>
-                    </span>
-                  </button>
-                  <button class="task__content__button__validate btn btn-success">
-                    <span class="icon">
-                      <i class="fa fa-check-square-o"></i>
-                    </span>
-                  </button>
-                  <button class="task__content__button__modify btn btn-warning">
-                    <span class="icon">
-                      <i class="fa fa-pencil-square-o"></i>
-                    </span>
-                  </button>
-                  <button class="task__content__button__archive btn btn-danger">
-                    <span class="icon">
-                      <i class="fa fa-archive"></i>
-                    </span>
-                  </button>
-                  <button class="task__content__button__delete btn btn-danger">
-                    <span class="icon">
-                      <i class="fa fa-trash"></i>
-                    </span>
-                  </button>
-                </div>
+        <!-- EMPTY TASK TEMPLATE - BEGINNING -->
+        <template id="empty-task">
+          <article class="task" data-category="">
+            <div class="task__content">
+              <div class="task__content__title">
+                <input class="task__content__input" type="text" name="title" placeholder="Nom de la tâche" value="">
+                <p class="task__content__p"></p>
               </div>
-              <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              <div class="task__content__category">
+                <p class="task__content__category__p"></p>
               </div>
-            </article>
-          </template>
-          <!-- EMPTY TASK TEMPLATE - END -->
+              <div class="task__content__buttons">
+                <button class="task__content__button__incomplete btn btn-success">
+                  <span class="icon">
+                    <i class="fa fa-step-backward"></i>
+                  </span>
+                </button>
+                <button class="task__content__button__desarchive btn btn-success">
+                  <span class="icon">
+                    <i class="fa fa-undo"></i>
+                  </span>
+                </button>
+                <button class="task__content__button__validate btn btn-success">
+                  <span class="icon">
+                    <i class="fa fa-check-square-o"></i>
+                  </span>
+                </button>
+                <button class="task__content__button__modify btn btn-warning">
+                  <span class="icon">
+                    <i class="fa fa-pencil-square-o"></i>
+                  </span>
+                </button>
+                <button class="task__content__button__archive btn btn-danger">
+                  <span class="icon">
+                    <i class="fa fa-archive"></i>
+                  </span>
+                </button>
+                <button class="task__content__button__delete btn btn-danger">
+                  <span class="icon">
+                    <i class="fa fa-trash"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </article>
+        </template>
+        <!-- EMPTY TASK TEMPLATE - END -->
           
       </main>
     </div>
