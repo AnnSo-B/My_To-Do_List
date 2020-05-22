@@ -25,7 +25,7 @@ const AddTaskForm = ({
     >
       <div className="task__content">
         <div className="task__content__title">
-          <TaskTitleInput value={!editedTask ? newTaskTitle : ''} />
+          <TaskTitleInput value={editedTask ? newTaskTitle : ''} />
         </div>
       </div>
       <div id="task--add__category-select" className="task-form-group my-3 selectCategoryMenu">
