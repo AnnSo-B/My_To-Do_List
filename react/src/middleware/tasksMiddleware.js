@@ -8,10 +8,8 @@ import {
   fetchTaskListSuccess,
   fetchTaskListError,
   TASK_UPDATE,
-  taskUpdateSuccess,
   taskUpdateError,
   TASK_DELETION,
-  taskDeletionSuccess,
   taskDeletionError,
   NEW_TASK_SUBMISSION,
   newTaskSubmissionError,
@@ -55,8 +53,6 @@ export default (store) => (next) => (action) => {
         }
       )
       .then(() => {
-        // send the task with its changes to update the state
-        store.dispatch(taskUpdateSuccess());
         // and send a new task List
         store.dispatch(fetchTaskList());
       })
@@ -71,7 +67,8 @@ export default (store) => (next) => (action) => {
         `${apiURL}tasks/${id}`,
       )
       .then(() => {
-        store.dispatch(taskDeletionSuccess(id));
+        // and send a new task List
+        store.dispatch(fetchTaskList());
       })
       .catch(() => {
         store.dispatch(taskDeletionError('Une erreur est survenue lors de la tentative de suppression de la tâche.'))
