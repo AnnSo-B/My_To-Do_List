@@ -14,8 +14,8 @@ const mapStateToProps = (state) => ({
 
 // actions
 const mapDispatchToProps = (dispatch) => ({
-  updateTaskTitle: (taskId, title) => {
-    dispatch(taskUpdate({taskId, title}));
+  updateTaskTitle: () => {
+    dispatch(taskUpdate());
   },
 });
 

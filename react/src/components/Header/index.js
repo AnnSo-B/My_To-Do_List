@@ -1,7 +1,7 @@
 // npm imports
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Navbar, ButtonGroup, Button, Link } from 'react-bootstrap';
+import { Navbar, ButtonGroup, Button } from 'react-bootstrap';
 
 // local imports
 import './style.css';
@@ -14,6 +14,7 @@ const Header = ({ statusFilter, fetchTaskList }) => (
       <Navbar.Brand className="site-name" href="/">Ma Todolist</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="justify-content-lg-around">
+        {/* Each button launches a task list extraction according to the associated status */}
         <ButtonGroup aria-label="Basic example" className="my-3">
           <Button
             variant={statusFilter === 0 ? 'primary' : 'light'}
@@ -42,6 +43,8 @@ const Header = ({ statusFilter, fetchTaskList }) => (
         </div>
         <div className="navbar-archive-link my-3">
           {
+            // if the current filter is not the archived tasks, we want to display the link "Voir les archives" otherwise we want to display "Revenir à l'affichage..."
+            // each link launches an extraction according to the associated status 
             statusFilter !== 3
               ? <button
                   type="button"

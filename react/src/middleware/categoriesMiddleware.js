@@ -9,7 +9,7 @@ import {
 } from '../actions';
 import { apiURL } from '../app.config';
 
-// middleware de test
+// middleware
 export default (store) => (next) => (action) => {
   switch (action.type) {
     case FETCH_CATEGORY_LIST: 
@@ -19,6 +19,7 @@ export default (store) => (next) => (action) => {
         store.dispatch(fetchCategoryListSuccess(response.data));
       })
       .catch(() => {
+        // send an error to display in case of failure
         store.dispatch(fetchCategoryListError('Une erreur est survenue au chargement de la liste des catégories.'));
       });
       break;

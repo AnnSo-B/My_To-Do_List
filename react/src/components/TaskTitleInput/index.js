@@ -5,14 +5,20 @@ import PropTypes from 'prop-types';
 // local imports
 
 // component
-const TaskTitleInput = ({ value = '', focusedInput, onInputChange, onInputBlur }) => {
+const TaskTitleInput = ({
+  // come from the parent which contains it
+  value = '',
+  focusedInput,
+  onInputBlur,
+  onInputChange,
+}) => {
+  // we want to put the focus on the entry the user is modifying
   const inputRef = useRef(null);
   useEffect(() =>  {
     if (focusedInput) {
       inputRef.current.focus();
     }
   })
-
 
   return (
     <input
@@ -23,6 +29,7 @@ const TaskTitleInput = ({ value = '', focusedInput, onInputChange, onInputBlur }
       placeholder="Nom de la tâche"
       value={value}
       onChange={
+        // every time the user is typing, the change is saved and displayed
         (event) => onInputChange(event.target.value)
       }
       onBlur={onInputBlur}
@@ -32,10 +39,12 @@ const TaskTitleInput = ({ value = '', focusedInput, onInputChange, onInputBlur }
 
 // Props validation
 TaskTitleInput.propTypes = {
+  // come from the parent which contains it
   value: PropTypes.string,
   focusedInput: PropTypes.bool.isRequired,
-  onInputChange: PropTypes.func.isRequired,
   onInputBlur: PropTypes.func,
+  // come from container
+  onInputChange: PropTypes.func.isRequired,
 };
 
 // export

@@ -70,9 +70,8 @@ export default (state = initialState, action = {}) => {
         }
         return task;
       });
-      // we want to keep in the state the task before changes
+      // we complete the task proprety from the state with its data
       const taskToEdit = state.taskList.find(task => task.id === taskId);
-      console.log(taskToEdit);
       return {
         ...state,
         fetchError: '',
