@@ -47,6 +47,7 @@ const Task = ({
           }>
             <TaskTitleInput
               value={currentEditedTaskId === id ? currentEditedTaskTitle : title}
+              focusedInput={currentEditedTaskId === id ? true : false}
               onInputBlur={() => updateTaskTitle(id, currentEditedTaskTitle)}
             />
           </form>
