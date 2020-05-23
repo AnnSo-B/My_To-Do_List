@@ -16,7 +16,6 @@ export const CHANGE_TASK_TITLE = 'CHANGE_TASK_TITLE';
 // Add task
 export const CHANGE_NEW_TASK_CATEGORY = 'CHANGE_NEW_TASK_CATEGORY';
 export const NEW_TASK_SUBMISSION = 'NEW_TASK_SUBMISSION';
-export const NEW_TASK_SUBMISSION_SUCCESS = 'NEW_TASK_SUBMISSION_SUCCESS';
 export const NEW_TASK_SUBMISSION_ERROR = 'NEW_TASK_SUBMISSION_ERROR';
 // Categories
 export const FETCH_CATEGORY_LIST = 'FETCH_CATEGORY_LIST';
@@ -90,11 +89,6 @@ export const changeNewTaskCategory = (payload) => ({
 
 export const submitNewTask = () => ({
   type: NEW_TASK_SUBMISSION,
-});
-
-export const newTaskSubmissionSuccess = (payload) => ({
-  type: NEW_TASK_SUBMISSION_SUCCESS,
-  payload,
 });
 
 export const newTaskSubmissionError = (payload) => ({

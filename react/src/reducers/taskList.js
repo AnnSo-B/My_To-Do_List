@@ -11,7 +11,6 @@ import {
   TASK_EDIT,
   CHANGE_TASK_TITLE,
   CHANGE_NEW_TASK_CATEGORY,
-  NEW_TASK_SUBMISSION_SUCCESS,
   NEW_TASK_SUBMISSION_ERROR,
 } from '../actions';
 
@@ -37,6 +36,11 @@ export default (state = initialState, action = {}) => {
         ...state,
         taskList: action.payload.taskList,
         fetchError: '',
+        task: {
+          id: null,
+          title: '',
+          categoryId: 0,
+        },
         statusFilter: action.payload.status,
       };
     case FETCH_TASK_LIST_ERROR: 
@@ -48,11 +52,6 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         fetchError: '',
-        task: {
-          id: null,
-          title: '',
-          categoryId: 0,
-        },
       };
     case TASK_UPDATE_ERROR: 
       return {
@@ -117,20 +116,6 @@ export default (state = initialState, action = {}) => {
         task: {
           ...state.task,
           categoryId: action.payload,
-        },
-      };
-    case NEW_TASK_SUBMISSION_SUCCESS: 
-      return {
-        ...state,
-        taskList: [
-          ...state.taskList,
-          action.payload,
-        ],
-        fetchError: '',
-        task: {
-          id: null,
-          title: '',
-          categoryId: 0,
         },
       };
     case NEW_TASK_SUBMISSION_ERROR: 
