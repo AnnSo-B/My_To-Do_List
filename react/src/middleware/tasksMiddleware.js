@@ -14,12 +14,11 @@ import {
   taskDeletionSuccess,
   taskDeletionError,
   NEW_TASK_SUBMISSION,
-  newTaskSubmissionSuccess,
   newTaskSubmissionError,
 } from '../actions';
 import { apiURL } from '../app.config';
 
-// middleware de test
+// middleware
 export default (store) => (next) => (action) => {
   let id = null;
 
@@ -55,9 +54,10 @@ export default (store) => (next) => (action) => {
           status: action.payload.status,
         }
       )
-      .then((response) => {
+      .then(() => {
         // send the task with its changes to update the state
         store.dispatch(taskUpdateSuccess());
+        // and send a new task List
         store.dispatch(fetchTaskList());
       })
       .catch(() => {
@@ -85,10 +85,12 @@ export default (store) => (next) => (action) => {
           categoryId: store.getState().taskList.task.categoryId,
         }
       )
-      .then((response) => {
-        store.dispatch(newTaskSubmissionSuccess(response.data));
+      .then(() => {
+        // in case of success, we want to display the new task list once the new task is added
+        store.dispatch(fetchTaskList());
       })
       .catch(() => {
+        // send an error message if task can't be added
         store.dispatch(newTaskSubmissionError('Une erreur est survenue lors de la tentative d\'ajout de la tâche.'))
       });
       break;
