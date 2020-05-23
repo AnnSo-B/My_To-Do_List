@@ -1,29 +1,50 @@
 // npm imports
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // local imports
 
 // component
-const TaskTitleInput = ({ value = '', onInputChange, onInputBlur }) => (
-  <input
-    className="task__content__input"
-    type="text"
-    name="title"
-    placeholder="Nom de la tâche"
-    value={value}
-    onChange={
-      (event) => onInputChange(event.target.value)
+const TaskTitleInput = ({
+  // come from the parent which contains it
+  value = '',
+  focusedInput,
+  onInputBlur,
+  onInputChange,
+}) => {
+  // we want to put the focus on the entry the user is modifying
+  const inputRef = useRef(null);
+  useEffect(() =>  {
+    if (focusedInput) {
+      inputRef.current.focus();
     }
-    onBlur={onInputBlur}
-  />
-);
+  })
+
+  return (
+    <input
+      ref={inputRef}
+      className="task__content__input"
+      type="text"
+      name="title"
+      placeholder="Nom de la tâche"
+      value={value}
+      onChange={
+        // every time the user is typing, the change is saved and displayed
+        (event) => onInputChange(event.target.value)
+      }
+      onBlur={onInputBlur}
+    />
+  );
+};  
 
 // Props validation
 TaskTitleInput.propTypes = {
+  // come from the parent which contains it
   value: PropTypes.string,
-  onInputChange: PropTypes.func.isRequired,
+  focusedInput: PropTypes.bool.isRequired,
   onInputBlur: PropTypes.func,
+  // come from container
+  onInputChange: PropTypes.func.isRequired,
 };
 
 // export

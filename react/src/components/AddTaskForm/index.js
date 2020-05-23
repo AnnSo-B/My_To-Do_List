@@ -8,10 +8,17 @@ import CategoryMenu from '../../containers/CategoryMenu';
 import TaskTitleInput from '../../containers/TaskTitleInput';
 
 // component
-const AddTaskForm = ({ addTaskCategoryId, newTaskTitle, changeNewTaskCategory, onNewTaskSubmit }) => (
+const AddTaskForm = ({
+  addTaskCategoryId,
+  editedTaskInput,
+  newTaskTitle,
+  changeNewTaskCategory,
+  onNewTaskSubmit
+}) => (
   <section className="task task--add">
     <form
       className="task--add__form"
+      // when the form is submitted we want to prevent the page from refreshing and to add the new task to the DB
       onSubmit={(event) => {
         event.preventDefault();
         onNewTaskSubmit();
@@ -19,11 +26,16 @@ const AddTaskForm = ({ addTaskCategoryId, newTaskTitle, changeNewTaskCategory, o
     >
       <div className="task__content">
         <div className="task__content__title">
-          <TaskTitleInput value={newTaskTitle} />
+          <TaskTitleInput
+            // if the user is filling in the add task form, we want it to be focused on and we want the new task title to be the value of the entry
+            focusedInput={editedTaskInput ? true : false}
+            value={editedTaskInput ? newTaskTitle : ''}
+          />
         </div>
       </div>
       <div id="task--add__category-select" className="task-form-group my-3 selectCategoryMenu">
         <CategoryMenu
+          // by default, we want the selected category to be "Choisir une catégorie" and then change it by the user's selection when he changes it
           selectedCategory={addTaskCategoryId}
           onCategoryChange={(event) => changeNewTaskCategory(event.target.value)}
         />
@@ -41,6 +53,7 @@ AddTaskForm.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ]).isRequired,
+  editedTaskInput: PropTypes.bool.isRequired,
   newTaskTitle: PropTypes.string.isRequired,
   changeNewTaskCategory: PropTypes.func.isRequired,
   onNewTaskSubmit: PropTypes.func.isRequired,

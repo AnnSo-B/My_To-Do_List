@@ -8,10 +8,12 @@ import './style.css';
 
 // component
 const StatusButton = ({
+  // come from Task component
   cssClass,
   variant,
   icon,
   onClickAction,
+  // come from container
   validateTask,
   undoTask,
   archiveTask,
@@ -19,6 +21,7 @@ const StatusButton = ({
   deleteTask,
   editTask,
 }) => {
+  // depending on the button, we'll dispatch different action with different parameters
   let actionToDispatch = '';
   switch (onClickAction) {
     case 'validateTask':
@@ -46,6 +49,7 @@ const StatusButton = ({
       className={cssClass}
       variant={variant}
       onClick={
+        // for all actions, we need to know which task the user is updating with its id
         (event) => actionToDispatch(event.currentTarget.closest('.task').id)
       }
     >
@@ -58,10 +62,12 @@ const StatusButton = ({
 
 // Props validation
 StatusButton.propTypes = {
+  // come from Task component
   cssClass: PropTypes.string.isRequired,
   variant: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
   onClickAction: PropTypes.string.isRequired,
+  // come from container
   validateTask: PropTypes.func.isRequired,
   undoTask: PropTypes.func.isRequired,
   archiveTask: PropTypes.func.isRequired,

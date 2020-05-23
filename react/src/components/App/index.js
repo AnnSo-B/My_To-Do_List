@@ -11,7 +11,13 @@ import TaskList from 'src/containers/TaskList';
 import './styles.css';
 
 // component
-const App = ({ taskListError, categoryListError, fetchTaskList, fetchCategoryList }) => {
+const App = ({
+  taskListError,
+  categoryListError,
+  fetchTaskList,
+  fetchCategoryList
+}) => {
+  // when the App is launched, retrieve Tasks and Categories data from DB
   useEffect(fetchTaskList, []);
   useEffect(fetchCategoryList, []);
 
@@ -20,6 +26,7 @@ const App = ({ taskListError, categoryListError, fetchTaskList, fetchCategoryLis
       <Header />
       <main>
         {
+          // if there are errors during data extraction, they are displayed here
           (taskListError
             || categoryListError !== '')
             && <ErrorMessage />
@@ -34,7 +41,8 @@ const App = ({ taskListError, categoryListError, fetchTaskList, fetchCategoryLis
 
 // Props validation
 App.propTypes = {
-  error: PropTypes.string,
+  taskListError: PropTypes.string.isRequired,
+  categoryListError: PropTypes.string.isRequired,
   fetchTaskList: PropTypes.func.isRequired,
   fetchCategoryList: PropTypes.func.isRequired,
 };

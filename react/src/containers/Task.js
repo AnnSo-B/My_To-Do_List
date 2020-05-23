@@ -7,14 +7,15 @@ import { taskUpdate } from '../actions';
 
 // state
 const mapStateToProps = (state) => ({
+  currentEditedTaskId: state.taskList.task.id,
   currentEditedTaskTitle: state.taskList.task.title,
   statusButtons: state.statusButton.buttons,
 });
 
 // actions
 const mapDispatchToProps = (dispatch) => ({
-  updateTaskTitle: (taskId, title) => {
-    dispatch(taskUpdate({taskId, title}));
+  updateTaskTitle: () => {
+    dispatch(taskUpdate());
   },
 });
 
