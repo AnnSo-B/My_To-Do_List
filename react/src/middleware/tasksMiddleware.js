@@ -43,23 +43,25 @@ export default (store) => (next) => (action) => {
       });
       break;
     case TASK_UPDATE:
-      id = parseInt(action.payload.taskId);
-      axios.put(
-        `${apiURL}tasks/${id}`,
-        {
-          title: action.payload.title,
-          completion: action.payload.completion,
-          status: action.payload.status,
-        }
-      )
-      .then(() => {
-        // and send a new task List
-        store.dispatch(fetchTaskList());
-      })
-      .catch(() => {
-          // send an error message if task can't be updated
-          store.dispatch(taskUpdateError('Une erreur est survenue lors de la mise à jour de la tâche.'));
-      });
+      id = parseInt(store.getState().taskList.task.id);
+      if ( id !== null ) {
+        axios.put(
+          `${apiURL}tasks/${id}`,
+          {
+            title: store.getState().taskList.task.title,
+            completion: store.getState().taskList.task.completion,
+            status: store.getState().taskList.task.status,
+          }
+        )
+        .then(() => {
+          // and send a new task List
+          store.dispatch(fetchTaskList());
+        })
+        .catch(() => {
+            // send an error message if task can't be updated
+            store.dispatch(taskUpdateError('Une erreur est survenue lors de la mise à jour de la tâche.'));
+        });
+      }
       break;
     case TASK_DELETION: 
       id = parseInt(action.payload.taskId);

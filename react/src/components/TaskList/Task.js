@@ -42,13 +42,13 @@ const Task = ({
           <form onSubmit={
             (event) => {
               event.preventDefault();
-              updateTaskTitle(id, currentEditedTaskTitle);
+              updateTaskTitle();
             }
           }>
             <TaskTitleInput
               value={currentEditedTaskId === id ? currentEditedTaskTitle : title}
               focusedInput={currentEditedTaskId === id ? true : false}
-              onInputBlur={() => updateTaskTitle(id, currentEditedTaskTitle)}
+              onInputBlur={() => updateTaskTitle()}
             />
           </form>
           <p className="task__content__p">{title}</p>
