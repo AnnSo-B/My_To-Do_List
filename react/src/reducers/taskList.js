@@ -4,9 +4,7 @@
 import {
   FETCH_TASK_LIST_SUCCESS,
   FETCH_TASK_LIST_ERROR,
-  TASK_UPDATE_SUCCESS,
   TASK_UPDATE_ERROR,
-  TASK_DELETION_SUCCESS,
   TASK_DELETION_ERROR,
   TASK_EDIT,
   CHANGE_TASK_TITLE,
@@ -48,29 +46,10 @@ export default (state = initialState, action = {}) => {
         ...state,
         fetchError: action.payload,
       };
-    case TASK_UPDATE_SUCCESS: 
-      return {
-        ...state,
-        fetchError: '',
-      };
     case TASK_UPDATE_ERROR: 
       return {
         ...state,
         fetchError: action.payload,
-      };
-    case TASK_DELETION_SUCCESS:
-      // keep only tasks which don't have as id the id of the deleted task
-      updatedTaskList = state.taskList.filter((task) => {
-        if (task.id !== action.payload) {
-          return task;
-        };
-      });
-      return {
-        ...state,
-        fetchError: '',
-        taskList: [
-          ...updatedTaskList,
-        ],
       };
     case TASK_DELETION_ERROR: 
       return {

@@ -5,10 +5,8 @@ export const FETCH_TASK_LIST_SUCCESS = 'FETCH_TASK_LIST_SUCCESS';
 export const FETCH_TASK_LIST_ERROR = 'FETCH_TASK_LIST_ERROR';
 // Task's buttons
 export const TASK_UPDATE = 'TASK_UPDATE';
-export const TASK_UPDATE_SUCCESS = 'TASK_UPDATE_SUCCESS';
 export const TASK_UPDATE_ERROR = 'TASK_UPDATE_ERROR';
 export const TASK_DELETION = 'TASK_DELETION';
-export const TASK_DELETION_SUCCESS = 'TASK_DELETION_SUCCESS';
 export const TASK_DELETION_ERROR = 'TASK_DELETION_ERROR';
 export const TASK_EDIT = 'TASK_EDIT';
 // Task input 
@@ -46,10 +44,6 @@ export const taskUpdate = (payload) => ({
   payload,
 });
 
-export const taskUpdateSuccess = () => ({
-  type: TASK_UPDATE_SUCCESS,
-});
-
 export const taskUpdateError = (payload) => ({
   type: TASK_UPDATE_ERROR,
   payload,
@@ -57,11 +51,6 @@ export const taskUpdateError = (payload) => ({
 
 export const taskDeletion = (payload) => ({
   type: TASK_DELETION,
-  payload,
-});
-
-export const taskDeletionSuccess = (payload) => ({
-  type: TASK_DELETION_SUCCESS,
   payload,
 });
 
