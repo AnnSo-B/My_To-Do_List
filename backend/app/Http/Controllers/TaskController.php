@@ -44,6 +44,29 @@ class TaskController extends Controller {
     }
 
     /**
+     * Get a list of Tasks according to their category
+     */
+    public function categoryFilteredList(Request $request, int $category) {
+
+        //* Received data from the front validation
+        // https://lumen.laravel.com/docs/7.x/validation
+        // https://laravel.com/docs/7.x
+        // https://laravel.com/docs/7.x/validation#available-validation-rules
+        $this->validate(
+            $request,
+            [
+                'categoryId'         =>  'integer',
+            ]
+        );
+
+        //* we execute the list Method from the Task model to retrieve the list
+        $taskList = Task::getTaskByCategory($category);
+
+        //* we return the list and answer with a 200 HTTP Response
+        return response()->json($taskList, Response::HTTP_OK);
+    }
+
+    /**
      * Add a task
      */
     public function add(Request $request) {

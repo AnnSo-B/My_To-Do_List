@@ -54,7 +54,18 @@ $router->get(
     '/tasks/status/{status}',
     [
         'uses'  =>  'TaskController@statusFilteredList',
-        'as'    =>  'task_list'
+        'as'    =>  'task_list_by_status'
+    ]
+);
+
+/**
+ * Endpoint to retrieve a list of tasks according to their category
+ */
+$router->get(
+    '/tasks/category/{category}',
+    [
+        'uses'  =>  'TaskController@categoryFilteredList',
+        'as'    =>  'task_list_by_category'
     ]
 );
 
