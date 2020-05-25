@@ -8,7 +8,7 @@ import { fetchTaskList } from '../actions';
 // state
 const mapStateToProps = (state) => ({
   statusFilter: state.taskList.statusFilter,
-  selectedCategory: state.taskList.categoryFilter,
+  categoryFilter : state.taskList.categoryFilter,
 });
 
 // actions

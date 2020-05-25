@@ -8,7 +8,7 @@ import './style.css';
 import CategoryMenu from '../../containers/CategoryMenu';
 
 // component
-const Header = ({ statusFilter, fetchTaskList }) => (
+const Header = ({ statusFilter, categoryFilter, fetchTaskList }) => (
   <header className="header">
     <Navbar bg="light" expand="lg" className="p-3">
       <Navbar.Brand className="site-name" href="/">Ma Todolist</Navbar.Brand>
@@ -18,19 +18,19 @@ const Header = ({ statusFilter, fetchTaskList }) => (
         <ButtonGroup aria-label="Basic example" className="my-3">
           <Button
             variant={statusFilter === 0 ? 'primary' : 'light'}
-            onClick={() => fetchTaskList({statusFilter: 0})}
+            onClick={() => fetchTaskList({statusFilter: 0, categoryFilter: 0})}
           >
             Toutes
           </Button>
           <Button
             variant={statusFilter === 2 ? 'primary' : 'light'}
-            onClick={() => fetchTaskList({statusFilter: 2})}
+            onClick={() => fetchTaskList({statusFilter: 2, categoryFilter: 0})}
           >
             Complètes
           </Button>
           <Button
             variant={statusFilter === 1 ? 'primary' : 'light'}
-            onClick={() => fetchTaskList({statusFilter: 1})}
+            onClick={() => fetchTaskList({statusFilter: 1, categoryFilter: 0})}
           >
             Incomplètes
           </Button>
@@ -39,7 +39,10 @@ const Header = ({ statusFilter, fetchTaskList }) => (
           id="navbar__category-select"
           className="navbar-form-group my-3 selectCategoryMenu"
         >
-          <CategoryMenu />
+          <CategoryMenu
+            selectedCategory={categoryFilter}
+            onCategoryChange={(event) => fetchTaskList({statusFilter: 0, categoryFilter: event.target.value})}
+          />
         </div>
         <div className="navbar-archive-link my-3">
           {
@@ -49,14 +52,14 @@ const Header = ({ statusFilter, fetchTaskList }) => (
               ? <button
                   type="button"
                   className="archive-button"
-                  onClick={() => fetchTaskList({statusFilter: 3})}
+                  onClick={() => fetchTaskList({statusFilter: 3, categoryFilter: 0})}
                 >
                     Voir les archives
                   </button>
               : <button
                   type="button"
                   className="archive-button"
-                  onClick={() => fetchTaskList({statusFilter: 0})}
+                  onClick={() => fetchTaskList({statusFilter: 0, categoryFilter: 0})}
                 >
                   Revenir à l'affichage des tâches non archivées
                 </button>
@@ -70,6 +73,7 @@ const Header = ({ statusFilter, fetchTaskList }) => (
 // Props validation
 Header.propTypes = {
   statusFilter: PropTypes.number.isRequired,
+  categoryFilter: PropTypes.number.isRequired,
   fetchTaskList: PropTypes.func.isRequired,
 };
 

@@ -23,6 +23,7 @@ const initialState = {
     categoryId: 0,
   },
   statusFilter: 0,
+  categoryFilter: 0,
 };
 
 // reducer
@@ -31,6 +32,9 @@ export default (state = initialState, action = {}) => {
 
   switch (action.type) {
     case FETCH_TASK_LIST_SUCCESS: 
+console.log('FETCH_TASK_LIST_SUCCESS')
+console.log('action.payload.status', action.payload.status)
+console.log('action.payload.category', action.payload.category)
       return {
         ...state,
         taskList: action.payload.taskList,
@@ -42,6 +46,7 @@ export default (state = initialState, action = {}) => {
           categoryId: 0,
         },
         statusFilter: action.payload.status,
+        categoryFilter: action.payload.category,
       };
     case FETCH_TASK_LIST_ERROR: 
       return {
