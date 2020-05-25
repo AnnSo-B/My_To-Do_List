@@ -22,21 +22,48 @@ export default (store) => (next) => (action) => {
 
   switch (action.type) {
     case FETCH_TASK_LIST: 
-      // by default, we fetch all the tasks
+
+      // by default
+      // we fetch all the tasks
       let requestGoesTo = `${apiURL}tasks`;
-      // status takes the value of payload if it exists, or it takes the value in the state
-      let status = action.payload !== ''
-        ? action.payload : store.getState().taskList.statusFilter;
+      // status takes the value from the state
+      let status = store.getState().taskList.statusFilter;
+      // category takes the value from the state
+      let category = store.getState().taskList.categoryFilter;
+
+
+      // if paylaod.statusFilter exists and is different from nothing
+      if (action.payload !== '' && action.payload.statusFilter !== '') {
+        // status takes its value
+        status = parseInt(action.payload.statusFilter); 
+        // and the category filter is cancelled by giving 0 to category
+        category = 0; 
+      }
+
+      // if paylaod.categoryFilter exists and is different from 0,
+      if (action.payload !== '' && action.payload.categoryFilter !== 0) {
+        // category takes its value
+        category = parseInt(action.payload.categoryFilter);
+      }
 
       // if we have a status different from 0, we only fetch the tasks according to their status
       if (status !== 0) {
         requestGoesTo = `${apiURL}tasks/status/${status}`;
       }
+      // if we have a category different from 0, we only fetch the tasks according to their status
+      else if (category !== 0) {
+        requestGoesTo = `${apiURL}tasks/category/${category}`;
+      }
 
       axios.get(requestGoesTo)
       .then((response) => {
-        // send data to the store via fetchTaskListSuccess action creator and the status of the displayed tasks
-        store.dispatch(fetchTaskListSuccess({taskList: response.data, status}));
+        // if response.date is empty, send a message
+        let message = '';
+        if (response.data.length === 0) {
+          message = 'Aucune tâche ne correspond à votre filtre.';
+        }
+         // send data to the store via fetchTaskListSuccess action creator and the status of the displayed tasks
+        store.dispatch(fetchTaskListSuccess({taskList: response.data, status, category, message}));
       })
       .catch(() => {
         // send an error to display in case of failure

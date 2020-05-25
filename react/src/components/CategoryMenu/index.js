@@ -16,7 +16,6 @@ const CategoryMenu = ({ selectedCategory, categoryList, onCategoryChange }) => (
   >
     <option
       className="selectedOptionByDefault"
-      selected
       disabled
       value={0}
     >

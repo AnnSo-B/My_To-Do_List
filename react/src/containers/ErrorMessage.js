@@ -6,8 +6,8 @@ import ErrorMessage from '../components/ErrorMessage';
 
 // state
 const mapStateToProps = (state) => ({
-  taskListError: state.taskList.fetchError,
-  categoryListError: state.categoryList.fetchError,
+  taskListError: state.taskList.fetchMessage,
+  categoryListError: state.categoryList.fetchMessage,
 });
 
 // actions

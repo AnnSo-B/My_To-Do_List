@@ -15,7 +15,7 @@ import {
 // state
 const initialState = {
   taskList: [],
-  fetchError: '',
+  fetchMessage: '',
   task: {
     id: null,
     title: '',
@@ -23,6 +23,7 @@ const initialState = {
     categoryId: 0,
   },
   statusFilter: 0,
+  categoryFilter: 0,
 };
 
 // reducer
@@ -34,7 +35,7 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         taskList: action.payload.taskList,
-        fetchError: '',
+        fetchMessage: action.payload.message,
         task: {
           id: null,
           title: '',
@@ -42,21 +43,22 @@ export default (state = initialState, action = {}) => {
           categoryId: 0,
         },
         statusFilter: action.payload.status,
+        categoryFilter: action.payload.category,
       };
     case FETCH_TASK_LIST_ERROR: 
       return {
         ...state,
-        fetchError: action.payload,
+        fetchMessage: action.payload,
       };
     case TASK_UPDATE_ERROR: 
       return {
         ...state,
-        fetchError: action.payload,
+        fetchMessage: action.payload,
       };
     case TASK_DELETION_ERROR: 
       return {
         ...state,
-        fetchError: action.payload,
+        fetchMessage: action.payload,
       };
     case TASK_EDIT:
       // we want to change the status of the task that we want to edit in order to display the input
@@ -74,7 +76,7 @@ export default (state = initialState, action = {}) => {
       const taskToEdit = state.taskList.find(task => task.id === taskId);
       return {
         ...state,
-        fetchError: '',
+        fetchMessage: '',
         taskList: [
           ...updatedTaskList,
         ],
@@ -104,7 +106,7 @@ export default (state = initialState, action = {}) => {
     case NEW_TASK_SUBMISSION_ERROR: 
       return {
         ...state,
-        fetchError: action.payload,
+        fetchMessage: action.payload,
       };
   default: 
       return state;
