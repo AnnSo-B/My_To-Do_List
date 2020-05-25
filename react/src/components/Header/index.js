@@ -17,7 +17,7 @@ const Header = ({ statusFilter, categoryFilter, fetchTaskList }) => (
         {/* Each button launches a task list extraction according to the associated status */}
         <ButtonGroup aria-label="Basic example" className="my-3">
           <Button
-            variant={statusFilter === 0 ? 'primary' : 'light'}
+            variant={statusFilter === 0 && categoryFilter === 0 ? 'primary' : 'light'}
             onClick={() => fetchTaskList({statusFilter: 0, categoryFilter: 0})}
           >
             Toutes

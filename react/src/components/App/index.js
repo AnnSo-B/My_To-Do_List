@@ -25,13 +25,13 @@ const App = ({
     <div className="app">
       <Header />
       <main>
+        <AddTaskForm />
         {
           // if there are errors during data extraction, they are displayed here
           (taskListError
             || categoryListError !== '')
             && <ErrorMessage />
         }
-        <AddTaskForm />
         <TaskList />
       </main>
     </div>

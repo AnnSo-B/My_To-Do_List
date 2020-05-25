@@ -22,28 +22,29 @@ export default (store) => (next) => (action) => {
 
   switch (action.type) {
     case FETCH_TASK_LIST: 
-console.log('FETCH_TASK_LIST');
-console.log('action.payload', action.payload);
 
-      // by default, we fetch all the tasks
+      // by default
+      // we fetch all the tasks
       let requestGoesTo = `${apiURL}tasks`;
-
       // status takes the value from the state
       let status = store.getState().taskList.statusFilter;
-console.log('store.getState().taskList.statusFilter', store.getState().taskList.statusFilter);
-      // or takes the value of payload.statusFilter if it exists
-      if (action.payload !== '' && action.payload.statusFilter !== '') {
-        status = action.payload.statusFilter; 
-      }
-console.log('status', status);
-
-      // category takes the value of payload.categoryFilter if it exists, or it takes the value in the state
+      // category takes the value from the state
       let category = store.getState().taskList.categoryFilter;
-console.log('store.getState().taskList.categoryFilter', store.getState().taskList.categoryFilter);
-      if (action.payload !== '' && action.payload.categoryFilter !== 0) {
-        category = action.payload.categoryFilter;
+
+
+      // if paylaod.statusFilter exists and is different from nothing
+      if (action.payload !== '' && action.payload.statusFilter !== '') {
+        // status takes its value
+        status = parseInt(action.payload.statusFilter); 
+        // and the category filter is cancelled by giving 0 to category
+        category = 0; 
       }
-console.log('category', category);
+
+      // if paylaod.categoryFilter exists and is different from 0,
+      if (action.payload !== '' && action.payload.categoryFilter !== 0) {
+        // category takes its value
+        category = parseInt(action.payload.categoryFilter);
+      }
 
       // if we have a status different from 0, we only fetch the tasks according to their status
       if (status !== 0) {
@@ -54,12 +55,15 @@ console.log('category', category);
         requestGoesTo = `${apiURL}tasks/category/${category}`;
       }
 
-console.log('requestGoesTo', requestGoesTo);
-
       axios.get(requestGoesTo)
       .then((response) => {
+        // if response.date is empty, send a message
+        let message = '';
+        if (response.data.length === 0) {
+          message = 'Aucune tâche ne correspond à votre filtre.';
+        }
          // send data to the store via fetchTaskListSuccess action creator and the status of the displayed tasks
-        store.dispatch(fetchTaskListSuccess({taskList: response.data, status, category}));
+        store.dispatch(fetchTaskListSuccess({taskList: response.data, status, category, message}));
       })
       .catch(() => {
         // send an error to display in case of failure
