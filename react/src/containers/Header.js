@@ -8,12 +8,13 @@ import { fetchTaskList } from '../actions';
 // state
 const mapStateToProps = (state) => ({
   statusFilter: state.taskList.statusFilter,
+  selectedCategory: state.taskList.categoryFilter,
 });
 
 // actions
 const mapDispatchToProps = (dispatch) => ({
-  fetchTaskList: (status) => {
-    dispatch(fetchTaskList(status));
+  fetchTaskList: (filter) => {
+    dispatch(fetchTaskList(filter));
   }
 });
 

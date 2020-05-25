@@ -24,9 +24,10 @@ export default (store) => (next) => (action) => {
     case FETCH_TASK_LIST: 
       // by default, we fetch all the tasks
       let requestGoesTo = `${apiURL}tasks`;
-      // status takes the value of payload if it exists, or it takes the value in the state
-      let status = action.payload !== ''
-        ? action.payload : store.getState().taskList.statusFilter;
+      // status takes the value of payload.statusFilter if it exists, or it takes the value in the state
+      let status = action.payload !== '' && action.payload.statusFilter !== ''
+        ? action.payload.statusFilter : store.getState().taskList.statusFilter;
+
 
       // if we have a status different from 0, we only fetch the tasks according to their status
       if (status !== 0) {

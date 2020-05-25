@@ -18,19 +18,19 @@ const Header = ({ statusFilter, fetchTaskList }) => (
         <ButtonGroup aria-label="Basic example" className="my-3">
           <Button
             variant={statusFilter === 0 ? 'primary' : 'light'}
-            onClick={() => fetchTaskList(0)}
+            onClick={() => fetchTaskList({statusFilter: 0})}
           >
             Toutes
           </Button>
           <Button
             variant={statusFilter === 2 ? 'primary' : 'light'}
-            onClick={() => fetchTaskList(2)}
+            onClick={() => fetchTaskList({statusFilter: 2})}
           >
             Complètes
           </Button>
           <Button
             variant={statusFilter === 1 ? 'primary' : 'light'}
-            onClick={() => fetchTaskList(1)}
+            onClick={() => fetchTaskList({statusFilter: 1})}
           >
             Incomplètes
           </Button>
@@ -49,14 +49,14 @@ const Header = ({ statusFilter, fetchTaskList }) => (
               ? <button
                   type="button"
                   className="archive-button"
-                  onClick={() => fetchTaskList(3)}
+                  onClick={() => fetchTaskList({statusFilter: 3})}
                 >
                     Voir les archives
                   </button>
               : <button
                   type="button"
                   className="archive-button"
-                  onClick={() => fetchTaskList(0)}
+                  onClick={() => fetchTaskList({statusFilter: 0})}
                 >
                   Revenir à l'affichage des tâches non archivées
                 </button>
