@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import './style.css';
 
 // component
+// as CategoryMenu is a reusable component, selectedCategory and onCategoryChange come from its eventual parent
 const CategoryMenu = ({ selectedCategory, categoryList, onCategoryChange }) => (
   <select
     className="custom-select category-select"
@@ -15,7 +16,6 @@ const CategoryMenu = ({ selectedCategory, categoryList, onCategoryChange }) => (
   >
     <option
       className="selectedOptionByDefault"
-      selected
       disabled
       value={0}
     >

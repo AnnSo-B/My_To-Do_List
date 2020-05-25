@@ -9,6 +9,7 @@ import { Alert } from 'react-bootstrap';
 const ErrorMessage = ({ taskListError, categoryListError }) => (
   <>
     {
+      // if there's an error on tasks data extraction, display it
       taskListError
         && (
           <Alert
@@ -21,6 +22,7 @@ const ErrorMessage = ({ taskListError, categoryListError }) => (
         )
     }
     {
+      // if there's an error on categories data extraction, display it
       categoryListError
         && (
           <Alert

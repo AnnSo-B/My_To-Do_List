@@ -33,6 +33,7 @@ class Task extends Model
         // https://laravel.com/docs/7.x/eloquent#retrieving-models
         // we'll get categories at the same time
         // return Task::all()->load('category');
+        // as we only want the unarchived tasks, we exclude the archived ones
         return Task::where('status', '<>',3)->get()->load('category');
     }
 
@@ -43,6 +44,18 @@ class Task extends Model
      * @return [array] taskList
      */
     static public function getTaskByStatus($statusCode) {
+        // we are looking for the tasks having $statusCode as status code
         return Task::where('status', $statusCode)->get()->load('category');
+    }
+
+    /**
+     * Method to retrieve a list of tasks according to their category
+     *
+     * @param [int] $categoryCode
+     * @return [array] taskList
+     */
+    static public function getTaskByCategory($categoryCode) {
+        // we are looking for the tasks having $categoryCode as associated category id
+        return Task::where('status', '<>',3)->where('category_id', $categoryCode)->get()->load('category');
     }
 }

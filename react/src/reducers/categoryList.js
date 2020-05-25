@@ -6,7 +6,7 @@ import { FETCH_CATEGORY_LIST_SUCCESS, FETCH_CATEGORY_LIST_ERROR } from '../actio
 // state
 const initialState = {
   categoryList: [],
-  fetchError: '',
+  fetchMessage: '',
 };
 
 // reducer
@@ -18,12 +18,12 @@ export default (state = initialState, action = {}) => {
         categoryList: [
           ...action.payload
         ],
-        fetchError: '',
+        fetchMessage: '',
       };
     case FETCH_CATEGORY_LIST_ERROR: 
       return {
         ...state,
-        fetchError: action.payload,
+        fetchMessage: action.payload,
       }
     default: 
       return state;

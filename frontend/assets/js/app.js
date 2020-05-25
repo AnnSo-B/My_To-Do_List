@@ -14,6 +14,9 @@ const app = {
     //* initialise the request to the API to retrieve the categoryList
     app.fetchCategories();
 
+    //* initialise status filter value
+    app.statusValue = 0;
+
     //* initialise the request to the API to retrieve the taskList
     app.fetchTasks();
 
@@ -24,6 +27,9 @@ const app = {
 
     //* initialise listener on header button
     app.initHeaderButton();
+
+    //* initialise error message container
+    app.errorMessageContainer = document.querySelector('#error-message-container');
 },
 
   /***************************************************************
@@ -48,6 +54,34 @@ const app = {
   },
 
   /***************************************************************
+   * Error Messages
+   ***************************************************************/
+
+   /**
+    * Method to display Error Messages
+    */
+  displayErrorMessage: function(message) {
+    //* create and place the message
+    const errorMessageElement = document.createElement('div');
+    // give its css classes
+    errorMessageElement.classList.add('alert', 'alert-danger', 'my-3');
+    // git its content
+    errorMessageElement.textContent = message;
+    // insert into the DOM
+    app.errorMessageContainer.appendChild(errorMessageElement);
+
+    // delete the message after 10 secondes
+    setTimeout(app.deleteErrorMessage, 10000)
+  },
+
+  /**
+   * Method to delete error message
+   */
+ deleteErrorMessage: function() {
+   app.errorMessageContainer.innerHTML = '';
+ },
+
+  /***************************************************************
    * Categories
    ***************************************************************/
 
@@ -64,7 +98,7 @@ const app = {
     .then(function(response) {
       // check if the response is not ok
       if (!response.ok) {
-        console.log(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API')
+        app.displayErrorMessage(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API. Merci de recommencer ultérieurement.')
       }
       // transform the response into usable data
       return response.json();
@@ -142,12 +176,9 @@ const app = {
    * Fetch Tasks from API
    */
   fetchTasks: function(event) {
-    //console.log(typeof(event))
     // by default, we'll fetch all the tasks
     let requestGoesTo = app.apiURL + '/tasks';
     // if this fetch follow a click we'll need some information to determine which button has been clicked
-    let currentTarget = '';
-    let statusValue = 0;
     let currentStatusButton = '';
     let currentArchiveButton = '';
 
@@ -155,22 +186,26 @@ const app = {
     // if the event is not undefined, it means that it's a click
     if (typeof(event) !== 'undefined') {
       // we retrieve the status from this button
-      statusValue = parseInt(event.currentTarget.dataset.status);
+      app.statusValue = parseInt(event.currentTarget.dataset.status);
       // if this button is one of the archive button
       if (event.currentTarget.closest('.archive-button')) {
         // we save the one that has been clicked
         currentArchiveButton = event.currentTarget.closest('.archive-button');
+        // we retrieve the status from this button
+        app.statusValue = parseInt(currentArchiveButton.dataset.status);
       }
       // if this button is one of the staut filter button
       else if (event.currentTarget.closest('.status-filter-button')) {
         // we save the one that has been clicked
         currentStatusButton = event.currentTarget.closest('.status-filter-button');
+        // we retrieve the status from this button
+        app.statusValue = parseInt(currentStatusButton.dataset.status);
       }
     }
 
     // if the status is different from 0, we know that we are looking for a task list accorind to their status
-    if (statusValue !== 0) {
-      requestGoesTo = app.apiURL + '/tasks/status/' + statusValue;
+    if (app.statusValue !== 0) {
+      requestGoesTo = app.apiURL + '/tasks/status/' + app.statusValue;
     }
 
     // we now can launch the request
@@ -184,7 +219,7 @@ const app = {
     .then(function(response) {
       // check if the response is not ok
       if (!response.ok) {
-        console.log(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API')
+        app.displayErrorMessage(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API. Merci de recommencer ultérieurement.')
       }
       // transform the response into usable data
       return response.json();
@@ -200,7 +235,7 @@ const app = {
       if (typeof(event) !== 'undefined') {
         if (
           currentStatusButton !== ''
-          && (statusValue === 0 || statusValue === 1 || statusValue === 2)
+          && (app.statusValue === 0 || app.statusValue === 1 || app.statusValue === 2)
         ) {
           //* for status Buttons
           // we want to take the focus off of every button
@@ -226,8 +261,27 @@ const app = {
         }
         else if (
           currentArchiveButton !== ''
-          && (statusValue === 3 || statusValue === 0)
+          && (app.statusValue === 3 || app.statusValue === 0)
         ) {
+          //* for status buttons 
+          // we want to take the focus off of every button expected the "Toutes" button
+          for (let statusButtonIndex = 0; statusButtonIndex < app.statusFilterButtons.length; statusButtonIndex++) {
+            // we save the current button
+            statusFilterButton = app.statusFilterButtons[statusButtonIndex];
+
+            // we change its css class to btn-light in cas it was btn-primary that we remove
+            statusFilterButton.classList.remove('btn-primary');
+            statusFilterButton.classList.add('btn-light');
+
+            // it the current button is "toutes" button then we want this button to have btn-primary class instead of ligth
+            if (parseInt(statusFilterButton.dataset.status) === 0) {
+              statusFilterButton.classList.remove('btn-light');
+              statusFilterButton.classList.add('btn-primary');
+            }
+          }
+
+          //* for archive buttons
+          // we display the other archive button when its clicked on
           for (archiveButtonIndex = 0; archiveButtonIndex < app.archiveButtons.length; archiveButtonIndex++) {
             app.archiveButtons[archiveButtonIndex].classList.remove('to-hide');;
           }
@@ -343,7 +397,7 @@ const app = {
     .then(function(response) {
       // check if the response is not ok
       if (!response.ok) {
-        return console.log('Une erreur est survenue lors de l\'ajout de la tâche. Merci de reessayer ultérieurement');
+        app.displayErrorMessage('Une erreur est survenue lors de l\'ajout de la tâche. Merci de reessayer ultérieurement')
       }
       // transform the response into usable data
       return response.json()
@@ -443,7 +497,7 @@ const app = {
     .then(function(response) {
       // check if the response is not ok
       if (!response.ok) {
-        return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+        app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
       }
       // transform the response into usable data
       return response.json()
@@ -458,6 +512,10 @@ const app = {
       // change its classes so it becomes a completed task
       currentTask.classList.remove('task--todo');
       currentTask.classList.add('task--done');
+
+      // refresh the task list with the changes
+      app.taskListContainer.innerHTML = '';
+      app.fetchTasks();
     })
   },
 
@@ -492,7 +550,7 @@ const app = {
     .then(function(response) {
       // check if the response is not ok
       if (!response.ok) {
-        return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+        app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
       }
       // transform the response into usable data
       return response.json()
@@ -507,6 +565,10 @@ const app = {
       // change its classes so it becomes a todo task
       currentTask.classList.remove('task--done');
       currentTask.classList.add('task--todo');
+
+      // refresh the task list with the changes
+      app.taskListContainer.innerHTML = '';
+      app.fetchTasks();
     });
   },
 
@@ -566,7 +628,7 @@ const app = {
     .then(function(response) {
       // check if the response is not ok
       if (!response.ok) {
-        return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+        app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
       }
       // transform the response into usable data
       return response.json()
@@ -577,6 +639,10 @@ const app = {
       titleElement.textContent = task.title;
       // change CSS
       currentTask.classList.remove('task--edit');
+
+      // refresh the task list with the changes
+      app.taskListContainer.innerHTML = '';
+      app.fetchTasks();
     })
   },
 
@@ -615,7 +681,7 @@ const app = {
 
         // check if the response is not ok
         if (!response.ok) {
-          return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+          app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
         }
         // transform the response into usable data
         return response.json()
@@ -628,6 +694,10 @@ const app = {
         currentTask.classList.remove('task--todo');
         currentTask.classList.remove('task--done');
         currentTask.classList.add('task--archive');
+
+        // refresh the task list with the changes
+        app.taskListContainer.innerHTML = '';
+        app.fetchTasks();
       });
     }
   },
@@ -662,7 +732,7 @@ const app = {
 
       // check if the response is not ok
       if (!response.ok) {
-        return console.log('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
+        app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
       }
       // transform the response into usable data
       return response.json()
@@ -674,6 +744,10 @@ const app = {
       // change CSS
       currentTask.classList.remove('task--archive');
       currentTask.classList.add('task--done');
+
+      // refresh the task list with the changes
+      app.taskListContainer.innerHTML = '';
+      app.fetchTasks();
     });
   },
 
@@ -696,8 +770,10 @@ const app = {
     .then(function(response) {
       // check if the response is not ok
       if (!response.ok) {
-        return console.log('Une erreur est survenue lors de la tentative de suppression de la tâche. Merci de reessayer ultérieurement');
+        app.displayErrorMessage('Une erreur est survenue lors de la tentative de suppression de la tâche. Merci de reessayer ultérieurement');
       }
+
+      // refresh the task list with the changes
       app.taskListContainer.innerHTML = '';
       app.fetchTasks();
     })
