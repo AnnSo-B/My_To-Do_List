@@ -571,12 +571,16 @@ const app = {
    * @param {event} event EventObject representation
    */
   handleValidateButton: function(event) {
+    const buttonCSS = event.currentTarget.classList;
+    console.log(buttonCSS);
+
+
     //* find the task id associated with the validate button
     const currentTask = event.currentTarget.closest('.task');
     const currentTaskId = event.currentTarget.closest('.task').dataset.id;
 
     //* create the request body
-    const fetchBody = {
+    let fetchBody = {
       completion: 100, // at the time we decide to change its completion to 100%
       status: 2 // 2 = done status
     };
@@ -600,17 +604,7 @@ const app = {
       // transform the response into usable data
       return response.json()
     })
-    .then(function(task) {
-      // change current task status
-      currentTask.dataset.status = task.status;
-      // change current task completion
-      currentTask.dataset.completion = task.completion;
-      currentTask.querySelector('.progress-bar').style.width = task.completion + '%';
-
-      // change its classes so it becomes a completed task
-      currentTask.classList.remove('task--todo');
-      currentTask.classList.add('task--done');
-
+    .then(function() {
       // refresh the task list with the changes
       app.taskListContainer.innerHTML = '';
       app.fetchTasks();
@@ -653,17 +647,7 @@ const app = {
       // transform the response into usable data
       return response.json()
     })
-    .then(function(task) {
-      //change current task status
-      currentTask.dataset.status = task.status;
-      // change current task completion
-      currentTask.dataset.completion = task.completion;
-      currentTask.querySelector('.progress-bar').style.width = task.completion + '%';
-
-      // change its classes so it becomes a todo task
-      currentTask.classList.remove('task--done');
-      currentTask.classList.add('task--todo');
-
+    .then(function() {
       // refresh the task list with the changes
       app.taskListContainer.innerHTML = '';
       app.fetchTasks();
@@ -731,13 +715,7 @@ const app = {
       // transform the response into usable data
       return response.json()
     })
-    .then(function(task) {
-      // change title in paragraph
-      const titleElement = currentTask.querySelector('.task__content__p');
-      titleElement.textContent = task.title;
-      // change CSS
-      currentTask.classList.remove('task--edit');
-
+    .then(function() {
       // refresh the task list with the changes
       app.taskListContainer.innerHTML = '';
       app.fetchTasks();
@@ -785,14 +763,6 @@ const app = {
         return response.json()
       })
       .then(function(task) {
-        // change current task status
-        currentTask.dataset.status = task.status;
-
-        // change CSS
-        currentTask.classList.remove('task--todo');
-        currentTask.classList.remove('task--done');
-        currentTask.classList.add('task--archive');
-
         // refresh the task list with the changes
         app.taskListContainer.innerHTML = '';
         app.fetchTasks();
@@ -801,7 +771,7 @@ const app = {
   },
 
   /**
-   * handler on archive button
+   * handler on desarchive button
    * 
    * @param {event} event EventObject representation
    */
@@ -835,14 +805,7 @@ const app = {
       // transform the response into usable data
       return response.json()
     })
-    .then(function(task) {
-      // change current task status
-      currentTask.dataset.status = task.status;
-
-      // change CSS
-      currentTask.classList.remove('task--archive');
-      currentTask.classList.add('task--done');
-
+    .then(function() {
       // refresh the task list with the changes
       app.taskListContainer.innerHTML = '';
       app.fetchTasks();
