@@ -33,11 +33,11 @@ const app = {
 },
 
   /***************************************************************
-   * Navigation filters
+   * Navigation status filters
    ***************************************************************/
 
    /**
-    * Method to add listener to Status Filter Buttons, Archive Buttons and Category Select which will execute fetchTasks method
+    * Method to add listener to Status Filter Buttons and Archive Buttons which will execute fetchTasks method
     */
    initHeaderListeners: function() {
     // get the status buttons
@@ -132,30 +132,30 @@ const app = {
 
     //* create and place the select
     const selectElement = document.createElement('select');
-    // give it the name attribute
-    selectElement.name = "categoryId";
-    // give it CSS classes
-    selectElement.classList.add('custom-select', 'category-select');
-    // insert into the DOM
-    nav.appendChild(selectElement);
+    app.createSelect(nav, selectElement);
 
     //* create the placeholder
     selectPlaceHolderElement = app.createPlaceHolder(selectElement);
 
     //* create the different options according to the category list
     for (category of categoryList) {
-      // create the option tag
-      const optionElement = document.createElement('option');
-      // give it the name of the category
-      optionElement.textContent = category.name;
-      // give it the id as value
-      optionElement.value = category.id;
-      // insert into select
-      selectElement.appendChild(optionElement);
+      app.createAnOption(selectElement);
     }
 
     // add listener
     app.addNavCategoryMenuListener();
+  },
+
+  /**
+   * Method to create the select
+   */
+  createSelect: function(nav, selectElement) {
+    // give it the name attribute
+    selectElement.name = "categoryId";
+    // give it CSS classes
+    selectElement.classList.add('custom-select', 'category-select');
+    // insert into the DOM
+    nav.appendChild(selectElement);
   },
 
   /**
@@ -178,6 +178,20 @@ const app = {
   },
 
   /**
+   * Method to create an Option
+   */
+  createAnOption: function(selectElement) {
+    // create the option tag
+    const optionElement = document.createElement('option');
+    // give it the name of the category
+    optionElement.textContent = category.name;
+    // give it the id as value
+    optionElement.value = category.id;
+    // insert into select
+    selectElement.appendChild(optionElement);
+  },
+
+  /**
    * Method to add listener on Category menu in the header and fetch data according to this selection
    */
   addNavCategoryMenuListener: function() {
@@ -193,16 +207,23 @@ const app = {
    * Fetch Tasks from API
    */
   fetchTasks: function(event) {
+
     // by default, we'll fetch all the tasks
     let requestGoesTo = app.apiURL + '/tasks';
+
     // if this fetch follow a click we'll need some information to determine which button has been clicked
     let currentStatusButton = '';
     let currentArchiveButton = '';
+    // or which category has been selected
     let currentCategoryFilter = '';
 
-    // we need to determine which button has been clicked
-    // if the event is not undefined, it means that it's a click
+    // we need to determine which event led to this search
+    // if the event is not undefined, it means that it's either a status filter or a category filter
     if (typeof(event) !== 'undefined') {
+
+      // we delete the error message if there are
+      app.deleteErrorMessage();
+
       // we retrieve the status from this button
       app.statusValue = parseInt(event.currentTarget.dataset.status);
       // if this button is one of the archive button
@@ -278,19 +299,11 @@ const app = {
 
           //* for archive buttons
           // we want to display "Voir les archives"
-          for (archiveButtonIndex = 0; archiveButtonIndex < app.archiveButtons.length; archiveButtonIndex++) {
-            if (app.archiveButtons[archiveButtonIndex].classList.contains('to-show')) {
-              app.archiveButtons[archiveButtonIndex].classList.remove('to-hide');
-            }
-            else {
-              app.archiveButtons[archiveButtonIndex].classList.add('to-hide');
-            }
-          }
+          app.displaySeeTheArchive();
 
           //* for the category filter
           // empty the category in the filter
-            const navCategoryMenuSelectedByDefault = app.navCategoryMenu.querySelector('.selectedOptionByDefault');
-            navCategoryMenuSelectedByDefault.selected = true;
+          app.focusOnChooseACategory(app.navCategoryMenu);
         }
 
         // if the event is on the archive buttons and its value is either 3 or 0
@@ -300,20 +313,7 @@ const app = {
         ) {
           //* for status buttons 
           // we want to take the focus off of every button expected the "Toutes" button
-          for (let statusButtonIndex = 0; statusButtonIndex < app.statusFilterButtons.length; statusButtonIndex++) {
-            // we save the current button
-            statusFilterButton = app.statusFilterButtons[statusButtonIndex];
-
-            // we change its css class to btn-light in cas it was btn-primary that we remove
-            statusFilterButton.classList.remove('btn-primary');
-            statusFilterButton.classList.add('btn-light');
-
-            // it the current button is "toutes" button then we want this button to have btn-primary class instead of ligth
-            if (parseInt(statusFilterButton.dataset.status) === 0) {
-              statusFilterButton.classList.remove('btn-light');
-              statusFilterButton.classList.add('btn-primary');
-            }
-          }
+          app.focusOnAllButton();
 
           //* for archive buttons
           // we display the other archive button when its clicked on
@@ -337,34 +337,57 @@ const app = {
 
           //* for status buttons 
           // we want to take the focus off of every button expected the "Toutes" button
-          for (let statusButtonIndex = 0; statusButtonIndex < app.statusFilterButtons.length; statusButtonIndex++) {
-            // we save the current button
-            statusFilterButton = app.statusFilterButtons[statusButtonIndex];
-
-            // we change its css class to btn-light in cas it was btn-primary that we remove
-            statusFilterButton.classList.remove('btn-primary');
-            statusFilterButton.classList.add('btn-light');
-
-            // it the current button is "toutes" button then we want this button to have btn-primary class instead of ligth
-            if (parseInt(statusFilterButton.dataset.status) === 0) {
-              statusFilterButton.classList.remove('btn-light');
-              statusFilterButton.classList.add('btn-primary');
-            }
-          }
+          app.focusOnAllButton();
 
           //* for archive buttons
           // we want to display "Voir les archives"
-          for (archiveButtonIndex = 0; archiveButtonIndex < app.archiveButtons.length; archiveButtonIndex++) {
-            if (app.archiveButtons[archiveButtonIndex].classList.contains('to-show')) {
-              app.archiveButtons[archiveButtonIndex].classList.remove('to-hide');
-            }
-            else {
-              app.archiveButtons[archiveButtonIndex].classList.add('to-hide');
-            }
-          }
+          app.displaySeeTheArchive();
         }
       }
     })
+  },
+
+  /**
+   * Method to display "Voir les archives"
+   */
+  displaySeeTheArchive: function() {
+    for (archiveButtonIndex = 0; archiveButtonIndex < app.archiveButtons.length; archiveButtonIndex++) {
+      if (app.archiveButtons[archiveButtonIndex].classList.contains('to-show')) {
+        app.archiveButtons[archiveButtonIndex].classList.remove('to-hide');
+      }
+      else {
+        app.archiveButtons[archiveButtonIndex].classList.add('to-hide');
+      }
+    }
+  },
+
+  /**
+   * Method to focus on "Toutes" button
+   */
+  focusOnAllButton: function() {
+    // we want to take the focus off of every button expected the "Toutes" button
+    for (let statusButtonIndex = 0; statusButtonIndex < app.statusFilterButtons.length; statusButtonIndex++) {
+      // we save the current button
+      statusFilterButton = app.statusFilterButtons[statusButtonIndex];
+
+      // we change its css class to btn-light in cas it was btn-primary that we remove
+      statusFilterButton.classList.remove('btn-primary');
+      statusFilterButton.classList.add('btn-light');
+
+      // it the current button is "toutes" button then we want this button to have btn-primary class instead of ligth
+      if (parseInt(statusFilterButton.dataset.status) === 0) {
+        statusFilterButton.classList.remove('btn-light');
+        statusFilterButton.classList.add('btn-primary');
+      }
+    }
+  },
+
+  /**
+   * focus on "Choisir une catégorie"
+   */
+  focusOnChooseACategory: function(menu) {
+    const categoryByDefault = menu.querySelector('.selectedOptionByDefault');
+    categoryByDefault.selected = true;
   },
 
   /**
@@ -482,8 +505,7 @@ const app = {
       app.displayOneTask(task.id, task.title, task.category.id, task.category.name, task.status, task.completion);
 
       // empty the category in the form
-      const addTaskSelectedByDefault = addTaskForm.querySelector('.selectedOptionByDefault');
-      addTaskSelectedByDefault.selected = true;
+      app.focusOnChooseACategory(addTaskForm);
       
       // empty the input and place yourself back on the input for data entry
       const addTaskInput = addTaskForm.querySelector('.task__content__input');
