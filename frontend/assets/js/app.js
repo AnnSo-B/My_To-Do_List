@@ -606,8 +606,7 @@ const app = {
     })
     .then(function() {
       // refresh the task list with the changes
-      app.taskListContainer.innerHTML = '';
-      app.fetchTasks();
+      app.refreshTaskList
     })
   },
 
@@ -649,8 +648,7 @@ const app = {
     })
     .then(function() {
       // refresh the task list with the changes
-      app.taskListContainer.innerHTML = '';
-      app.fetchTasks();
+      app.refreshTaskList
     });
   },
 
@@ -717,8 +715,7 @@ const app = {
     })
     .then(function() {
       // refresh the task list with the changes
-      app.taskListContainer.innerHTML = '';
-      app.fetchTasks();
+      app.refreshTaskList
     })
   },
 
@@ -764,8 +761,7 @@ const app = {
       })
       .then(function(task) {
         // refresh the task list with the changes
-        app.taskListContainer.innerHTML = '';
-        app.fetchTasks();
+        app.refreshTaskList
       });
     }
   },
@@ -807,8 +803,7 @@ const app = {
     })
     .then(function() {
       // refresh the task list with the changes
-      app.taskListContainer.innerHTML = '';
-      app.fetchTasks();
+      app.refreshTaskList
     });
   },
 
@@ -835,11 +830,17 @@ const app = {
       }
 
       // refresh the task list with the changes
-      app.taskListContainer.innerHTML = '';
-      app.fetchTasks();
+      app.refreshTaskList
     })
+  },
 
-  }
+  /**
+   * method to refresh task list
+   */
+  refreshTaskList: function() {
+    app.taskListContainer.innerHTML = '';
+    app.fetchTasks();
+  },
 }
 
 /* Listen to the end of the DOM loading to initialize app */
