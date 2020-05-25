@@ -26,20 +26,20 @@ const app = {
     addTaskForm.addEventListener('submit', app.handleAddTaskFormSubmit);
 
     //* initialise listener on header button
-    app.initHeaderButton();
+    app.initHeaderListeners();
 
     //* initialise error message container
     app.errorMessageContainer = document.querySelector('#error-message-container');
 },
 
   /***************************************************************
-   * Navigation filters
+   * Navigation status filters
    ***************************************************************/
 
    /**
     * Method to add listener to Status Filter Buttons and Archive Buttons which will execute fetchTasks method
     */
-   initHeaderButton: function() {
+   initHeaderListeners: function() {
     // get the status buttons
     app.statusFilterButtons = document.querySelectorAll('.status-filter-button');
     for (let statusButtonIndex = 0; statusButtonIndex < app.statusFilterButtons.length; statusButtonIndex++) {
@@ -132,15 +132,37 @@ const app = {
 
     //* create and place the select
     const selectElement = document.createElement('select');
+    app.createSelect(nav, selectElement);
+
+    //* create the placeholder
+    selectPlaceHolderElement = app.createPlaceHolder(selectElement);
+
+    //* create the different options according to the category list
+    for (category of categoryList) {
+      app.createAnOption(selectElement);
+    }
+
+    // add listener
+    app.addNavCategoryMenuListener();
+  },
+
+  /**
+   * Method to create the select
+   */
+  createSelect: function(nav, selectElement) {
     // give it the name attribute
     selectElement.name = "categoryId";
     // give it CSS classes
     selectElement.classList.add('custom-select', 'category-select');
     // insert into the DOM
     nav.appendChild(selectElement);
+  },
 
-    //* create the placeholder
-    const selectPlaceHolderElement = document.createElement('option');
+  /**
+   * Method to create the placeholder
+   */
+  createPlaceHolder: function(selectElement) {
+    selectPlaceHolderElement = document.createElement('option');
     // selected by default
     selectPlaceHolderElement.selected = true;
     // cannot be chosen
@@ -153,19 +175,28 @@ const app = {
     selectPlaceHolderElement.classList.add('selectedOptionByDefault');
     // insert into select
     selectElement.appendChild(selectPlaceHolderElement);
+  },
 
-    //* create the different options according to the category list
-    for (category of categoryList) {
-      // create the option tag
-      const optionElement = document.createElement('option');
-      // give it the name of the category
-      optionElement.textContent = category.name;
-      // give it the id as value
-      optionElement.value = category.id;
-      // insert into select
-      selectElement.appendChild(optionElement);
-    }
+  /**
+   * Method to create an Option
+   */
+  createAnOption: function(selectElement) {
+    // create the option tag
+    const optionElement = document.createElement('option');
+    // give it the name of the category
+    optionElement.textContent = category.name;
+    // give it the id as value
+    optionElement.value = category.id;
+    // insert into select
+    selectElement.appendChild(optionElement);
+  },
 
+  /**
+   * Method to add listener on Category menu in the header and fetch data according to this selection
+   */
+  addNavCategoryMenuListener: function() {
+    app.navCategoryMenu = document.querySelector('#navbar__category-select select');
+    app.navCategoryMenu.addEventListener('change', app.fetchTasks);
   },
 
   /***************************************************************
@@ -176,15 +207,23 @@ const app = {
    * Fetch Tasks from API
    */
   fetchTasks: function(event) {
+
     // by default, we'll fetch all the tasks
     let requestGoesTo = app.apiURL + '/tasks';
+
     // if this fetch follow a click we'll need some information to determine which button has been clicked
     let currentStatusButton = '';
     let currentArchiveButton = '';
+    // or which category has been selected
+    let currentCategoryFilter = '';
 
-    // we need to determine which button has been clicked
-    // if the event is not undefined, it means that it's a click
+    // we need to determine which event led to this search
+    // if the event is not undefined, it means that it's either a status filter or a category filter
     if (typeof(event) !== 'undefined') {
+
+      // we delete the error message if there are
+      app.deleteErrorMessage();
+
       // we retrieve the status from this button
       app.statusValue = parseInt(event.currentTarget.dataset.status);
       // if this button is one of the archive button
@@ -200,6 +239,14 @@ const app = {
         currentStatusButton = event.currentTarget.closest('.status-filter-button');
         // we retrieve the status from this button
         app.statusValue = parseInt(currentStatusButton.dataset.status);
+      }
+      else if (event.currentTarget.closest('#navbar__category-form')) {
+        // when filtering on categories, the tasks are of any statuss
+        app.statusValue = 0;
+        // we retrieve the id of the selected category
+        currentCategoryFilter = event.currentTarget.value;
+        // we change the url that has to be send to the API
+        requestGoesTo = app.apiURL + '/tasks/category/' + currentCategoryFilter; 
       }
     }
 
@@ -233,10 +280,13 @@ const app = {
 
       // change css on buttons only if the event is defined
       if (typeof(event) !== 'undefined') {
+
+        // if the event is on a status button and its value is either 0, or 1, or 2
         if (
           currentStatusButton !== ''
           && (app.statusValue === 0 || app.statusValue === 1 || app.statusValue === 2)
         ) {
+          // we want to make the following changes
           //* for status Buttons
           // we want to take the focus off of every button
           for (let statusButtonIndex = 0; statusButtonIndex < app.statusFilterButtons.length; statusButtonIndex++) {
@@ -249,36 +299,21 @@ const app = {
 
           //* for archive buttons
           // we want to display "Voir les archives"
-          for (archiveButtonIndex = 0; archiveButtonIndex < app.archiveButtons.length; archiveButtonIndex++) {
-            if (app.archiveButtons[archiveButtonIndex].classList.contains('to-show')) {
-              app.archiveButtons[archiveButtonIndex].classList.remove('to-hide');
-            }
-            else {
-              app.archiveButtons[archiveButtonIndex].classList.add('to-hide');
-            }
-          }
+          app.displaySeeTheArchive();
 
+          //* for the category filter
+          // empty the category in the filter
+          app.focusOnChooseACategory(app.navCategoryMenu);
         }
+
+        // if the event is on the archive buttons and its value is either 3 or 0
         else if (
           currentArchiveButton !== ''
           && (app.statusValue === 3 || app.statusValue === 0)
         ) {
           //* for status buttons 
           // we want to take the focus off of every button expected the "Toutes" button
-          for (let statusButtonIndex = 0; statusButtonIndex < app.statusFilterButtons.length; statusButtonIndex++) {
-            // we save the current button
-            statusFilterButton = app.statusFilterButtons[statusButtonIndex];
-
-            // we change its css class to btn-light in cas it was btn-primary that we remove
-            statusFilterButton.classList.remove('btn-primary');
-            statusFilterButton.classList.add('btn-light');
-
-            // it the current button is "toutes" button then we want this button to have btn-primary class instead of ligth
-            if (parseInt(statusFilterButton.dataset.status) === 0) {
-              statusFilterButton.classList.remove('btn-light');
-              statusFilterButton.classList.add('btn-primary');
-            }
-          }
+          app.focusOnAllButton();
 
           //* for archive buttons
           // we display the other archive button when its clicked on
@@ -286,9 +321,73 @@ const app = {
             app.archiveButtons[archiveButtonIndex].classList.remove('to-hide');;
           }
           currentArchiveButton.classList.add('to-hide');
+
+          //* for the category filter
+          // empty the category in the filter
+          const navCategoryMenuSelectedByDefault = app.navCategoryMenu.querySelector('.selectedOptionByDefault');
+          navCategoryMenuSelectedByDefault.selected = true;
+        }
+
+        // if the event is on the category filter menu
+        else if (currentCategoryFilter !== '') {
+          //* if there are no tasks send a message
+          if (taskList.length < 1) {
+            app.displayErrorMessage('Aucune tâche ne correspond à votre filtre.');
+          }
+
+          //* for status buttons 
+          // we want to take the focus off of every button expected the "Toutes" button
+          app.focusOnAllButton();
+
+          //* for archive buttons
+          // we want to display "Voir les archives"
+          app.displaySeeTheArchive();
         }
       }
     })
+  },
+
+  /**
+   * Method to display "Voir les archives"
+   */
+  displaySeeTheArchive: function() {
+    for (archiveButtonIndex = 0; archiveButtonIndex < app.archiveButtons.length; archiveButtonIndex++) {
+      if (app.archiveButtons[archiveButtonIndex].classList.contains('to-show')) {
+        app.archiveButtons[archiveButtonIndex].classList.remove('to-hide');
+      }
+      else {
+        app.archiveButtons[archiveButtonIndex].classList.add('to-hide');
+      }
+    }
+  },
+
+  /**
+   * Method to focus on "Toutes" button
+   */
+  focusOnAllButton: function() {
+    // we want to take the focus off of every button expected the "Toutes" button
+    for (let statusButtonIndex = 0; statusButtonIndex < app.statusFilterButtons.length; statusButtonIndex++) {
+      // we save the current button
+      statusFilterButton = app.statusFilterButtons[statusButtonIndex];
+
+      // we change its css class to btn-light in cas it was btn-primary that we remove
+      statusFilterButton.classList.remove('btn-primary');
+      statusFilterButton.classList.add('btn-light');
+
+      // it the current button is "toutes" button then we want this button to have btn-primary class instead of ligth
+      if (parseInt(statusFilterButton.dataset.status) === 0) {
+        statusFilterButton.classList.remove('btn-light');
+        statusFilterButton.classList.add('btn-primary');
+      }
+    }
+  },
+
+  /**
+   * focus on "Choisir une catégorie"
+   */
+  focusOnChooseACategory: function(menu) {
+    const categoryByDefault = menu.querySelector('.selectedOptionByDefault');
+    categoryByDefault.selected = true;
   },
 
   /**
@@ -406,8 +505,7 @@ const app = {
       app.displayOneTask(task.id, task.title, task.category.id, task.category.name, task.status, task.completion);
 
       // empty the category in the form
-      const addTaskSelectedByDefault = addTaskForm.querySelector('.selectedOptionByDefault');
-      addTaskSelectedByDefault.selected = true;
+      app.focusOnChooseACategory(addTaskForm);
       
       // empty the input and place yourself back on the input for data entry
       const addTaskInput = addTaskForm.querySelector('.task__content__input');
@@ -473,12 +571,16 @@ const app = {
    * @param {event} event EventObject representation
    */
   handleValidateButton: function(event) {
+    const buttonCSS = event.currentTarget.classList;
+    console.log(buttonCSS);
+
+
     //* find the task id associated with the validate button
     const currentTask = event.currentTarget.closest('.task');
     const currentTaskId = event.currentTarget.closest('.task').dataset.id;
 
     //* create the request body
-    const fetchBody = {
+    let fetchBody = {
       completion: 100, // at the time we decide to change its completion to 100%
       status: 2 // 2 = done status
     };
@@ -502,20 +604,9 @@ const app = {
       // transform the response into usable data
       return response.json()
     })
-    .then(function(task) {
-      // change current task status
-      currentTask.dataset.status = task.status;
-      // change current task completion
-      currentTask.dataset.completion = task.completion;
-      currentTask.querySelector('.progress-bar').style.width = task.completion + '%';
-
-      // change its classes so it becomes a completed task
-      currentTask.classList.remove('task--todo');
-      currentTask.classList.add('task--done');
-
+    .then(function() {
       // refresh the task list with the changes
-      app.taskListContainer.innerHTML = '';
-      app.fetchTasks();
+      app.refreshTaskList
     })
   },
 
@@ -555,20 +646,9 @@ const app = {
       // transform the response into usable data
       return response.json()
     })
-    .then(function(task) {
-      //change current task status
-      currentTask.dataset.status = task.status;
-      // change current task completion
-      currentTask.dataset.completion = task.completion;
-      currentTask.querySelector('.progress-bar').style.width = task.completion + '%';
-
-      // change its classes so it becomes a todo task
-      currentTask.classList.remove('task--done');
-      currentTask.classList.add('task--todo');
-
+    .then(function() {
       // refresh the task list with the changes
-      app.taskListContainer.innerHTML = '';
-      app.fetchTasks();
+      app.refreshTaskList
     });
   },
 
@@ -633,16 +713,9 @@ const app = {
       // transform the response into usable data
       return response.json()
     })
-    .then(function(task) {
-      // change title in paragraph
-      const titleElement = currentTask.querySelector('.task__content__p');
-      titleElement.textContent = task.title;
-      // change CSS
-      currentTask.classList.remove('task--edit');
-
+    .then(function() {
       // refresh the task list with the changes
-      app.taskListContainer.innerHTML = '';
-      app.fetchTasks();
+      app.refreshTaskList
     })
   },
 
@@ -687,23 +760,14 @@ const app = {
         return response.json()
       })
       .then(function(task) {
-        // change current task status
-        currentTask.dataset.status = task.status;
-
-        // change CSS
-        currentTask.classList.remove('task--todo');
-        currentTask.classList.remove('task--done');
-        currentTask.classList.add('task--archive');
-
         // refresh the task list with the changes
-        app.taskListContainer.innerHTML = '';
-        app.fetchTasks();
+        app.refreshTaskList
       });
     }
   },
 
   /**
-   * handler on archive button
+   * handler on desarchive button
    * 
    * @param {event} event EventObject representation
    */
@@ -737,17 +801,9 @@ const app = {
       // transform the response into usable data
       return response.json()
     })
-    .then(function(task) {
-      // change current task status
-      currentTask.dataset.status = task.status;
-
-      // change CSS
-      currentTask.classList.remove('task--archive');
-      currentTask.classList.add('task--done');
-
+    .then(function() {
       // refresh the task list with the changes
-      app.taskListContainer.innerHTML = '';
-      app.fetchTasks();
+      app.refreshTaskList
     });
   },
 
@@ -774,11 +830,17 @@ const app = {
       }
 
       // refresh the task list with the changes
-      app.taskListContainer.innerHTML = '';
-      app.fetchTasks();
+      app.refreshTaskList
     })
+  },
 
-  }
+  /**
+   * method to refresh task list
+   */
+  refreshTaskList: function() {
+    app.taskListContainer.innerHTML = '';
+    app.fetchTasks();
+  },
 }
 
 /* Listen to the end of the DOM loading to initialize app */

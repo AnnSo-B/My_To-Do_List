@@ -25,6 +25,7 @@
   - display only completed tasks or incomplete tasks
   - display the archived tasks
   - display error messages
+  - display tasks according to their category
 
 ## Front end - React
 
@@ -36,4 +37,4 @@
   - add a task through API
   - filter tasks according to their status
   - display archived tasks
-  - display tasks according to their categories
+  - display tasks according to their category
