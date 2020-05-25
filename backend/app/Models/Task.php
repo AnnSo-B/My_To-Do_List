@@ -56,6 +56,6 @@ class Task extends Model
      */
     static public function getTaskByCategory($categoryCode) {
         // we are looking for the tasks having $categoryCode as associated category id
-        return Task::where('category_id', $categoryCode)->get()->load('category');
+        return Task::where('status', '<>',3)->where('category_id', $categoryCode)->get()->load('category');
     }
 }
