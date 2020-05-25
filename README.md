@@ -6,8 +6,9 @@
   - Retrieve category and unarchived task lists from DB.
   - Add, update and delete a task.
   - CORS
-  - retrieve completed tasks or incomplete tasks
-  - retrieve archived tasks
+  - completed tasks or incomplete tasks filter
+  - archived tasks filter
+  - tasks filter by category
 
 ## Front end - Javascript
 
@@ -34,4 +35,5 @@
   - change task title through API
   - add a task through API
   - filter tasks according to their status
-  - display the archived tasks
+  - display archived tasks
+  - display tasks according to their categories
