@@ -8,7 +8,8 @@ import {
   fetchCategoryListSuccess,
   fetchCategoryListError,
   SUBMIT_NEW_CATEGORY,
-  submitNewCategoryError
+  submitNewCategoryError,
+  changeNewTaskCategory,
 } from '../actions';
 import { apiURL } from '../app.config';
 
@@ -20,7 +21,8 @@ export default (store) => (next) => (action) => {
         .then((response) => {
           // send data to the store via fetchCategoryListSuccess action creator
           store.dispatch(fetchCategoryListSuccess({
-            categoryList: response.data
+            categoryList: response.data,
+            newCategoryId: action.payload.newCategoryId !== 0 ? action.payload.newCategoryId : 0,
           }));
         })
         .catch(() => {
@@ -31,12 +33,12 @@ export default (store) => (next) => (action) => {
     case SUBMIT_NEW_CATEGORY:
       axios.post(
         `${apiURL}categories`,
-        {
-          name: store.getState().categoryList.category.name,
-        }
-      )
-        .then(() => {
-          store.dispatch(fetchCategoryList());
+          {
+            name: store.getState().categoryList.category.name,
+          }
+        )
+        .then((response) => {
+          store.dispatch(fetchCategoryList({newCategoryId: response.data.id}));
         })
         .catch(() => {
           store.dispatch(submitNewCategoryError('Une erreur est survenue lors de la création de cette catégorie. Merci de réessayer ultérieurement.'))

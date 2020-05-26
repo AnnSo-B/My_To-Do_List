@@ -90,8 +90,9 @@ export const newTaskSubmissionError = (payload) => ({
 });
 
 // Categories
-export const fetchCategoryList = () => ({
+export const fetchCategoryList = (payload = '') => ({
   type: FETCH_CATEGORY_LIST,
+  payload,
 });
 
 export const fetchCategoryListSuccess = (payload) => ({

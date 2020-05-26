@@ -12,6 +12,7 @@ const AddTaskForm = ({
   addTaskCategoryId,
   editedTaskInput,
   newTaskTitle,
+  newCategory,
   newCategoryName,
   changeNewTaskCategory,
   displayNewCategoryInput,
@@ -41,7 +42,7 @@ const AddTaskForm = ({
       </div>
       <div id="task--add__category-select" className="task-form-group my-3 selectCategoryMenu">
         {
-          addTaskCategoryId !== 1
+          !newCategory
           ? (
             <CategoryMenu
               // by default, we want the selected category to be "Choisir une catégorie" and then change it by the user's selection when he changes it
@@ -82,6 +83,7 @@ AddTaskForm.propTypes = {
   ]).isRequired,
   editedTaskInput: PropTypes.bool.isRequired,
   newTaskTitle: PropTypes.string.isRequired,
+  newCategory: PropTypes.bool.isRequired,
   newCategoryName: PropTypes.string.isRequired,
   changeNewTaskCategory: PropTypes.func.isRequired,
   displayNewCategoryInput: PropTypes.func.isRequired,

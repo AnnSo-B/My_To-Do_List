@@ -110,7 +110,7 @@ export default (store) => (next) => (action) => {
         `${apiURL}tasks`,
         {
           title: store.getState().taskList.task.title,
-          categoryId: store.getState().taskList.task.categoryId,
+          categoryId: store.getState().categoryList.newTaskCategory,
         }
       )
       .then(() => {
