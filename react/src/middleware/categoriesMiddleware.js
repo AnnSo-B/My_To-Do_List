@@ -22,7 +22,7 @@ export default (store) => (next) => (action) => {
           // send data to the store via fetchCategoryListSuccess action creator
           store.dispatch(fetchCategoryListSuccess({
             categoryList: response.data,
-            newCategoryId: action.payload.newCategoryId !== 0 ? action.payload.newCategoryId : 0,
+            newCategoryId: action.payload.newCategoryId ? action.payload.newCategoryId : 0,
           }));
         })
         .catch(() => {
@@ -38,7 +38,7 @@ export default (store) => (next) => (action) => {
           }
         )
         .then((response) => {
-          store.dispatch(fetchCategoryList({newCategoryId: response.data.id}));
+          store.dispatch(fetchCategoryList({newCategoryId: parseInt(response.data.id)}));
         })
         .catch(() => {
           store.dispatch(submitNewCategoryError('Une erreur est survenue lors de la création de cette catégorie. Merci de réessayer ultérieurement.'))
