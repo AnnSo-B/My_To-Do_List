@@ -13,8 +13,8 @@ class CategoryController extends Controller {
      * Method to retrieve a list of categories
      */
     public function list() {
-        // Retrieve the list thanks to the list Method from Category Model
-        $categoryList = Category::list();
+        // Retrieve the list of active categories thanks to the getActiveCategories Method from Category Model
+        $categoryList = Category::getActiveCategories();
         // Answer to the front including HTTP code
         return response()->json($categoryList, Response::HTTP_OK);
     }
