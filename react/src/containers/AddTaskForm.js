@@ -8,6 +8,7 @@ import {
   displayNewCategoryInput,
   submitNewCategory,
   submitNewTask,
+  resetNewTaskCategory,
 } from '../actions';
 
 // state
@@ -34,6 +35,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onNewTaskSubmit: () => {
     dispatch(submitNewTask());
+    dispatch(resetNewTaskCategory());
   },
 });
 

@@ -8,6 +8,7 @@ import {
   DISPLAY_NEW_CATEGORY_INPUT,
   CHANGE_CATEGORY_NAME,
   SUBMIT_NEW_CATEGORY_ERROR,
+  RESET_NEW_TASK_CATEGORY,
 } from '../actions';
 
 // state
@@ -67,6 +68,11 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         fetchMessage: action.payload,
+      }
+    case RESET_NEW_TASK_CATEGORY:
+      return {
+        ...state,
+        newTaskCategory: 0,
       }
     default: 
       return state;

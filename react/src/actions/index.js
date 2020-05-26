@@ -23,7 +23,7 @@ export const DISPLAY_NEW_CATEGORY_INPUT = 'DISPLAY_NEW_CATEGORY_INPUT';
 export const CHANGE_CATEGORY_NAME = 'CHANGE_CATEGORY_NAME';
 export const SUBMIT_NEW_CATEGORY = 'SUBMIT_NEW_CATEGORY';
 export const SUBMIT_NEW_CATEGORY_ERROR = 'SUBMIT_NEW_CATEGORY_ERROR';
-
+export const RESET_NEW_TASK_CATEGORY = 'RESET_NEW_TASK_CATEGORY';
 
 //* action creators
 // Tasks
@@ -122,4 +122,8 @@ export const submitNewCategory = () => ({
 export const submitNewCategoryError = (payload) => ({
   type: SUBMIT_NEW_CATEGORY_ERROR,
   payload,
+});
+
+export const resetNewTaskCategory = () => ({
+  type: RESET_NEW_TASK_CATEGORY,
 });
