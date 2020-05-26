@@ -85,7 +85,29 @@ class CategoryController extends Controller {
         }
         // in case of success, send the task to the front and answer that creation is ok
         return response()->json($category, Response::HTTP_OK);
+    }
 
-        // TODO ERREUR DANS INSOMNIA
+    /**
+     * Delete a category
+     *
+     * @param Request $request HTTP request Object
+     * @param int $id category id - argument sent by Lumen - from DELETE request
+     */
+    public function delete(int $id) {
+
+        // find the category and check if it exists
+        // if it doesn't send an error
+        if (!Category::find($id)) {
+            return abort(Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        $category = Category::find($id);
+
+        // deletion and answer to the front
+        // in case of failure
+        if (!$category->delete()) {
+            return abort(Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        // in case of success
+        return response('', Response::HTTP_NO_CONTENT);
     }
 }

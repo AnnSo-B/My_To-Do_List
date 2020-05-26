@@ -40,7 +40,6 @@ $router->post(
     ]
 );
 
-
 /**
  * Endpoint to update a category according to the provided id
  */
@@ -49,6 +48,17 @@ $router->put(
     [
         'uses' => 'CategoryController@update',
         'as' => 'category_update'
+    ]
+);
+
+/**
+ * Endpoint to delete a category according to the provided id
+ */
+$router->delete(
+    '/categories/{id}',
+    [
+        'uses' => 'CategoryController@delete',
+        'as' => 'category_delete'
     ]
 );
 
