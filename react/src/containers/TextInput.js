@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 
 // local imports
-import TaskTitleInput from '../components/TaskTitleInput';
+import TextInput from '../components/TextInput';
 import { changeTaskTitle } from '../actions';
 
 // state
@@ -16,4 +16,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 // export
-export default connect(mapStateToProps, mapDispatchToProps)(TaskTitleInput);
+export default connect(mapStateToProps, mapDispatchToProps)(TextInput);

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 // local imports
 import './style.css';
 import CategoryMenu from '../../containers/CategoryMenu';
-import TaskTitleInput from '../../containers/TaskTitleInput';
+import TextInput from '../../containers/TextInput';
 
 // component
 const AddTaskForm = ({
@@ -13,7 +13,8 @@ const AddTaskForm = ({
   editedTaskInput,
   newTaskTitle,
   changeNewTaskCategory,
-  onNewTaskSubmit
+  createNewCategory,
+  onNewTaskSubmit,
 }) => (
   <section className="task task--add">
     <form
@@ -26,7 +27,8 @@ const AddTaskForm = ({
     >
       <div className="task__content">
         <div className="task__content__title">
-          <TaskTitleInput
+          <TextInput
+            name="title"
             // if the user is filling in the add task form, we want it to be focused on and we want the new task title to be the value of the entry
             focusedInput={editedTaskInput ? true : false}
             value={editedTaskInput ? newTaskTitle : ''}
@@ -37,7 +39,14 @@ const AddTaskForm = ({
         <CategoryMenu
           // by default, we want the selected category to be "Choisir une catégorie" and then change it by the user's selection when he changes it
           selectedCategory={addTaskCategoryId}
-          onCategoryChange={(event) => changeNewTaskCategory(event.target.value)}
+          onCategoryChange={
+            (event) => {
+              const categoryId = parseInt(event.target.value)
+              categoryId !== 1
+                ? changeNewTaskCategory(categoryId)
+                : createNewCategory(categoryId);
+            }
+          }
         />
       </div>
       <button type="submit" className="btn btn-primary task--add__button">
@@ -56,6 +65,7 @@ AddTaskForm.propTypes = {
   editedTaskInput: PropTypes.bool.isRequired,
   newTaskTitle: PropTypes.string.isRequired,
   changeNewTaskCategory: PropTypes.func.isRequired,
+  createNewCategory: PropTypes.func.isRequired,
   onNewTaskSubmit: PropTypes.func.isRequired,
 };
 

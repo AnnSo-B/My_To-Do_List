@@ -14,6 +14,14 @@ class Category extends Model {
     const INACTIVE = 2;
 
     /**
+     * Relationship with Tasks
+     * https://laravel.com/docs/7.x/eloquent-relationships#introduction
+     */
+    public function tasks() {
+        return $this->hasMany('App\Models\Task');
+    }
+
+    /**
      * Method to retrieve a list of categories
      */
     static public function list() {
@@ -22,10 +30,10 @@ class Category extends Model {
     }
 
     /**
-     * Relationship with Tasks
-     * https://laravel.com/docs/7.x/eloquent-relationships#introduction
+     * Method to retrieve a list of active categories
      */
-    public function tasks() {
-        return $this->hasMany('App\Models\Task');
+    static public function getActiveCategories() {
+        // https://laravel.com/docs/7.x/eloquent#retrieving-models
+        return Category::where('status', 1)->orderBy('name')->get();
     }
 }

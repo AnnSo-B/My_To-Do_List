@@ -5,8 +5,10 @@ import PropTypes from 'prop-types';
 // local imports
 
 // component
-const TaskTitleInput = ({
+const TextInput = ({
   // come from the parent which contains it
+  cssClass,
+  name,
   value = '',
   focusedInput,
   onInputBlur,
@@ -23,8 +25,8 @@ const TaskTitleInput = ({
   return (
     <input
       ref={inputRef}
-      className="task__content__input"
-      type="text"
+      className={cssClass}
+      type={name}
       name="title"
       placeholder="Nom de la tâche"
       value={value}
@@ -38,8 +40,10 @@ const TaskTitleInput = ({
 };  
 
 // Props validation
-TaskTitleInput.propTypes = {
+TextInput.propTypes = {
   // come from the parent which contains it
+  cssClass: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   value: PropTypes.string,
   focusedInput: PropTypes.bool.isRequired,
   onInputBlur: PropTypes.func,
@@ -48,4 +52,4 @@ TaskTitleInput.propTypes = {
 };
 
 // export
-export default TaskTitleInput;
+export default TextInput ;

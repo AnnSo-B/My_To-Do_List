@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ProgressBar } from 'react-bootstrap';
 
 // local imports
-import TaskTitleInput from '../../containers/TaskTitleInput';
+import TextInput from '../../containers/TextInput';
 import StatusButton from '../../containers/StatusButton';
 
 // component
@@ -48,7 +48,9 @@ const Task = ({
               updateTaskTitle();
             }
           }>
-            <TaskTitleInput
+            <TextInput
+              cssClass="task__content__input"
+              name="title"
               // when the input is from the task that the user is modifying, we want it to be focused on and take the value of the user's typing
               focusedInput={currentEditedTaskId === id ? true : false}
               value={currentEditedTaskId === id ? currentEditedTaskTitle : title}
