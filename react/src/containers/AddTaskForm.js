@@ -12,6 +12,7 @@ const mapStateToProps = (state) => ({
   // if task id in the state is null, it means that the user is creating a new task, so we want to display its title in the input
   editedTaskInput: state.taskList.task.id === null ? true : false,
   newTaskTitle: state.taskList.task.title,
+  newCategoryName: state.categoryList.category.name,
 });
 
 // actions
@@ -20,7 +21,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeNewTaskCategory(categoryId));
   },
   displayNewCategoryInput: (categoryId) => {
-    console.log('displayNewCategoryInput', categoryId);
     dispatch(displayNewCategoryInput(categoryId));
   },
   onNewTaskSubmit: () => {

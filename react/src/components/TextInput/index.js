@@ -9,6 +9,7 @@ const TextInput = ({
   // come from the parent which contains it
   cssClass,
   name,
+  placeHolder,
   value = '',
   focusedInput,
   onInputBlur,
@@ -26,13 +27,13 @@ const TextInput = ({
     <input
       ref={inputRef}
       className={cssClass}
-      type={name}
-      name="title"
-      placeholder="Nom de la tâche"
+      type="type"
+      name={name}
+      placeholder={placeHolder}
       value={value}
       onChange={
         // every time the user is typing, the change is saved and displayed
-        (event) => onInputChange(event.target.value)
+        (event) => onInputChange(event.target.name, event.target.value)
       }
       onBlur={onInputBlur}
     />

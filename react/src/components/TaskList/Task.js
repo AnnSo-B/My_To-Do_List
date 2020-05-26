@@ -51,6 +51,7 @@ const Task = ({
             <TextInput
               cssClass="task__content__input"
               name="title"
+              placeHolder="Nom de la tâche"
               // when the input is from the task that the user is modifying, we want it to be focused on and take the value of the user's typing
               focusedInput={currentEditedTaskId === id ? true : false}
               value={currentEditedTaskId === id ? currentEditedTaskTitle : title}

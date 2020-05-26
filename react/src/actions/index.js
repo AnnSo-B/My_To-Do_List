@@ -20,6 +20,7 @@ export const FETCH_CATEGORY_LIST = 'FETCH_CATEGORY_LIST';
 export const FETCH_CATEGORY_LIST_SUCCESS = 'FETCH_CATEGORY_LIST_SUCCESS';
 export const FETCH_CATEGORY_LIST_ERROR = 'FETCH_CATEGORY_LIST_ERROR';
 export const DISPLAY_NEW_CATEGORY_INPUT = 'DISPLAY_NEW_CATEGORY_INPUT';
+export const CHANGE_CATEGORY_NAME = 'CHANGE_CATEGORY_NAME';
 
 
 //* action creators
@@ -103,5 +104,10 @@ export const fetchCategoryListError = (payload) => ({
 
 export const displayNewCategoryInput = (payload) => ({
   type: DISPLAY_NEW_CATEGORY_INPUT,
+  payload,
+});
+
+export const changeCategoryName = (payload) => ({
+  type: CHANGE_CATEGORY_NAME,
   payload,
 });

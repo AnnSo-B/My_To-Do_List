@@ -12,6 +12,7 @@ const AddTaskForm = ({
   addTaskCategoryId,
   editedTaskInput,
   newTaskTitle,
+  newCategoryName,
   changeNewTaskCategory,
   displayNewCategoryInput,
   onNewTaskSubmit,
@@ -30,6 +31,7 @@ const AddTaskForm = ({
           <TextInput
             cssClass="task__content__input"
             name="title"
+            placeHolder="Nom de la tâche"
             // if the user is filling in the add task form, we want it to be focused on and we want the new task title to be the value of the entry
             focusedInput={editedTaskInput ? true : false}
             value={editedTaskInput ? newTaskTitle : ''}
@@ -56,8 +58,9 @@ const AddTaskForm = ({
             <TextInput
               cssClass="new__category__input"
               name="name"
+              placeHolder="Nom de la catégorie"
               focusedInput
-              value="test"
+              value={newCategoryName}
             />
           )
         }
@@ -77,6 +80,7 @@ AddTaskForm.propTypes = {
   ]).isRequired,
   editedTaskInput: PropTypes.bool.isRequired,
   newTaskTitle: PropTypes.string.isRequired,
+  newCategoryName: PropTypes.string.isRequired,
   changeNewTaskCategory: PropTypes.func.isRequired,
   displayNewCategoryInput: PropTypes.func.isRequired,
   onNewTaskSubmit: PropTypes.func.isRequired,
