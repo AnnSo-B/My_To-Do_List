@@ -12,8 +12,11 @@ const AddTaskForm = ({
   addTaskCategoryId,
   editedTaskInput,
   newTaskTitle,
+  newCategory,
+  newCategoryName,
   changeNewTaskCategory,
-  createNewCategory,
+  displayNewCategoryInput,
+  submitNewCategory,
   onNewTaskSubmit,
 }) => (
   <section className="task task--add">
@@ -28,7 +31,9 @@ const AddTaskForm = ({
       <div className="task__content">
         <div className="task__content__title">
           <TextInput
+            cssClass="task__content__input"
             name="title"
+            placeHolder="Nom de la tâche"
             // if the user is filling in the add task form, we want it to be focused on and we want the new task title to be the value of the entry
             focusedInput={editedTaskInput ? true : false}
             value={editedTaskInput ? newTaskTitle : ''}
@@ -36,18 +41,33 @@ const AddTaskForm = ({
         </div>
       </div>
       <div id="task--add__category-select" className="task-form-group my-3 selectCategoryMenu">
-        <CategoryMenu
-          // by default, we want the selected category to be "Choisir une catégorie" and then change it by the user's selection when he changes it
-          selectedCategory={addTaskCategoryId}
-          onCategoryChange={
-            (event) => {
-              const categoryId = parseInt(event.target.value)
-              categoryId !== 1
-                ? changeNewTaskCategory(categoryId)
-                : createNewCategory(categoryId);
-            }
-          }
-        />
+        {
+          !newCategory
+          ? (
+            <CategoryMenu
+              // by default, we want the selected category to be "Choisir une catégorie" and then change it by the user's selection when he changes it
+              selectedCategory={addTaskCategoryId}
+              addTaskMenu={true}
+              onCategoryChange={
+                (event) => {
+                  const categoryId = parseInt(event.target.value)
+                  categoryId !== 1
+                    ? changeNewTaskCategory(categoryId)
+                    : displayNewCategoryInput(categoryId);
+                }
+              }
+            />
+          ) : (
+            <TextInput
+              cssClass="new__category__input"
+              name="name"
+              placeHolder="Nom de la catégorie"
+              focusedInput
+              value={newCategoryName}
+              onInputBlur={submitNewCategory}
+            />
+          )
+        }
       </div>
       <button type="submit" className="btn btn-primary task--add__button">
         <span>+</span> Ajouter
@@ -64,8 +84,11 @@ AddTaskForm.propTypes = {
   ]).isRequired,
   editedTaskInput: PropTypes.bool.isRequired,
   newTaskTitle: PropTypes.string.isRequired,
+  newCategory: PropTypes.bool.isRequired,
+  newCategoryName: PropTypes.string.isRequired,
   changeNewTaskCategory: PropTypes.func.isRequired,
-  createNewCategory: PropTypes.func.isRequired,
+  displayNewCategoryInput: PropTypes.func.isRequired,
+  submitNewCategory: PropTypes.func.isRequired,
   onNewTaskSubmit: PropTypes.func.isRequired,
 };
 

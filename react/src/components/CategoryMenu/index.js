@@ -7,12 +7,21 @@ import './style.css';
 
 // component
 // as CategoryMenu is a reusable component, selectedCategory and onCategoryChange come from its eventual parent
-const CategoryMenu = ({ selectedCategory, categoryList, onCategoryChange }) => (
+const CategoryMenu = ({
+  // from parent component
+  selectedCategory,
+  addTaskMenu,
+  onCategoryChange,
+  // from container
+  categoryList,
+}) => (
   <select
     className="custom-select category-select"
     name="categoryId"
     value={selectedCategory}
-    onChange={onCategoryChange}
+    onChange={
+      onCategoryChange
+    }
   >
     <option
       className="selectedOptionByDefault"
@@ -21,6 +30,16 @@ const CategoryMenu = ({ selectedCategory, categoryList, onCategoryChange }) => (
     >
       Choisir une catégorie
     </option>
+    {
+      addTaskMenu
+      && (
+        <option
+          value={1}
+        >
+          Créer une catégorie
+        </option>
+      )
+    }
     {
       categoryList.map((category) => (
         <option
