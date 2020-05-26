@@ -29,6 +29,17 @@ $router->get(
     ]
 );
 
+/**
+ * Endpoint to create a category
+ */
+$router->post(
+    '/categories',
+    [
+        'uses' => 'CategoryController@add',
+        'as' => 'task_add'
+    ]
+);
+
 
 /*
 |--------------------------------------------------------------------------
