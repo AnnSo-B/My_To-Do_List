@@ -36,7 +36,19 @@ $router->post(
     '/categories',
     [
         'uses' => 'CategoryController@add',
-        'as' => 'task_add'
+        'as' => 'category_add'
+    ]
+);
+
+
+/**
+ * Endpoint to update a category according to the provided id
+ */
+$router->put(
+    '/categories/{id}',
+    [
+        'uses' => 'CategoryController@update',
+        'as' => 'category_update'
     ]
 );
 
