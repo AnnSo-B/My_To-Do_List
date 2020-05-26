@@ -15,6 +15,7 @@ const AddTaskForm = ({
   newCategoryName,
   changeNewTaskCategory,
   displayNewCategoryInput,
+  submitNewCategory,
   onNewTaskSubmit,
 }) => (
   <section className="task task--add">
@@ -61,6 +62,7 @@ const AddTaskForm = ({
               placeHolder="Nom de la catégorie"
               focusedInput
               value={newCategoryName}
+              onInputBlur={submitNewCategory}
             />
           )
         }
@@ -83,6 +85,7 @@ AddTaskForm.propTypes = {
   newCategoryName: PropTypes.string.isRequired,
   changeNewTaskCategory: PropTypes.func.isRequired,
   displayNewCategoryInput: PropTypes.func.isRequired,
+  submitNewCategory: PropTypes.func.isRequired,
   onNewTaskSubmit: PropTypes.func.isRequired,
 };
 
