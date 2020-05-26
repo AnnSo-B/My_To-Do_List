@@ -1,40 +1,7 @@
-# My todolist
+# My To-Do List
 
-## Back end - Lumen
+est une petite application permettant de ne plus rien oublier de ce que vous avez à faire. Vous pourrez même filtrer les tâches selon leur statut ou leur catégorie.
 
-- Done :
-  - Retrieve category and unarchived task lists from DB.
-  - Add, update and delete a task.
-  - CORS
-  - completed tasks or incomplete tasks filter
-  - archived tasks filter
-  - tasks filter by category
+Cette application a nécessité le développement d'une API avec Lumen pour le Back.
 
-## Front end - Javascript
-
-- Done
-  - display category menus from categories fetched from API
-  - display the task list from tasks fetched from API
-  - add a task (including DB)
-  - mark a task as done (including DB)
-  - mark a task as archived (including DB)
-  - edit a task and update the title (including DB)
-  - delete a task (including DB)
-  - mark a task as incomplete when it's done (including DB)
-  - mark a task as not archived anymore (including DB)
-  - display only completed tasks or incomplete tasks
-  - display the archived tasks
-  - display error messages
-  - display tasks according to their category
-
-## Front end - React
-
-- Done :
-  - Static components
-  - display task list from API
-  - change task status through API
-  - change task title through API
-  - add a task through API
-  - filter tasks according to their status
-  - display archived tasks
-  - display tasks according to their category
+Pour le front, vous avez le choix entre deux versions : une en JavaScript et une autre en React (avec Redux).
