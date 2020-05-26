@@ -606,7 +606,7 @@ const app = {
     })
     .then(function() {
       // refresh the task list with the changes
-      app.refreshTaskList
+      app.refreshTaskList();
     })
   },
 
@@ -648,7 +648,7 @@ const app = {
     })
     .then(function() {
       // refresh the task list with the changes
-      app.refreshTaskList
+      app.refreshTaskList();
     });
   },
 
@@ -715,7 +715,7 @@ const app = {
     })
     .then(function() {
       // refresh the task list with the changes
-      app.refreshTaskList
+      app.refreshTaskList();
     })
   },
 
@@ -761,7 +761,7 @@ const app = {
       })
       .then(function(task) {
         // refresh the task list with the changes
-        app.refreshTaskList
+      app.refreshTaskList();
       });
     }
   },
@@ -803,7 +803,7 @@ const app = {
     })
     .then(function() {
       // refresh the task list with the changes
-      app.refreshTaskList
+      app.refreshTaskList();
     });
   },
 
@@ -830,7 +830,7 @@ const app = {
       }
 
       // refresh the task list with the changes
-      app.refreshTaskList
+      app.refreshTaskList();
     })
   },
 
