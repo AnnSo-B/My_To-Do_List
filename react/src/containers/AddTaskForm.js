@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // local imports
 import AddTaskForm from '../components/AddTaskForm';
-import { changeNewTaskCategory, submitNewTask } from '../actions';
+import { changeNewTaskCategory, submitNewTask, displayNewCategoryInput } from '../actions';
 
 // state
 const mapStateToProps = (state) => ({
@@ -18,6 +18,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeNewTaskCategory: (categoryId) => {
     dispatch(changeNewTaskCategory(categoryId));
+  },
+  displayNewCategoryInput: (categoryId) => {
+    console.log('displayNewCategoryInput', categoryId);
+    dispatch(displayNewCategoryInput(categoryId));
   },
   onNewTaskSubmit: () => {
     dispatch(submitNewTask());

@@ -19,6 +19,7 @@ export const NEW_TASK_SUBMISSION_ERROR = 'NEW_TASK_SUBMISSION_ERROR';
 export const FETCH_CATEGORY_LIST = 'FETCH_CATEGORY_LIST';
 export const FETCH_CATEGORY_LIST_SUCCESS = 'FETCH_CATEGORY_LIST_SUCCESS';
 export const FETCH_CATEGORY_LIST_ERROR = 'FETCH_CATEGORY_LIST_ERROR';
+export const DISPLAY_NEW_CATEGORY_INPUT = 'DISPLAY_NEW_CATEGORY_INPUT';
 
 
 //* action creators
@@ -97,5 +98,10 @@ export const fetchCategoryListSuccess = (payload) => ({
 
 export const fetchCategoryListError = (payload) => ({
   type: FETCH_CATEGORY_LIST_ERROR,
+  payload,
+});
+
+export const displayNewCategoryInput = (payload) => ({
+  type: DISPLAY_NEW_CATEGORY_INPUT,
   payload,
 });

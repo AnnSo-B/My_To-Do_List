@@ -12,7 +12,9 @@ const CategoryMenu = ({ selectedCategory, categoryList, onCategoryChange }) => (
     className="custom-select category-select"
     name="categoryId"
     value={selectedCategory}
-    onChange={onCategoryChange}
+    onChange={
+      onCategoryChange
+    }
   >
     <option
       className="selectedOptionByDefault"
@@ -20,6 +22,11 @@ const CategoryMenu = ({ selectedCategory, categoryList, onCategoryChange }) => (
       value={0}
     >
       Choisir une catégorie
+    </option>
+    <option
+      value={1}
+    >
+      Créer une catégorie
     </option>
     {
       categoryList.map((category) => (
