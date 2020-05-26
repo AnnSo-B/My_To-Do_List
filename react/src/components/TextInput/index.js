@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 // component
 const TextInput = ({
   // come from the parent which contains it
+  cssClass,
   name,
   value = '',
   focusedInput,
@@ -24,7 +25,7 @@ const TextInput = ({
   return (
     <input
       ref={inputRef}
-      className="task__content__input"
+      className={cssClass}
       type={name}
       name="title"
       placeholder="Nom de la tâche"
@@ -41,6 +42,7 @@ const TextInput = ({
 // Props validation
 TextInput.propTypes = {
   // come from the parent which contains it
+  cssClass: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.string,
   focusedInput: PropTypes.bool.isRequired,
