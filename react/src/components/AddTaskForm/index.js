@@ -47,6 +47,7 @@ const AddTaskForm = ({
             <CategoryMenu
               // by default, we want the selected category to be "Choisir une catégorie" and then change it by the user's selection when he changes it
               selectedCategory={addTaskCategoryId}
+              addTaskMenu={true}
               onCategoryChange={
                 (event) => {
                   const categoryId = parseInt(event.target.value)

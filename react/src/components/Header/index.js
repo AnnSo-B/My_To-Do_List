@@ -41,6 +41,7 @@ const Header = ({ statusFilter, categoryFilter, fetchTaskList }) => (
         >
           <CategoryMenu
             selectedCategory={categoryFilter}
+            addTaskMenu={false}
             onCategoryChange={(event) => fetchTaskList({statusFilter: 0, categoryFilter: event.target.value})}
           />
         </div>
