@@ -18,7 +18,7 @@ class Category extends Model {
      */
     static public function list() {
         // https://laravel.com/docs/7.x/eloquent#retrieving-models
-        return Category::all();
+        return Category::orderBy('name')->get();
     }
 
     /**
