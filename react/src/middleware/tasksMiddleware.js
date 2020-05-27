@@ -68,14 +68,18 @@ export default (store) => (next) => (action) => {
       });
       break;
     case TASK_UPDATE:
-      id = parseInt(store.getState().taskList.task.id);
+      id = action.payload.taskId;
+      console.log(action.payload)
       if ( id !== null ) {
         axios.put(
           `${apiURL}tasks/${id}`,
           {
-            title: store.getState().taskList.task.title,
-            completion: store.getState().taskList.task.completion,
-            status: store.getState().taskList.task.status,
+            title: action.payload.title
+              ? action.payload.title : store.getState().taskList.task.title,
+            completion: action.payload.completion
+              ? action.payload.completion : store.getState().taskList.task.completion,
+            status: action.payload.status 
+              ? action.payload.status : store.getState().taskList.task.status,
           }
         )
         .then(() => {
