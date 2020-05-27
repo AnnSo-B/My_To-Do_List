@@ -7,6 +7,7 @@
 - CORS management
 - Filter tasks according to their status (complete, incomplete or archive)
 - Filter tasks according to their category
+- Add, update and delete a category
 
 ## Front end - Javascript
 
@@ -35,4 +36,5 @@
 - add a task through API
 - filter tasks according to their status (complete, incomplete, archive)
 - display tasks according to their category
+- add and delete a category
   
