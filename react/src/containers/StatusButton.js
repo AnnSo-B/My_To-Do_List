@@ -24,8 +24,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(taskUpdate({action, taskId, status: 2}));
   },
   // to delete or edit a task, we only need its id
-  deleteTask: (taskId) => {
-    dispatch(taskDeletion({taskId}));
+  deleteTask: (action, taskId) => {
+    dispatch(taskDeletion({action, taskId}));
   },
   // to edit a task, we also need the changes that have been made to it but they have been saved in the state proprety "task"
   editTask: (action, taskId) => {

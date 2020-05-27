@@ -85,6 +85,7 @@ export default (state = initialState, action = {}) => {
     case RESET_CATEGORY_FILTER:
       return {
         ...state,
+        emptyList: action.payload.message !== '' ? true : false,
         categoryFilter: 0,
       };
   default: 

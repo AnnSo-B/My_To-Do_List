@@ -10,6 +10,7 @@ import {
   TASK_UPDATE,
   TASK_DELETION,
   NEW_TASK_SUBMISSION,
+  resetCategoryFilter,
 } from '../actions';
 import { apiURL } from '../app.config';
 
@@ -132,6 +133,10 @@ export default (store) => (next) => (action) => {
           categoryId: store.getState().categoryList.newTaskCategory,
         }
       )
+      // we refresh the category filter
+      .then(() => {
+        store.dispatch(resetCategoryFilter());
+      })
       .then(() => {
         // in case of success, we want to display the new task list once the new task is added
         store.dispatch(fetchTaskList());
