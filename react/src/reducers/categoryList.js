@@ -3,11 +3,10 @@
 // local imports
 import {
   FETCH_CATEGORY_LIST_SUCCESS,
-  FETCH_CATEGORY_LIST_ERROR,
+  FETCH_CATEGORY_API_MESSAGE,
   CHANGE_NEW_TASK_CATEGORY,
   DISPLAY_NEW_CATEGORY_INPUT,
   CHANGE_CATEGORY_NAME,
-  SUBMIT_NEW_CATEGORY_ERROR,
   RESET_NEW_TASK_CATEGORY,
 } from '../actions';
 
@@ -41,7 +40,7 @@ export default (state = initialState, action = {}) => {
           status: 1,
         }
       };
-    case FETCH_CATEGORY_LIST_ERROR: 
+    case FETCH_CATEGORY_API_MESSAGE: 
       return {
         ...state,
         fetchMessage: action.payload,
@@ -64,11 +63,6 @@ export default (state = initialState, action = {}) => {
           name: action.payload,
         }
       };
-    case SUBMIT_NEW_CATEGORY_ERROR:
-      return {
-        ...state,
-        fetchMessage: action.payload,
-      }
     case RESET_NEW_TASK_CATEGORY:
       return {
         ...state,

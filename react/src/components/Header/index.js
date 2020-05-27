@@ -8,7 +8,13 @@ import './style.css';
 import CategoryMenu from '../../containers/CategoryMenu';
 
 // component
-const Header = ({ statusFilter, categoryFilter, fetchTaskList }) => (
+const Header = ({
+  statusFilter,
+  categoryFilter,
+  emptyTaksList,
+  fetchTaskList,
+  deleteCategory,
+}) => (
   <header className="header">
     <Navbar bg="light" expand="lg" className="p-3">
       <Navbar.Brand className="site-name" href="/">Ma Todolist</Navbar.Brand>
@@ -44,6 +50,23 @@ const Header = ({ statusFilter, categoryFilter, fetchTaskList }) => (
             addTaskMenu={false}
             onCategoryChange={(event) => fetchTaskList({statusFilter: 0, categoryFilter: event.target.value})}
           />
+          {
+            emptyTaksList
+            && (
+              <Button
+                variant='danger'
+                onClick={() => {
+                  if (window.confirm('Voulez-vous supprimer cette catégorie ?')) {
+                    deleteCategory(categoryFilter);
+                  }
+                }}
+              >
+                <span className="icon">
+                  <i className='fa fa-trash'></i>
+                </span>
+              </Button>
+            )
+          }
         </div>
         <div className="navbar-archive-link my-3">
           {
@@ -75,7 +98,9 @@ const Header = ({ statusFilter, categoryFilter, fetchTaskList }) => (
 Header.propTypes = {
   statusFilter: PropTypes.number.isRequired,
   categoryFilter: PropTypes.number.isRequired,
+  emptyTaksList: PropTypes.bool.isRequired,
   fetchTaskList: PropTypes.func.isRequired,
+  deleteCategory: PropTypes.func.isRequired,
 };
 
 // export

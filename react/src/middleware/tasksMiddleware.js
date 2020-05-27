@@ -6,13 +6,11 @@ import {
   FETCH_TASK_LIST,
   fetchTaskList,
   fetchTaskListSuccess,
-  fetchTaskListError,
+  apiErrorMessage,
   TASK_UPDATE,
-  taskUpdateError,
   TASK_DELETION,
-  taskDeletionError,
   NEW_TASK_SUBMISSION,
-  newTaskSubmissionError,
+  resetCategoryFilter,
 } from '../actions';
 import { apiURL } from '../app.config';
 
@@ -67,19 +65,41 @@ export default (store) => (next) => (action) => {
       })
       .catch(() => {
         // send an error to display in case of failure
-        store.dispatch(fetchTaskListError('Une erreur est survenue au chargement de la liste des tâches.'));
+        store.dispatch(apiErrorMessage('Une erreur est survenue au chargement de la liste des tâches.'));
       });
       break;
     case TASK_UPDATE:
-      id = parseInt(store.getState().taskList.task.id);
+      // get the id of the task we want to update
+      id = action.payload.taskId;
+      // get the action linked to the status button
+      let updateAction = action.payload.action
+
       if ( id !== null ) {
+
+        //* we want to create the request body
+        let requestBody = {};
+
+        // get the status button action to determine which proprety will be updated
+        if (updateAction === 'validateTask' || updateAction === 'undoTask') {
+          requestBody = {
+            completion: action.payload.completion,
+            status: action.payload.status,
+          }
+        }
+        else if (updateAction === 'archiveTask' || updateAction === 'desarchiveTask') {
+          requestBody = {
+            status: action.payload.status,
+          }
+        }
+        else if (updateAction === 'editTask') {
+          requestBody = {
+            title: action.payload.title,
+          }
+        }
+
         axios.put(
           `${apiURL}tasks/${id}`,
-          {
-            title: store.getState().taskList.task.title,
-            completion: store.getState().taskList.task.completion,
-            status: store.getState().taskList.task.status,
-          }
+          requestBody
         )
         .then(() => {
           // and send a new task List
@@ -87,7 +107,7 @@ export default (store) => (next) => (action) => {
         })
         .catch(() => {
             // send an error message if task can't be updated
-            store.dispatch(taskUpdateError('Une erreur est survenue lors de la mise à jour de la tâche.'));
+            store.dispatch(apiErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche.'));
         });
       }
       break;
@@ -102,7 +122,7 @@ export default (store) => (next) => (action) => {
       })
       .catch(() => {
         // send an error message if task can't be deleted
-        store.dispatch(taskDeletionError('Une erreur est survenue lors de la tentative de suppression de la tâche.'))
+        store.dispatch(apiErrorMessage('Une erreur est survenue lors de la tentative de suppression de la tâche.'))
       });
       break;   
     case NEW_TASK_SUBMISSION: 
@@ -113,13 +133,19 @@ export default (store) => (next) => (action) => {
           categoryId: store.getState().categoryList.newTaskCategory,
         }
       )
+      // we refresh the category filter
+      .then(() => {
+        if (store.getState().taskList.categoryFilter !== 0) {
+          store.dispatch(resetCategoryFilter());
+        }
+      })
       .then(() => {
         // in case of success, we want to display the new task list once the new task is added
         store.dispatch(fetchTaskList());
       })
       .catch(() => {
         // send an error message if task can't be added
-        store.dispatch(newTaskSubmissionError('Une erreur est survenue lors de la tentative d\'ajout de la tâche.'))
+        store.dispatch(apiErrorMessage('Une erreur est survenue lors de la tentative d\'ajout de la tâche.'))
       });
       break;
     default: 

@@ -45,7 +45,11 @@ const Task = ({
             // when the form is submitted, we want to prevent the page from refreshing and update the task in the DB
             (event) => {
               event.preventDefault();
-              updateTaskTitle();
+              updateTaskTitle(
+                action ='editTask',
+                currentEditedTaskId,
+                currentEditedTaskTitle
+              );
             }
           }>
             <TextInput
@@ -56,7 +60,11 @@ const Task = ({
               focusedInput={currentEditedTaskId === id ? true : false}
               value={currentEditedTaskId === id ? currentEditedTaskTitle : title}
               // and then we want to update this task accordingly when the focus is no longer on it
-              onInputBlur={() => updateTaskTitle()}
+              onInputBlur={() => updateTaskTitle(
+                action ='editTask',
+                currentEditedTaskId,
+                currentEditedTaskTitle
+              )}
             />
           </form>
           <p className="task__content__p">{title}</p>
