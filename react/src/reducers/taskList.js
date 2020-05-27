@@ -9,11 +9,14 @@ import {
   TASK_EDIT,
   CHANGE_TASK_TITLE,
   NEW_TASK_SUBMISSION_ERROR,
+  RESET_NEW_TASK_CATEGORY,
+  RESET_CATEGORY_FILTER,
 } from '../actions';
 
 // state
 const initialState = {
   taskList: [],
+  emptyList: true,
   fetchMessage: '',
   task: {
     id: null,
@@ -27,12 +30,11 @@ const initialState = {
 
 // reducer
 export default (state = initialState, action = {}) => {
-  let updatedTaskList = [];
-
   switch (action.type) {
     case FETCH_TASK_LIST_SUCCESS: 
       return {
         ...state,
+        emptyList: action.payload.message !== '' ? true : false,
         taskList: action.payload.taskList,
         fetchMessage: action.payload.message,
         task: {
@@ -47,6 +49,7 @@ export default (state = initialState, action = {}) => {
     case FETCH_TASK_LIST_ERROR: 
       return {
         ...state,
+        emptyList: action.payload !== '' ? true : false,
         fetchMessage: action.payload,
       };
     case TASK_UPDATE_ERROR: 
@@ -98,6 +101,11 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         fetchMessage: action.payload,
+      };
+    case RESET_CATEGORY_FILTER:
+      return {
+        ...state,
+        categoryFilter: 0,
       };
   default: 
       return state;
