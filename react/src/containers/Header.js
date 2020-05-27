@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // local imports
 import Header from '../components/Header';
-import { fetchTaskList, deleteCategory } from '../actions';
+import { resetNewTaskCategory, fetchTaskList, deleteCategory } from '../actions';
 
 // state
 const mapStateToProps = (state) => ({
@@ -15,6 +15,7 @@ const mapStateToProps = (state) => ({
 // actions
 const mapDispatchToProps = (dispatch) => ({
   fetchTaskList: (filter) => {
+    dispatch(resetNewTaskCategory());
     dispatch(fetchTaskList(filter));
   },
   deleteCategory: (categoryId) => {
