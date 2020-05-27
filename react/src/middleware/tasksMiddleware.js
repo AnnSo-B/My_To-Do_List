@@ -135,7 +135,9 @@ export default (store) => (next) => (action) => {
       )
       // we refresh the category filter
       .then(() => {
-        store.dispatch(resetCategoryFilter());
+        if (store.getState().taskList.categoryFilter !== 0) {
+          store.dispatch(resetCategoryFilter());
+        }
       })
       .then(() => {
         // in case of success, we want to display the new task list once the new task is added
