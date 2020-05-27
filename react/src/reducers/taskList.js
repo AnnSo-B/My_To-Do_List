@@ -49,6 +49,7 @@ export default (state = initialState, action = {}) => {
     case TASK_EDIT:
       // we want to change the status of the task that we want to edit in order to display the input
       const taskId = parseInt(action.payload.taskId);
+      console.log(taskId)
       const updatedTaskList = state.taskList.map((task) => {
         if (task.id === taskId) {
           return {

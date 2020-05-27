@@ -68,19 +68,37 @@ export default (store) => (next) => (action) => {
       });
       break;
     case TASK_UPDATE:
+      // get the id of the task we want to update
       id = action.payload.taskId;
-      console.log(action.payload)
+      // get the action linked to the status button
+      let updateAction = action.payload.action
+
       if ( id !== null ) {
+
+        //* we want to create the request body
+        let requestBody = {};
+
+        // get the status button action to determine which proprety will be updated
+        if (updateAction === 'validateTask' || updateAction === 'undoTask') {
+          requestBody = {
+            completion: action.payload.completion,
+            status: action.payload.status,
+          }
+        }
+        else if (updateAction === 'archiveTask' || updateAction === 'desarchiveTask') {
+          requestBody = {
+            status: action.payload.status,
+          }
+        }
+        else if (updateAction === 'editTask') {
+          requestBody = {
+            title: action.payload.title,
+          }
+        }
+
         axios.put(
           `${apiURL}tasks/${id}`,
-          {
-            title: action.payload.title
-              ? action.payload.title : store.getState().taskList.task.title,
-            completion: action.payload.completion
-              ? action.payload.completion : store.getState().taskList.task.completion,
-            status: action.payload.status 
-              ? action.payload.status : store.getState().taskList.task.status,
-          }
+          requestBody
         )
         .then(() => {
           // and send a new task List

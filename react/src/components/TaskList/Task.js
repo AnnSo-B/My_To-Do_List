@@ -46,6 +46,7 @@ const Task = ({
             (event) => {
               event.preventDefault();
               updateTaskTitle(
+                action ='editTask',
                 currentEditedTaskId,
                 currentEditedTaskTitle
               );
@@ -60,6 +61,7 @@ const Task = ({
               value={currentEditedTaskId === id ? currentEditedTaskTitle : title}
               // and then we want to update this task accordingly when the focus is no longer on it
               onInputBlur={() => updateTaskTitle(
+                action ='editTask',
                 currentEditedTaskId,
                 currentEditedTaskTitle
               )}

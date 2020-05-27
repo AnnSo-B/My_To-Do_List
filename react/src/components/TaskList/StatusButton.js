@@ -23,18 +23,23 @@ const StatusButton = ({
 }) => {
   // depending on the button, we'll dispatch different action with different parameters
   let actionToDispatch = '';
+  let action = '';
   switch (onClickAction) {
     case 'validateTask':
       actionToDispatch = validateTask;
+      action = 'validateTask';
       break;
     case 'undoTask':
       actionToDispatch = undoTask;
+      action = 'undoTask';
       break;
     case 'archiveTask':
       actionToDispatch = archiveTask;
+      action = 'archiveTask';
       break;
     case 'desarchiveTask':
       actionToDispatch = desarchiveTask;
+      action = 'desarchiveTask';
       break;
     case 'deleteTask':
       actionToDispatch = deleteTask;
@@ -50,7 +55,9 @@ const StatusButton = ({
       variant={variant}
       onClick={
         // for all actions, we need to know which task the user is updating with its id
-        (event) => actionToDispatch(event.currentTarget.closest('.task').id)
+        (event) => {
+          actionToDispatch(action, event.currentTarget.closest('.task').id);
+        }
       }
     >
       <span className="icon">
