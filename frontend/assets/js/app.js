@@ -21,9 +21,9 @@ const app = {
     app.fetchTasks();
 
     //* get the form to add a task
-    const addTaskForm = document.querySelector('.task--add');
+    app.addTaskForm = document.querySelector('.task--add');
     // we add the listener
-    addTaskForm.addEventListener('submit', app.handleAddTaskFormSubmit);
+    app.addTaskForm.addEventListener('submit', app.handleAddTaskFormSubmit);
 
     //* initialise listener on header button
     app.initHeaderListeners();
@@ -88,7 +88,7 @@ const app = {
   /**
    * Fetch Categories from API
    */
-  fetchCategories: function() {
+  fetchCategories: function(selectedCategory = '') {
     fetch(
       app.apiURL + '/categories',
       {
@@ -105,21 +105,28 @@ const app = {
     })
     .then(function(categoryList) {
       // display category menus
-      app.displayCategoryMenus(categoryList);
+      // we pass selected category in case of a fetch following a category addition
+      app.displayCategoryMenus(categoryList, selectedCategory);
     })
+    .then(function() {
+      app.hideNewCategoryInput();
+    });
   },
 
   /**
    * Method to display both categoryMenus 
    * @param categoryList
    */
-  displayCategoryMenus: function(categoryList) {
+  displayCategoryMenus: function(categoryList, selectedCategory) {
     // we get all the category menus
     let navList = document.querySelectorAll('.selectCategoryMenu');
 
     // for each menu, we will execute the method to create the menu
     for (nav of navList) {
-      app.createCategoryMenu(categoryList);
+      // we empty the nav in case its a new extraction
+      nav.innerHTML = '';
+      // we create the menu
+      app.createCategoryMenu(categoryList, selectedCategory);
     }
   },
 
@@ -128,13 +135,13 @@ const app = {
    * 
    * @param categoryList
    */
-  createCategoryMenu: function (categoryList) {
+  createCategoryMenu: function (categoryList, selectedCategory) {
     //* create and place the select
     const selectElement = document.createElement('select');
     app.createSelect(nav, selectElement);
 
     //* create the placeholder
-    selectPlaceHolderElement = app.createPlaceHolder(selectElement);
+    selectPlaceHolderElement = app.createPlaceHolder(selectElement, selectedCategory);
 
     //* create add a category option only on add task form
     if (nav.getAttribute('id') === 'task--add__category-select') {
@@ -143,7 +150,7 @@ const app = {
 
     //* create the different options according to the category list
     for (category of categoryList) {
-      app.createAnOption(selectElement);
+      app.createAnOption(selectElement, selectedCategory);
     }
 
     // add listeners
@@ -170,10 +177,16 @@ const app = {
   /**
    * Method to create the placeholder
    */
-  createPlaceHolder: function(selectElement) {
+  createPlaceHolder: function(selectElement, selectedCategory) {
     selectPlaceHolderElement = document.createElement('option');
     // selected by default
     selectPlaceHolderElement.selected = true;
+    // but if we are in the add task form we want to check if we have just add a new category to display this one by default
+    if (nav.getAttribute('id') === 'task--add__category-select') {
+      selectedCategory === '' 
+        ? selectPlaceHolderElement.selected = true
+        : selectPlaceHolderElement.selected = false;
+    }
     // cannot be chosen
     selectPlaceHolderElement.disabled = true;
     // is not displayed
@@ -203,13 +216,19 @@ const app = {
   /**
    * Method to create an Option
    */
-  createAnOption: function(selectElement) {
+  createAnOption: function(selectElement, selectedCategory) {
     // create the option tag
     const optionElement = document.createElement('option');
     // give it the name of the category
     optionElement.textContent = category.name;
     // give it the id as value
     optionElement.value = category.id;
+    // if we are in the add task form we want to check if we have just add a new category to display this one by default
+    if (nav.getAttribute('id') === 'task--add__category-select') {
+      selectedCategory === category.id
+        ? optionElement.selected = true
+        : optionElement.selected = false;
+    }
     // insert into select
     selectElement.appendChild(optionElement);
   },
@@ -235,15 +254,59 @@ const app = {
    */
   displayNewCategoryInput: function(event) {
     if (parseInt(event.currentTarget.value) === 1) {
-      console.log(event.currentTarget);
       // we change the select css to display the input and not the list of selection
-      app.editCategory = event.currentTarget.closest('#task--add__category-select');
-      app.editCategory.classList.add('category--edit');
+      // app.editCategory = event.currentTarget.closest('.task--add');
+      app.addTaskForm.classList.add('category--edit');
 
-
+      // we focus on this input and had a listener on the input to save the new category on blur
+      app.newCategoryInput = document.querySelector('.category__name__input');
+      app.newCategoryInput.focus();
+      app.newCategoryInput.addEventListener('blur', app.addNewCategoryOnBlur);
     }
   },
 
+  /**
+   * Method to hide the input to create a new category
+   */
+  hideNewCategoryInput: function() {
+    app.addTaskForm.classList.remove('category--edit');
+  },
+
+  /**
+   * save the new category
+   */
+  addNewCategoryOnBlur: function(event) {
+    console.log('addNewCategoryOnBlur', event.currentTarget.value);
+
+    // create the request body
+    const fetchBody = {
+      name: event.currentTarget.value,
+    };
+
+    // fetch new category to the API
+    fetch(
+      app.apiURL + '/categories',
+      {
+        method: 'POST',
+        headers: {
+          "Content-Type" : "application/json" // we send Json data
+        },
+        body: JSON.stringify(fetchBody)
+      }
+    )
+    .then(function(response) {
+      // check if the response is not ok
+      if (!response.ok) {
+        app.displayErrorMessage('Une erreur est survenue lors de l\'ajout de la catégorie. Merci de reessayer ultérieurement')
+      }
+      // transform the response into usable data
+      return response.json()
+    })
+    // fetch category and select the new category
+    .then(function(category) {
+      app.fetchCategories(category.id)
+    })
+  },
 
   /***************************************************************
    * Tasks
