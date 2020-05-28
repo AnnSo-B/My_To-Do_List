@@ -20,6 +20,9 @@ const app = {
     //* initialise the request to the API to retrieve the taskList
     app.fetchTasks();
 
+    //* get the category buttons in the header
+    app.categoryButtons = document.querySelector('.category__buttons');
+
     //* get the form to add a task
     app.addTaskForm = document.querySelector('.task--add');
     // we add the listener
@@ -93,8 +96,10 @@ const app = {
    * Fetch Categories from API
    */
   fetchCategories: function(selectedCategory = '') {
+    const requestGoesTo = app.apiURL + '/categories';
+
     fetch(
-      app.apiURL + '/categories',
+      requestGoesTo,
       {
         method: 'GET'
       }
@@ -117,6 +122,40 @@ const app = {
     });
   },
 
+
+  /**
+   * Fetch Categories from API with their tasks
+   */
+  fetchCategoriesWithTasks: function(event) {
+    const categoryId = event.currentTarget.value;
+    const requestGoesTo = app.apiURL + '/categories/' + categoryId + '/tasks';
+    ('fetchCategoriesWithTasks');
+    
+    fetch(
+      requestGoesTo,
+      {
+        method: 'GET'
+      }
+    )
+    .then(function(response) {
+      // check if the response is not ok
+      if (!response.ok) {
+        app.displayErrorMessage(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API. Merci de recommencer ultérieurement.')
+      }
+      // transform the response into usable data
+      return response.json();
+    })
+    .then(function(categoryList) {
+      ('categoryList', categoryList[0].tasks.length);
+      if (categoryList[0].tasks.length < 1) {
+        ('je passe ici')
+        app.displayCategoryDeleteButton(categoryId);
+      }
+      else {
+        app.hideCategoryDeleteButton();
+      }
+    })
+  },
   /**
    * Method to display both categoryMenus 
    * @param categoryList
@@ -242,6 +281,7 @@ const app = {
    */
   addNavCategoryMenuListener: function() {
     app.navCategoryMenu = document.querySelector('#navbar__category-select select');
+    app.navCategoryMenu.addEventListener('change', app.fetchCategoriesWithTasks);
     app.navCategoryMenu.addEventListener('change', app.fetchTasks);
   },
 
@@ -257,7 +297,7 @@ const app = {
    * Method to display category management button
    */
   displayCategoryDeleteButton: function(currentCategoryFilter) {
-    app.categoryButtons = document.querySelector('.category__buttons');
+    (currentCategoryFilter)
     app.categoryButtons.classList.add('category--delete')
     app.currentCategoryToDelete = currentCategoryFilter;
   },
@@ -267,6 +307,7 @@ const app = {
    * Method to display category management button
    */
   hideCategoryDeleteButton: function() {
+    ('hideCategoryDeleteButton', app.categoryButtons)
     app.categoryButtons.classList.remove('category--delete');
     app.currentCategoryToDelete = '';
   },
@@ -486,15 +527,7 @@ const app = {
         else if (currentCategoryFilter !== '') {
           //* if there are no tasks send a message
           if (taskList.length < 1) {
-            app.displayErrorMessage('Aucune tâche ne correspond à votre filtre.');
-
-            //* to display delete a category button only if the category returns no task
-            // we'll need to know which category we can delete
-            app.displayCategoryDeleteButton(currentCategoryFilter);
-          }
-          else {
-            //* to hide delete a category buttonif the extraction returns at least one task
-            app.hideCategoryDeleteButton();
+            app.displayErrorMessage('Aucune tâche non-archivée ne correspond à votre filtre.');
           }
 
           //* for status buttons 
