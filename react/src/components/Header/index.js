@@ -11,8 +11,10 @@ import CategoryMenu from '../../containers/CategoryMenu';
 const Header = ({
   statusFilter,
   categoryFilter,
-  emptyTaksList,
+  deletableCategory,
   fetchTaskList,
+  fetchCategoryWithTasks,
+  resetDeletableCategory,
   deleteCategory,
 }) => (
   <header className="header">
@@ -21,7 +23,11 @@ const Header = ({
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="justify-content-lg-around">
         {/* Each button launches a task list extraction according to the associated status */}
-        <ButtonGroup aria-label="Basic example" className="my-3">
+        <ButtonGroup
+          aria-label="Basic example"
+          className="my-3"
+          onClick={resetDeletableCategory}
+        >
           <Button
             variant={statusFilter === 0 && categoryFilter === 0 ? 'primary' : 'light'}
             onClick={() => fetchTaskList({statusFilter: 0, categoryFilter: 0})}
@@ -48,10 +54,13 @@ const Header = ({
           <CategoryMenu
             selectedCategory={categoryFilter}
             addTaskMenu={false}
-            onCategoryChange={(event) => fetchTaskList({statusFilter: 0, categoryFilter: event.target.value})}
+            onCategoryChange={(event) => {
+              fetchTaskList({statusFilter: 0, categoryFilter: event.target.value});
+              fetchCategoryWithTasks({categoryFilter: event.target.value});
+            }}
           />
           {
-            emptyTaksList
+            deletableCategory
             && (
               <Button
                 variant='danger'
@@ -68,7 +77,7 @@ const Header = ({
             )
           }
         </div>
-        <div className="navbar-archive-link my-3">
+        <div className="navbar-archive-link my-3" onClick={resetDeletableCategory}>
           {
             // if the current filter is not the archived tasks, we want to display the link "Voir les archives" otherwise we want to display "Revenir à l'affichage..."
             // each link launches an extraction according to the associated status 
@@ -98,8 +107,10 @@ const Header = ({
 Header.propTypes = {
   statusFilter: PropTypes.number.isRequired,
   categoryFilter: PropTypes.number.isRequired,
-  emptyTaksList: PropTypes.bool.isRequired,
+  deletableCategory: PropTypes.bool.isRequired,
   fetchTaskList: PropTypes.func.isRequired,
+  fetchCategoryWithTasks: PropTypes.func.isRequired,
+  resetDeletableCategory: PropTypes.func.isRequired,
   deleteCategory: PropTypes.func.isRequired,
 };
 

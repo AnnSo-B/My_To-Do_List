@@ -16,12 +16,15 @@ export const NEW_TASK_SUBMISSION = 'NEW_TASK_SUBMISSION';
 export const FETCH_CATEGORY_LIST = 'FETCH_CATEGORY_LIST';
 export const FETCH_CATEGORY_LIST_SUCCESS = 'FETCH_CATEGORY_LIST_SUCCESS';
 export const FETCH_CATEGORY_API_MESSAGE = 'FETCH_CATEGORY_API_MESSAGE';
+export const FETCH_CATEGORY_WITH_TASKS = 'FETCH_CATEGORY_WITH_TASKS';
+export const FETCH_CATEGORY_WITH_TASKS_SUCCESS = 'FETCH_CATEGORY_WITH_TASKS_SUCCESS';
 export const DISPLAY_NEW_CATEGORY_INPUT = 'DISPLAY_NEW_CATEGORY_INPUT';
 export const CHANGE_CATEGORY_NAME = 'CHANGE_CATEGORY_NAME';
 export const SUBMIT_NEW_CATEGORY = 'SUBMIT_NEW_CATEGORY';
 export const RESET_NEW_TASK_CATEGORY = 'RESET_NEW_TASK_CATEGORY';
 export const DELETE_CATEGORY = 'DELETE_CATEGORY';
 export const RESET_CATEGORY_FILTER = 'RESET_CATEGORY_FILTER';
+export const RESET_DELETABLE_CATEGORY = 'RESET_DELETABLE_CATEGORY';
 
 
 //* action creators
@@ -38,6 +41,16 @@ export const fetchTaskListSuccess = (payload) => ({
 
 export const apiErrorMessage = (payload) => ({
   type: API_ERROR_MESSAGE,
+  payload,
+});
+
+export const fetchCategoryWithTasks = (payload) => ({
+  type: FETCH_CATEGORY_WITH_TASKS,
+  payload,
+});
+
+export const fetchCategoryWithTasksSuccess = (payload) => ({
+  type: FETCH_CATEGORY_WITH_TASKS_SUCCESS,
   payload,
 });
 
@@ -114,4 +127,8 @@ export const deleteCategory = (payload) => ({
 
 export const resetCategoryFilter = () => ({
   type: RESET_CATEGORY_FILTER,
+});
+
+export const resetDeletableCategory = () => ({
+  type: RESET_DELETABLE_CATEGORY,
 });

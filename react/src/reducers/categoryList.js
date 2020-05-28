@@ -4,16 +4,19 @@
 import {
   FETCH_CATEGORY_LIST_SUCCESS,
   FETCH_CATEGORY_API_MESSAGE,
+  FETCH_CATEGORY_WITH_TASKS_SUCCESS,
   CHANGE_NEW_TASK_CATEGORY,
   DISPLAY_NEW_CATEGORY_INPUT,
   CHANGE_CATEGORY_NAME,
   RESET_NEW_TASK_CATEGORY,
+  RESET_DELETABLE_CATEGORY,
 } from '../actions';
 
 // state
 const initialState = {
   categoryList: [],
   fetchMessage: '',
+  deletableCategory: false,
   newTaskCategory: 0,
   newCategory: false,
   category: {
@@ -45,6 +48,12 @@ export default (state = initialState, action = {}) => {
         ...state,
         fetchMessage: action.payload,
       };
+    case FETCH_CATEGORY_WITH_TASKS_SUCCESS: 
+      return {
+        ...state,
+        fetchMessage: '',
+        deletableCategory: action.payload === 0 ? true : false,
+      };
     case CHANGE_NEW_TASK_CATEGORY: 
       return {
         ...state,
@@ -67,7 +76,13 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         newTaskCategory: 0,
-      }
+      };
+    case RESET_DELETABLE_CATEGORY:
+      return {
+        ...state,
+        fetchMessage: '',
+        deletableCategory: false,
+      };
     default: 
       return state;
   }
