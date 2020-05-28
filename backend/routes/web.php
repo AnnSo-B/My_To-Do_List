@@ -30,6 +30,17 @@ $router->get(
 );
 
 /**
+ * Endpoint to get categoryList
+ */
+$router->get(
+    '/categories/{category}/tasks',
+    [
+        'uses'  =>  'CategoryController@tasksByCategoryList',
+        'as'    =>  'category_taskByCategoryList'
+    ]
+);
+
+/**
  * Endpoint to create a category
  */
 $router->post(
