@@ -20,6 +20,17 @@ class CategoryController extends Controller {
     }
 
     /**
+     * Method to retrieve a list of categories with their associated tasks
+     */
+    public function tasksByCategoryList($category) {
+        // Retrieve the list of active categories thanks to the getActiveCategories Method from Category Model
+        $categoryList = Category::getTasksByCategory($category);
+        // Answer to the front including HTTP code
+        return response()->json($categoryList, Response::HTTP_OK);
+    }
+
+
+    /**
      * Add a category
      */
     public function add(Request $request) {

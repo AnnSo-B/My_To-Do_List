@@ -36,4 +36,12 @@ class Category extends Model {
         // https://laravel.com/docs/7.x/eloquent#retrieving-models
         return Category::where('status', 1)->orderBy('name')->get();
     }
+
+    /**
+     * Method to retrieve a list of active categories with their associated tasks
+     */
+    static public function getTasksByCategory($category) {
+        // https://laravel.com/docs/7.x/eloquent#retrieving-models
+        return Category::where('id', $category)->get()->load('tasks');
+    }
 }
