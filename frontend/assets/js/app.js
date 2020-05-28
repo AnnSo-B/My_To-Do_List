@@ -250,6 +250,22 @@ const app = {
   },
 
   /**
+   * Method to display category management button
+   */
+  displayCategoryDeleteButton: function() {
+    app.categoryButtons = document.querySelector('.category__buttons');
+    app.categoryButtons.classList.add('category--delete')
+  },
+
+
+  /**
+   * Method to display category management button
+   */
+  hideCategoryDeleteButton: function() {
+    app.categoryButtons = document.querySelector('.category__buttons');
+    app.categoryButtons.classList.remove('category--delete')
+  },
+  /**
    * Method to display the input to create a new category
    */
   displayNewCategoryInput: function(event) {
@@ -356,7 +372,6 @@ const app = {
         currentCategoryFilter = parseInt(event.currentTarget.value);
         // we change the url that has to be send to the API
         requestGoesTo = app.apiURL + '/tasks/category/' + currentCategoryFilter; 
-
       }
     }
 
@@ -443,6 +458,13 @@ const app = {
           //* if there are no tasks send a message
           if (taskList.length < 1) {
             app.displayErrorMessage('Aucune tâche ne correspond à votre filtre.');
+
+            //* to display delete a category button only if the category returns no task
+            app.displayCategoryDeleteButton();
+          }
+          else {
+            //* to hide delete a category buttonif the extraction returns at least one task
+            app.hideCategoryDeleteButton();
           }
 
           //* for status buttons 

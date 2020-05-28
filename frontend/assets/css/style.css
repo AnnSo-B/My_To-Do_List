@@ -2,10 +2,12 @@
   padding: 0.5em;
 }
 
-/* category selections from navbar and task-add*/
-#navbar__category-select,
-#task--add__category-select {
-  max-width: 300px;
+/* header */
+#navbar__category-form {
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .archive-button {
@@ -19,15 +21,7 @@
   color: #0057bb;
 }
 
-/* tasks */
-.task {
-  margin-top: 1.5em;
-  border: 1px solid #b1b1b1;
-  border-radius: 9px;
-  padding: 0.5em;
-  font-size: 1.2em;
-}
-
+/* Common to tasks and categories */
 .task__content,
 .category__name {
   padding: 0.5em;
@@ -49,6 +43,44 @@
 .category__name {
   display: none;
   width: 100%;
+}
+
+/* categories */
+#navbar__category-select,
+#task--add__category-select {
+  min-width: 250px;
+  max-width: 300px;
+}
+
+.nav__category__menu__button__delete {
+  display: none;
+}
+
+.category--delete .nav__category__menu__button__delete {
+  display: inline-flex;
+}
+
+
+/* CSS new category input */
+.category--edit .category__name {
+  display: block;
+}
+
+.category--edit .category-select {
+  display: none;
+}
+
+.category__name__input {
+  border: none;
+}
+
+/* tasks */
+.task {
+  margin-top: 1.5em;
+  border: 1px solid #b1b1b1;
+  border-radius: 9px;
+  padding: 0.5em;
+  font-size: 1.2em;
 }
 
 .task__content__p,
@@ -88,19 +120,6 @@
 
 .task--add .task__content__input {
   display: block;
-  border: none;
-}
-
-/* CSS new category input */
-.category--edit .category__name {
-  display: block;
-}
-
-.category--edit .category-select {
-  display: none;
-}
-
-.category__name__input {
   border: none;
 }
 
