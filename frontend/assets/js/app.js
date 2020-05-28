@@ -527,7 +527,7 @@ const app = {
         else if (currentCategoryFilter !== '') {
           //* if there are no tasks send a message
           if (taskList.length < 1) {
-            app.displayErrorMessage('Aucune tâche non-archivée ne correspond à votre filtre.');
+            app.displayErrorMessage('Aucune tâche ne correspond à votre filtre.');
           }
 
           //* for status buttons 
