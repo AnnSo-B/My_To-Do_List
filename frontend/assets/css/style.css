@@ -5,6 +5,7 @@
 /* header */
 #navbar__category-form {
   width: 100%;
+  max-width: 350px;
   display: inline-flex;
   justify-content: space-between;
   align-items: center;

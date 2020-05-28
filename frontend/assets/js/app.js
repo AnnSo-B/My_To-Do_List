@@ -276,7 +276,7 @@ const app = {
     if (!window.confirm('Souhaitez-vous supprimer cette catégorie ?')) {
       return false;
     }
-    
+
     // delete the category through the api
     fetch(
       app.apiURL + '/categories/' + app.currentCategoryToDelete,
@@ -733,10 +733,7 @@ const app = {
    * @param {event} event EventObject representation
    */
   handleValidateButton: function(event) {
-    const buttonCSS = event.currentTarget.classList;
-
     //* find the task id associated with the validate button
-    const currentTask = event.currentTarget.closest('.task');
     const currentTaskId = event.currentTarget.closest('.task').dataset.id;
 
     //* create the request body
@@ -746,28 +743,7 @@ const app = {
     };
 
     //* fetch changes to the API
-    fetch(
-      app.apiURL + '/tasks/' + currentTaskId,
-      {
-        method: 'PUT',
-        headers: {
-          "Content-Type" : "application/json" // we send Json data
-        },
-        body: JSON.stringify(fetchBody)
-      }
-    )
-    .then(function(response) {
-      // check if the response is not ok
-      if (!response.ok) {
-        app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
-      }
-      // transform the response into usable data
-      return response.json()
-    })
-    .then(function() {
-      // refresh the task list with the changes
-      app.refreshTaskList();
-    })
+    app.updateTask(currentTaskId, fetchBody);
   },
 
   /**
@@ -778,7 +754,6 @@ const app = {
    */
   handleIncompleteButton: function(event) {
     //* find the task id associated with the incomplete button
-    const currentTask = event.currentTarget.closest('.task');
     const currentTaskId = event.currentTarget.closest('.task').dataset.id;
 
     //* create the request body
@@ -788,28 +763,7 @@ const app = {
     };
 
     //* fetch changes to the API
-    fetch(
-      app.apiURL + '/tasks/' + currentTaskId,
-      {
-        method: 'PUT',
-        headers: {
-          "Content-Type" : "application/json" // we send Json data
-        },
-        body: JSON.stringify(fetchBody)
-      }
-    )
-    .then(function(response) {
-      // check if the response is not ok
-      if (!response.ok) {
-        app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
-      }
-      // transform the response into usable data
-      return response.json()
-    })
-    .then(function() {
-      // refresh the task list with the changes
-      app.refreshTaskList();
-    });
+    app.updateTask(currentTaskId, fetchBody);
   },
 
   /**
@@ -855,28 +809,7 @@ const app = {
     };
 
     //* fetch changes to the API
-    fetch(
-      app.apiURL + '/tasks/' + currentTaskId,
-      {
-        method: 'PUT',
-        headers: {
-          "Content-Type" : "application/json" // we send Json data
-        },
-        body: JSON.stringify(fetchBody)
-      }
-    )
-    .then(function(response) {
-      // check if the response is not ok
-      if (!response.ok) {
-        app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
-      }
-      // transform the response into usable data
-      return response.json()
-    })
-    .then(function() {
-      // refresh the task list with the changes
-      app.refreshTaskList();
-    })
+    app.updateTask(currentTaskId, fetchBody);
   },
 
   /**
@@ -900,29 +833,7 @@ const app = {
       };
 
       //* fetch changes to the API
-      fetch(
-        app.apiURL + '/tasks/' + currentTaskId,
-        {
-          method: 'PUT',
-          headers: {
-            "Content-Type" : "application/json" // we send Json data
-          },
-          body: JSON.stringify(fetchBody)
-        }
-      )
-      .then(function(response) {
-
-        // check if the response is not ok
-        if (!response.ok) {
-          app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
-        }
-        // transform the response into usable data
-        return response.json()
-      })
-      .then(function(task) {
-        // refresh the task list with the changes
-      app.refreshTaskList();
-      });
+     app.updateTask(currentTaskId, fetchBody);
     }
   },
 
@@ -942,18 +853,25 @@ const app = {
     };
 
     //* fetch changes to the API
+    app.updateTask(currentTaskId, fetchBody);
+  },
+
+  /**
+   * update a task according to its id and the request body provided
+   */
+  updateTask: function(taskId, requestBody) {
+    //* fetch changes to the API
     fetch(
-      app.apiURL + '/tasks/' + currentTaskId,
+      app.apiURL + '/tasks/' + taskId,
       {
         method: 'PUT',
         headers: {
           "Content-Type" : "application/json" // we send Json data
         },
-        body: JSON.stringify(fetchBody)
+        body: JSON.stringify(requestBody)
       }
     )
     .then(function(response) {
-
       // check if the response is not ok
       if (!response.ok) {
         app.displayErrorMessage('Une erreur est survenue lors de la mise à jour de la tâche. Merci de reessayer ultérieurement');
@@ -964,7 +882,7 @@ const app = {
     .then(function() {
       // refresh the task list with the changes
       app.refreshTaskList();
-    });
+    })
   },
 
   /**
