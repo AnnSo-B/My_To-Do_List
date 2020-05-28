@@ -33,7 +33,7 @@ const app = {
 },
 
   /***************************************************************
-   * Navigation status filters
+   * Header listeners
    ***************************************************************/
 
    /**
@@ -51,6 +51,10 @@ const app = {
     for (let archiveButtonIndex = 0; archiveButtonIndex < app.archiveButtons.length; archiveButtonIndex++) {
       app.archiveButtons[archiveButtonIndex].addEventListener('click', app.fetchTasks);
     }
+
+    // get the category delete button
+    app.deleteCategoryButton = document.querySelector('.nav__category__menu__button__delete');
+    app.deleteCategoryButton.addEventListener('click', app.deleteCategory);
   },
 
   /***************************************************************
@@ -252,9 +256,10 @@ const app = {
   /**
    * Method to display category management button
    */
-  displayCategoryDeleteButton: function() {
+  displayCategoryDeleteButton: function(currentCategoryFilter) {
     app.categoryButtons = document.querySelector('.category__buttons');
     app.categoryButtons.classList.add('category--delete')
+    app.currentCategoryToDelete = currentCategoryFilter;
   },
 
 
@@ -262,9 +267,35 @@ const app = {
    * Method to display category management button
    */
   hideCategoryDeleteButton: function() {
-    app.categoryButtons = document.querySelector('.category__buttons');
-    app.categoryButtons.classList.remove('category--delete')
+    app.categoryButtons.classList.remove('category--delete');
+    app.currentCategoryToDelete = '';
   },
+
+  deleteCategory: function() {
+    
+    if (!window.confirm('Souhaitez-vous supprimer cette catégorie ?')) {
+      return false;
+    }
+    
+    // delete the category through the api
+    fetch(
+      app.apiURL + '/categories/' + app.currentCategoryToDelete,
+      {
+        method: 'DELETE',
+      }
+    )
+    .then(function(response) {
+      // check if the response is not ok
+      if (!response.ok) {
+        app.displayErrorMessage('Une erreur est survenue lors de la tentative de suppression de la catégorie. Merci de reessayer ultérieurement');
+      }
+
+      // refresh the task list with the changes
+      app.fetchCategories();
+    })
+  
+  },
+
   /**
    * Method to display the input to create a new category
    */
@@ -292,8 +323,6 @@ const app = {
    * save the new category
    */
   addNewCategoryOnBlur: function(event) {
-    console.log('addNewCategoryOnBlur', event.currentTarget.value);
-
     // create the request body
     const fetchBody = {
       name: event.currentTarget.value,
@@ -460,7 +489,8 @@ const app = {
             app.displayErrorMessage('Aucune tâche ne correspond à votre filtre.');
 
             //* to display delete a category button only if the category returns no task
-            app.displayCategoryDeleteButton();
+            // we'll need to know which category we can delete
+            app.displayCategoryDeleteButton(currentCategoryFilter);
           }
           else {
             //* to hide delete a category buttonif the extraction returns at least one task
@@ -704,8 +734,6 @@ const app = {
    */
   handleValidateButton: function(event) {
     const buttonCSS = event.currentTarget.classList;
-    console.log(buttonCSS);
-
 
     //* find the task id associated with the validate button
     const currentTask = event.currentTarget.closest('.task');
