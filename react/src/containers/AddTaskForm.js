@@ -9,6 +9,7 @@ import {
   submitNewCategory,
   submitNewTask,
   resetNewTaskCategory,
+  resetDeletableCategory,
 } from '../actions';
 
 // state
@@ -36,6 +37,7 @@ const mapDispatchToProps = (dispatch) => ({
   onNewTaskSubmit: () => {
     dispatch(submitNewTask());
     dispatch(resetNewTaskCategory());
+    dispatch(resetDeletableCategory());
   },
 });
 

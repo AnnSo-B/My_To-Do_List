@@ -7,6 +7,8 @@ import {
   fetchCategoryList,
   fetchCategoryListSuccess,
   fetchCategoryApiMessage,
+  FETCH_CATEGORY_WITH_TASKS,
+  fetchCategoryWithTasksSuccess,
   SUBMIT_NEW_CATEGORY,
   DELETE_CATEGORY,
   resetCategoryFilter,
@@ -16,10 +18,11 @@ import { apiURL } from '../app.config';
 
 // middleware
 export default (store) => (next) => (action) => {
-  
+  let categoryId = '';
+
   switch (action.type) {
     case FETCH_CATEGORY_LIST: 
-    let categoryId = action.payload.newCategoryId ? action.payload.newCategoryId : 0;
+    categoryId = action.payload.newCategoryId ? action.payload.newCategoryId : 0;
       axios.get(`${apiURL}/categories`)
         .then((response) => {
           // send data to the store via fetchCategoryListSuccess action creator
@@ -31,6 +34,19 @@ export default (store) => (next) => (action) => {
         .catch(() => {
           // send an error to display in case of failure
           store.dispatch(fetchCategoryApiMessage('Une erreur est survenue au chargement de la liste des catégories.'));
+        });
+      break;
+    case FETCH_CATEGORY_WITH_TASKS: 
+      categoryId = action.payload.categoryFilter;
+      axios.get(`${apiURL}/categories/${categoryId}/tasks`)
+        .then((response) => {
+          // we want to know how many tasks are associated to this category
+          const associatedTasksNumber = response.data[0].tasks.length;
+          store.dispatch(fetchCategoryWithTasksSuccess(associatedTasksNumber));
+        })
+        .catch(() => {
+          // send an error to display in case of failure
+          store.dispatch(fetchCategoryApiMessage('Une erreur est survenue au chargement de la liste des catégories associées à leurs tâches.'));
         });
       break;
     case SUBMIT_NEW_CATEGORY:
