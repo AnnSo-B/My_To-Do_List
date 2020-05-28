@@ -27,11 +27,18 @@
               <button type="button" class="status-filter-button btn btn-light" data-status="2">Complètes</button>
               <button type="button" class="status-filter-button btn btn-light" data-status="1">Incomplètes</button>
             </div>
-            <form id="navbar__category-form">
+            <div id="navbar__category-form">
               <div id="navbar__category-select" class="navbar-form-group my-3 selectCategoryMenu">
                 <!-- Menu displayed in JS with data from API -->
               </div>
-            </form>
+              <div class="category__buttons">
+                <button class="nav__category__menu__button__delete btn btn-danger">
+                  <span class="icon">
+                    <i class="fa fa-trash"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
             <div class="navbar-archive-link my-3">
               <button type="button" class="archive-button to-show" data-status="3">Voir les archives</button>
               <button type="button" class="archive-button to-hide" data-status="0">Revenir à l'affichage des tâches non archivées</button>
@@ -55,6 +62,9 @@
             </div>
             <div id="task--add__category-select" class="task-form-group my-3 selectCategoryMenu">
               <!-- Menu displayed in JS with data from API -->
+            </div>
+            <div class="category__name">
+              <input class="category__name__input" type="text" name="name" placeholder="Nom de la catégorie">
             </div>
             <button type="submit" class="btn btn-primary task--add__button">
               <span>+</span> Ajouter
