@@ -307,7 +307,6 @@ const app = {
    * Method to display category management button
    */
   hideCategoryDeleteButton: function() {
-    ('hideCategoryDeleteButton', app.categoryButtons)
     app.categoryButtons.classList.remove('category--delete');
     app.currentCategoryToDelete = '';
   },
@@ -427,6 +426,8 @@ const app = {
         currentArchiveButton = event.currentTarget.closest('.archive-button');
         // we retrieve the status from this button
         app.statusValue = parseInt(currentArchiveButton.dataset.status);
+        // hide the category delete button
+        app.hideCategoryDeleteButton();
       }
       // if this button is one of the staut filter button
       else if (event.currentTarget.closest('.status-filter-button')) {
@@ -434,6 +435,8 @@ const app = {
         currentStatusButton = event.currentTarget.closest('.status-filter-button');
         // we retrieve the status from this button
         app.statusValue = parseInt(currentStatusButton.dataset.status);
+        // hide the category delete button
+        app.hideCategoryDeleteButton();
       }
       else if (event.currentTarget.closest('#navbar__category-form')) {
         // when filtering on categories, the tasks are of any statuss
@@ -707,6 +710,12 @@ const app = {
       addTaskInput.value = '';
       addTaskInput.focus();
       addTaskInput.select();
+
+      // fetch categories and hide delete button on category filter
+      app.fetchCategories();
+      app.hideCategoryDeleteButton();
+      app.refreshTaskList();
+      app.deleteErrorMessage();
     });
   },
 
