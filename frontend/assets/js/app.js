@@ -129,7 +129,6 @@ const app = {
    * @param categoryList
    */
   createCategoryMenu: function (categoryList) {
-
     //* create and place the select
     const selectElement = document.createElement('select');
     app.createSelect(nav, selectElement);
@@ -137,13 +136,23 @@ const app = {
     //* create the placeholder
     selectPlaceHolderElement = app.createPlaceHolder(selectElement);
 
+    //* create add a category option only on add task form
+    if (nav.getAttribute('id') === 'task--add__category-select') {
+      app.createAddCategoryOption(selectElement);
+    }
+
     //* create the different options according to the category list
     for (category of categoryList) {
       app.createAnOption(selectElement);
     }
 
-    // add listener
-    app.addNavCategoryMenuListener();
+    // add listeners
+    if (nav.getAttribute('id') === 'navbar__category-select') {
+      app.addNavCategoryMenuListener();
+    }
+    else if (nav.getAttribute('id') === 'task--add__category-select') {
+      app.addNewTaskCategoryMenuListener();
+    }
   },
 
   /**
@@ -178,6 +187,20 @@ const app = {
   },
 
   /**
+   * Method to create an Option to add a category
+   */
+  createAddCategoryOption: function(selectElement) {
+    // create the option tag
+    const optionElement = document.createElement('option');
+    // give it the name of the category
+    optionElement.textContent = "Créer une catégorie";
+    // give it the id as value
+    optionElement.value = 1;
+    // insert into select
+    selectElement.appendChild(optionElement);
+  },
+
+  /**
    * Method to create an Option
    */
   createAnOption: function(selectElement) {
@@ -198,6 +221,29 @@ const app = {
     app.navCategoryMenu = document.querySelector('#navbar__category-select select');
     app.navCategoryMenu.addEventListener('change', app.fetchTasks);
   },
+
+  /**
+   * Method to add listener on Category menu in the add task form and display input to create a new category if category is "créer une catégorie"
+   */
+  addNewTaskCategoryMenuListener: function() {
+    app.newTaskCategoryMenu = document.querySelector('#task--add__category-select select');
+    app.newTaskCategoryMenu.addEventListener('change', app.displayNewCategoryInput);
+  },
+
+  /**
+   * Method to display the input to create a new category
+   */
+  displayNewCategoryInput: function(event) {
+    if (parseInt(event.currentTarget.value) === 1) {
+      console.log(event.currentTarget);
+      // we change the select css to display the input and not the list of selection
+      app.editCategory = event.currentTarget.closest('#task--add__category-select');
+      app.editCategory.classList.add('category--edit');
+
+
+    }
+  },
+
 
   /***************************************************************
    * Tasks
@@ -244,9 +290,10 @@ const app = {
         // when filtering on categories, the tasks are of any statuss
         app.statusValue = 0;
         // we retrieve the id of the selected category
-        currentCategoryFilter = event.currentTarget.value;
+        currentCategoryFilter = parseInt(event.currentTarget.value);
         // we change the url that has to be send to the API
         requestGoesTo = app.apiURL + '/tasks/category/' + currentCategoryFilter; 
+
       }
     }
 
@@ -474,7 +521,7 @@ const app = {
     const addTaskForm = event.currentTarget.querySelector('.task--add__form');
     const addTaskFormData = new FormData(addTaskForm);
     const taskTitle = addTaskFormData.get('title');
-    const taskCategory = addTaskFormData.get('categoryId');
+    const taskCategory = parseInt(addTaskFormData.get('categoryId'));
 
     //* create the request body
     const fetchBody = {

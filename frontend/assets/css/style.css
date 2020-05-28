@@ -28,7 +28,8 @@
   font-size: 1.2em;
 }
 
-.task__content {
+.task__content,
+.category__name {
   padding: 0.5em;
   border: solid 1px #ededed;
   display: flex;
@@ -37,13 +38,15 @@
   flex-wrap: wrap;
 }
 
-.task__content__title {
+.task__content__title,
+.category__name {
   font-weight: 400;
   font-size: 0.9em;
   width: 65%;
 }
 
-.task__content__input {
+.task__content__input,
+.category__name {
   display: none;
   width: 100%;
 }
@@ -85,6 +88,19 @@
 
 .task--add .task__content__input {
   display: block;
+  border: none;
+}
+
+/* CSS new category input */
+.category--edit .category__name {
+  display: block;
+}
+
+.category--edit .category-select {
+  display: none;
+}
+
+.category__name__input {
   border: none;
 }
 
@@ -138,7 +154,6 @@
 .task--archive .progress-bar {
   background-color: #888;
 }
-
 
 /* Media-queries */
 @media screen AND (min-width: 992px) {
