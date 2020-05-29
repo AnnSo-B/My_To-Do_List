@@ -18,7 +18,7 @@
   font-size: 0.9em;
 }
 
-@media screen AND (min-width: 769px) {
+@media screen AND (min-width: 992px) {
   
   .task--add__form {
     flex-direction: row;
@@ -28,7 +28,7 @@
   }
 
   .task--add .task__content__input {
-    width: 600px;
+    min-width: 500px;
   }
 }
 
