@@ -29,6 +29,50 @@ $router->get(
     ]
 );
 
+/**
+ * Endpoint to get categoryList
+ */
+$router->get(
+    '/categories/{category}/tasks',
+    [
+        'uses'  =>  'CategoryController@tasksByCategoryList',
+        'as'    =>  'category_taskByCategoryList'
+    ]
+);
+
+/**
+ * Endpoint to create a category
+ */
+$router->post(
+    '/categories',
+    [
+        'uses' => 'CategoryController@add',
+        'as' => 'category_add'
+    ]
+);
+
+/**
+ * Endpoint to update a category according to the provided id
+ */
+$router->put(
+    '/categories/{id}',
+    [
+        'uses' => 'CategoryController@update',
+        'as' => 'category_update'
+    ]
+);
+
+/**
+ * Endpoint to delete a category according to the provided id
+ */
+$router->delete(
+    '/categories/{id}',
+    [
+        'uses' => 'CategoryController@delete',
+        'as' => 'category_delete'
+    ]
+);
+
 
 /*
 |--------------------------------------------------------------------------

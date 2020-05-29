@@ -8,14 +8,26 @@ import './style.css';
 import CategoryMenu from '../../containers/CategoryMenu';
 
 // component
-const Header = ({ statusFilter, categoryFilter, fetchTaskList }) => (
+const Header = ({
+  statusFilter,
+  categoryFilter,
+  deletableCategory,
+  fetchTaskList,
+  fetchCategoryWithTasks,
+  resetDeletableCategory,
+  deleteCategory,
+}) => (
   <header className="header">
     <Navbar bg="light" expand="lg" className="p-3">
       <Navbar.Brand className="site-name" href="/">Ma Todolist</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" className="justify-content-lg-around">
         {/* Each button launches a task list extraction according to the associated status */}
-        <ButtonGroup aria-label="Basic example" className="my-3">
+        <ButtonGroup
+          aria-label="Basic example"
+          className="my-3"
+          onClick={resetDeletableCategory}
+        >
           <Button
             variant={statusFilter === 0 && categoryFilter === 0 ? 'primary' : 'light'}
             onClick={() => fetchTaskList({statusFilter: 0, categoryFilter: 0})}
@@ -41,10 +53,31 @@ const Header = ({ statusFilter, categoryFilter, fetchTaskList }) => (
         >
           <CategoryMenu
             selectedCategory={categoryFilter}
-            onCategoryChange={(event) => fetchTaskList({statusFilter: 0, categoryFilter: event.target.value})}
+            addTaskMenu={false}
+            onCategoryChange={(event) => {
+              fetchTaskList({statusFilter: 0, categoryFilter: event.target.value});
+              fetchCategoryWithTasks({categoryFilter: event.target.value});
+            }}
           />
+          {
+            deletableCategory
+            && (
+              <Button
+                variant='danger'
+                onClick={() => {
+                  if (window.confirm('Voulez-vous supprimer cette catégorie ?')) {
+                    deleteCategory(categoryFilter);
+                  }
+                }}
+              >
+                <span className="icon">
+                  <i className='fa fa-trash'></i>
+                </span>
+              </Button>
+            )
+          }
         </div>
-        <div className="navbar-archive-link my-3">
+        <div className="navbar-archive-link my-3" onClick={resetDeletableCategory}>
           {
             // if the current filter is not the archived tasks, we want to display the link "Voir les archives" otherwise we want to display "Revenir à l'affichage..."
             // each link launches an extraction according to the associated status 
@@ -74,7 +107,11 @@ const Header = ({ statusFilter, categoryFilter, fetchTaskList }) => (
 Header.propTypes = {
   statusFilter: PropTypes.number.isRequired,
   categoryFilter: PropTypes.number.isRequired,
+  deletableCategory: PropTypes.bool.isRequired,
   fetchTaskList: PropTypes.func.isRequired,
+  fetchCategoryWithTasks: PropTypes.func.isRequired,
+  resetDeletableCategory: PropTypes.func.isRequired,
+  deleteCategory: PropTypes.func.isRequired,
 };
 
 // export

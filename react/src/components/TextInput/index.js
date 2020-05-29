@@ -5,8 +5,11 @@ import PropTypes from 'prop-types';
 // local imports
 
 // component
-const TaskTitleInput = ({
+const TextInput = ({
   // come from the parent which contains it
+  cssClass,
+  name,
+  placeHolder,
   value = '',
   focusedInput,
   onInputBlur,
@@ -23,14 +26,14 @@ const TaskTitleInput = ({
   return (
     <input
       ref={inputRef}
-      className="task__content__input"
-      type="text"
-      name="title"
-      placeholder="Nom de la tâche"
+      className={cssClass}
+      type="type"
+      name={name}
+      placeholder={placeHolder}
       value={value}
       onChange={
         // every time the user is typing, the change is saved and displayed
-        (event) => onInputChange(event.target.value)
+        (event) => onInputChange(event.target.name, event.target.value)
       }
       onBlur={onInputBlur}
     />
@@ -38,8 +41,10 @@ const TaskTitleInput = ({
 };  
 
 // Props validation
-TaskTitleInput.propTypes = {
+TextInput.propTypes = {
   // come from the parent which contains it
+  cssClass: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   value: PropTypes.string,
   focusedInput: PropTypes.bool.isRequired,
   onInputBlur: PropTypes.func,
@@ -48,4 +53,4 @@ TaskTitleInput.propTypes = {
 };
 
 // export
-export default TaskTitleInput;
+export default TextInput ;

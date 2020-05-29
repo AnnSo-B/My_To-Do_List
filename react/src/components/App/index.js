@@ -15,14 +15,16 @@ const App = ({
   taskListError,
   categoryListError,
   fetchTaskList,
-  fetchCategoryList
+  fetchCategoryList,
 }) => {
   // when the App is launched, retrieve Tasks and Categories data from DB
   useEffect(fetchTaskList, []);
   useEffect(fetchCategoryList, []);
 
   return (
-    <div className="app">
+    <div
+      className="app"
+    >
       <Header />
       <main>
         <AddTaskForm />

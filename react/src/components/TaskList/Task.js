@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ProgressBar } from 'react-bootstrap';
 
 // local imports
-import TaskTitleInput from '../../containers/TaskTitleInput';
+import TextInput from '../../containers/TextInput';
 import StatusButton from '../../containers/StatusButton';
 
 // component
@@ -45,15 +45,26 @@ const Task = ({
             // when the form is submitted, we want to prevent the page from refreshing and update the task in the DB
             (event) => {
               event.preventDefault();
-              updateTaskTitle();
+              updateTaskTitle(
+                action ='editTask',
+                currentEditedTaskId,
+                currentEditedTaskTitle
+              );
             }
           }>
-            <TaskTitleInput
+            <TextInput
+              cssClass="task__content__input"
+              name="title"
+              placeHolder="Nom de la tâche"
               // when the input is from the task that the user is modifying, we want it to be focused on and take the value of the user's typing
               focusedInput={currentEditedTaskId === id ? true : false}
               value={currentEditedTaskId === id ? currentEditedTaskTitle : title}
               // and then we want to update this task accordingly when the focus is no longer on it
-              onInputBlur={() => updateTaskTitle()}
+              onInputBlur={() => updateTaskTitle(
+                action ='editTask',
+                currentEditedTaskId,
+                currentEditedTaskTitle
+              )}
             />
           </form>
           <p className="task__content__p">{title}</p>

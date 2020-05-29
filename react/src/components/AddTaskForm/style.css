@@ -10,6 +10,14 @@
   border: none;
 }
 
+.new__category__input {
+  padding-left: 0.5em;
+  width: 100%;
+  border: 1px solid #ededed;
+  font-weight: 400;
+  font-size: 0.9em;
+}
+
 @media screen AND (min-width: 769px) {
   
   .task--add__form {
