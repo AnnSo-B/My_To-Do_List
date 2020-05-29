@@ -21,7 +21,7 @@ const Header = ({
     <Navbar bg="light" expand="lg" className="p-3">
       <Navbar.Brand className="site-name" href="/">Ma Todolist</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav" className="justify-content-lg-around">
+      <Navbar.Collapse id="basic-navbar-nav" className="header__navbar">
         {/* Each button launches a task list extraction according to the associated status */}
         <ButtonGroup
           aria-label="Basic example"

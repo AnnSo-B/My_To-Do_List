@@ -5,6 +5,7 @@
 
 /* category selections from navbar and task-add*/
 #task--add__category-select {
+  min-width: 250px;
   max-width: 300px;
 }
 
@@ -37,12 +38,12 @@
   font-size: 0.9em;
   width: 65%;
   border: none;
+  max-width: 500px;
 }
 
 .task__content__input {
   display: none;
   border: none;
-  width: 100%;
 }
 
 .task__content__p,
@@ -63,6 +64,7 @@
   margin: 0.5em auto 0 auto;
   display: flex;
   justify-content: center;
+  width: 200px;
 }
 
 .task__content__buttons > .button {
@@ -125,8 +127,16 @@
   background-color: #888;
 }
 
+@media screen AND (min-width: 650px) {
+  .task__content__category {
+    width: 170px;
+    text-align: right;
+  }
+}
+
 @media screen AND (min-width: 768px) {
   .app {
+    min-width: 750px;
     max-width: 1200px;
     padding: 0.5em 2em;
     margin: 0 auto;
@@ -134,5 +144,9 @@
 
   #navbar__category-select {
     max-width: 300px;
+  }
+
+  .task__content__category {
+    text-align: center;
   }
 }

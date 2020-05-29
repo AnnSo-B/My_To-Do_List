@@ -2,6 +2,13 @@
   font-weight: bold;
 }
 
+.header__navbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
 .archive-button {
   border: none;
   background-color: #f8f9fa;
@@ -11,4 +18,12 @@
 .archive-button:hover {
   text-decoration: underline;
   color: #0057bb;
+}
+
+@media screen AND (min-width: 650px) {
+  .header__navbar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
 }

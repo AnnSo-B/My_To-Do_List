@@ -5,7 +5,7 @@
 /* header */
 #navbar__category-form {
   width: 100%;
-  max-width: 350px;
+  max-width: 300px;
   display: inline-flex;
   justify-content: space-between;
   align-items: center;
@@ -176,6 +176,14 @@
 }
 
 /* Media-queries */
+@media screen AND (min-width: 768px) {
+  .task__content__category {
+    min-width: 160px;
+    text-align: right;
+  }
+}
+
+
 @media screen AND (min-width: 992px) {
   .task--add__form {
     flex-direction: row;
@@ -184,8 +192,11 @@
     height: 2.5em;
   }
 
+  .task--add__form .task__content {
+    max-width: 500px;
+  }
+
   .task--add .task__content__input {
     width: 600px;
   }
-  
 }
