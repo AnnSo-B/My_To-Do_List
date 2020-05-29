@@ -26,6 +26,7 @@
   - the archived tasks
   - tasks according to their category
 - display error messages
+- add and delete a category
 
 ## Front end - React
 
