@@ -1,3 +1,10 @@
+const TASK_STATUS = {
+  ALL: 0,
+  TODO: 1,
+  DONE: 2,
+  ARCHIVED: 3
+};
+
 const tasks = {
   taskListContainer: document.getElementById('taskList-container'),
 
@@ -5,7 +12,7 @@ const tasks = {
     console.log('tasks');
 
     //* initialise status filter value
-    tasks.statusValue = 0;
+    tasks.statusValue = TASK_STATUS.ALL;
 
     //* initialise the request to the API to retrieve the taskList
     tasks.fetchTasks();
@@ -62,7 +69,7 @@ const tasks = {
       }
       else if (event.currentTarget.closest('#navbar__category-form')) {
         // when filtering on categories, the tasks are of any statuss
-        tasks.statusValue = 0;
+        tasks.statusValue = TASK_STATUS.ALL;
         // we retrieve the id of the selected category
         currentCategoryFilter = parseInt(event.currentTarget.value);
         // we change the url that has to be send to the API
@@ -71,7 +78,7 @@ const tasks = {
     }
 
     // if the status is different from 0, we know that we are looking for a task list accorind to their status
-    if (tasks.statusValue !== 0) {
+    if (tasks.statusValue !== TASK_STATUS.ALL) {
       requestGoesTo = `${app.apiURL}/tasks/status/${tasks.statusValue}`;
     }
 
@@ -102,11 +109,10 @@ const tasks = {
       // change css on buttons only if the event is defined
       if (typeof(event) !== 'undefined') {
 
-        // if the event is on a status button and its value is either 0, or 1, or 2
+        // if the event is on a status button and its value is either TASK_STATUS.ALL, or TASK_STATUS.TODO, or TASK_STATUS.DONE
         if (
           currentStatusButton !== ''
-          // TODO : magic number to look !!!
-          && (tasks.statusValue === 0 || tasks.statusValue === 1 || tasks.statusValue === 2)
+            && (tasks.statusValue === TASK_STATUS.ALL || tasks.statusValue === TASK_STATUS.TODO || tasks.statusValue === TASK_STATUS.DONE)
         ) {
           // we want to make the following changes
           //* for status Buttons
@@ -129,10 +135,10 @@ const tasks = {
           categories.focusOnChooseACategory(categories.navCategoryMenu);
         }
 
-        // if the event is on the archive buttons and its value is either 3 or 0
+        // if the event is on the archive buttons and its value is either TASK_STATUS.ARCHIEVED or 0
         else if (
           currentArchiveButton !== ''
-          && (tasks.statusValue === 3 || tasks.statusValue === 0)
+          && (tasks.statusValue === TASK_STATUS.ARCHIEVED || tasks.statusValue === TASK_STATUS.ALL)
         ) {
           //* for status buttons 
           // we want to take the focus off of every button expected the "Toutes" button
@@ -209,15 +215,14 @@ const tasks = {
     task.dataset.completion = completion;
 
     //* CSS Classes
-    // TODO magic numbers to look !!!
     switch (status) {
-      case 2:
+      case TASK_STATUS.DONE:
         task.classList.add('task--done')
         break;
-      case 3:
+      case TASK_STATUS.ARCHIEVED:
         task.classList.add('task--archive', 'task--display_none')
         break;
-      default: // 1 - todo
+      default: // TASK_STATUS.TODO - todo
         task.classList.add('task--todo')
         break;
     }
@@ -365,7 +370,7 @@ const tasks = {
     //* create the request body
     let fetchBody = {
       completion: 100, // at the time we decide to change its completion to 100%
-      status: 2 // 2 = done status
+      status: TASK_STATUS.DONE
     };
 
     //* fetch changes to the API
@@ -385,7 +390,7 @@ const tasks = {
     //* create the request body
     const fetchBody = {
       completion: 0, // at the time we decide to change its completion to 0%
-      status: 1 // 1 = todo status
+      status: TASK_STATUS.TODO
     };
 
     //* fetch changes to the API
@@ -455,7 +460,7 @@ const tasks = {
 
       //* create the request body
       const fetchBody = {
-        status: 3 // 3 = archive status
+        status: TASK_STATUS.ARCHIEVED
       };
 
       //* fetch changes to the API
@@ -475,7 +480,7 @@ const tasks = {
 
     //* create the request body
     const fetchBody = {
-      status: 2 // 2 = done status
+      status: TASK_STATUS.DONE
     };
 
     //* fetch changes to the API
