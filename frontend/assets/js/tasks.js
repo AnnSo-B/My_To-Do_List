@@ -11,9 +11,9 @@ const tasks = {
     tasks.fetchTasks();
 
     //* get the form to add a task
-    const addTaskForm = document.querySelector('.task--add');
+    tasks.addTaskForm = document.querySelector('.task--add');
     // we add the listener
-    addTaskForm.addEventListener('submit', tasks.handleAddTaskFormSubmit);
+    tasks.addTaskForm.addEventListener('submit', tasks.handleAddTaskFormSubmit);
   }, 
   
   /***************************************************************
