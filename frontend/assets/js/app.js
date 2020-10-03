@@ -11,17 +11,14 @@ const app = {
   init: function() {
     console.log('init');
 
-    //* initialise the request to the API to retrieve the categoryList
-    app.fetchCategories();
+    //* initialize cateogirues
+    categories.init();
 
     //* initialise status filter value
     app.statusValue = 0;
 
     //* initialise the request to the API to retrieve the taskList
     app.fetchTasks();
-
-    //* get the category buttons in the header
-    app.categoryButtons = document.querySelector('.category__buttons');
 
     //* get the form to add a task
     app.addTaskForm = document.querySelector('.task--add');
@@ -56,313 +53,7 @@ const app = {
     }
 
     // get the category delete button
-    app.deleteCategoryButton = document.querySelector('.nav__category__menu__button__delete');
-    app.deleteCategoryButton.addEventListener('click', app.deleteCategory);
-  },
-
-  /***************************************************************
-   * Categories
-   ***************************************************************/
-
-  /**
-   * Fetch Categories from API
-   */
-  fetchCategories: function(selectedCategory = '') {
-    const requestGoesTo = app.apiURL + '/categories';
-
-    fetch(
-      requestGoesTo,
-      {
-        method: 'GET'
-      }
-    )
-    .then(function(response) {
-      // check if the response is not ok
-      if (!response.ok) {
-        errorMessages.displayErrorMessage(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API. Merci de recommencer ultérieurement.')
-      }
-      // transform the response into usable data
-      return response.json();
-    })
-    .then(function(categoryList) {
-      // display category menus
-      // we pass selected category in case of a fetch following a category addition
-      app.displayCategoryMenus(categoryList, selectedCategory);
-    })
-    .then(function() {
-      app.hideNewCategoryInput();
-    });
-  },
-
-
-  /**
-   * Fetch Categories from API with their tasks
-   */
-  fetchCategoriesWithTasks: function(event) {
-    const categoryId = event.currentTarget.value;
-    const requestGoesTo = app.apiURL + '/categories/' + categoryId + '/tasks';
-    ('fetchCategoriesWithTasks');
-    
-    fetch(
-      requestGoesTo,
-      {
-        method: 'GET'
-      }
-    )
-    .then(function(response) {
-      // check if the response is not ok
-      if (!response.ok) {
-        errorMessages.displayErrorMessage(response.status + ' ' + response.statusText + ' - Une erreur est survenue lors de la requête à l\'API. Merci de recommencer ultérieurement.')
-      }
-      // transform the response into usable data
-      return response.json();
-    })
-    .then(function(categoryList) {
-      ('categoryList', categoryList[0].tasks.length);
-      if (categoryList[0].tasks.length < 1) {
-        ('je passe ici')
-        app.displayCategoryDeleteButton(categoryId);
-      }
-      else {
-        app.hideCategoryDeleteButton();
-      }
-    })
-  },
-  /**
-   * Method to display both categoryMenus 
-   * @param categoryList
-   */
-  displayCategoryMenus: function(categoryList, selectedCategory) {
-    // we get all the category menus
-    let navList = document.querySelectorAll('.selectCategoryMenu');
-
-    // for each menu, we will execute the method to create the menu
-    for (nav of navList) {
-      // we empty the nav in case its a new extraction
-      nav.innerHTML = '';
-      // we create the menu
-      app.createCategoryMenu(categoryList, selectedCategory);
-    }
-  },
-
-  /**
-   * Method to create category menu
-   * 
-   * @param categoryList
-   */
-  createCategoryMenu: function (categoryList, selectedCategory) {
-    //* create and place the select
-    const selectElement = document.createElement('select');
-    app.createSelect(nav, selectElement);
-
-    //* create the placeholder
-    selectPlaceHolderElement = app.createPlaceHolder(selectElement, selectedCategory);
-
-    //* create add a category option only on add task form
-    if (nav.getAttribute('id') === 'task--add__category-select') {
-      app.createAddCategoryOption(selectElement);
-    }
-
-    //* create the different options according to the category list
-    for (category of categoryList) {
-      app.createAnOption(selectElement, selectedCategory);
-    }
-
-    // add listeners
-    if (nav.getAttribute('id') === 'navbar__category-select') {
-      app.addNavCategoryMenuListener();
-    }
-    else if (nav.getAttribute('id') === 'task--add__category-select') {
-      app.addNewTaskCategoryMenuListener();
-    }
-  },
-
-  /**
-   * Method to create the select
-   */
-  createSelect: function(nav, selectElement) {
-    // give it the name attribute
-    selectElement.name = "categoryId";
-    // give it CSS classes
-    selectElement.classList.add('custom-select', 'category-select');
-    // insert into the DOM
-    nav.appendChild(selectElement);
-  },
-
-  /**
-   * Method to create the placeholder
-   */
-  createPlaceHolder: function(selectElement, selectedCategory) {
-    selectPlaceHolderElement = document.createElement('option');
-    // selected by default
-    selectPlaceHolderElement.selected = true;
-    // but if we are in the add task form we want to check if we have just add a new category to display this one by default
-    if (nav.getAttribute('id') === 'task--add__category-select') {
-      selectedCategory === '' 
-        ? selectPlaceHolderElement.selected = true
-        : selectPlaceHolderElement.selected = false;
-    }
-    // cannot be chosen
-    selectPlaceHolderElement.disabled = true;
-    // is not displayed
-    selectPlaceHolderElement.style.display = 'none';
-    // content
-    selectPlaceHolderElement.textContent = 'Choisir une catégorie';
-    // CSS class
-    selectPlaceHolderElement.classList.add('selectedOptionByDefault');
-    // insert into select
-    selectElement.appendChild(selectPlaceHolderElement);
-  },
-
-  /**
-   * Method to create an Option to add a category
-   */
-  createAddCategoryOption: function(selectElement) {
-    // create the option tag
-    const optionElement = document.createElement('option');
-    // give it the name of the category
-    optionElement.textContent = "Créer une catégorie";
-    // give it the id as value
-    optionElement.value = 1;
-    // insert into select
-    selectElement.appendChild(optionElement);
-  },
-
-  /**
-   * Method to create an Option
-   */
-  createAnOption: function(selectElement, selectedCategory) {
-    // create the option tag
-    const optionElement = document.createElement('option');
-    // give it the name of the category
-    optionElement.textContent = category.name;
-    // give it the id as value
-    optionElement.value = category.id;
-    // if we are in the add task form we want to check if we have just add a new category to display this one by default
-    if (nav.getAttribute('id') === 'task--add__category-select') {
-      selectedCategory === category.id
-        ? optionElement.selected = true
-        : optionElement.selected = false;
-    }
-    // insert into select
-    selectElement.appendChild(optionElement);
-  },
-
-  /**
-   * Method to add listener on Category menu in the header and fetch data according to this selection
-   */
-  addNavCategoryMenuListener: function() {
-    app.navCategoryMenu = document.querySelector('#navbar__category-select select');
-    app.navCategoryMenu.addEventListener('change', app.fetchCategoriesWithTasks);
-    app.navCategoryMenu.addEventListener('change', app.fetchTasks);
-  },
-
-  /**
-   * Method to add listener on Category menu in the add task form and display input to create a new category if category is "créer une catégorie"
-   */
-  addNewTaskCategoryMenuListener: function() {
-    app.newTaskCategoryMenu = document.querySelector('#task--add__category-select select');
-    app.newTaskCategoryMenu.addEventListener('change', app.displayNewCategoryInput);
-  },
-
-  /**
-   * Method to display category management button
-   */
-  displayCategoryDeleteButton: function(currentCategoryFilter) {
-    (currentCategoryFilter)
-    app.categoryButtons.classList.add('category--delete')
-    app.currentCategoryToDelete = currentCategoryFilter;
-  },
-
-
-  /**
-   * Method to display category management button
-   */
-  hideCategoryDeleteButton: function() {
-    app.categoryButtons.classList.remove('category--delete');
-    app.currentCategoryToDelete = '';
-  },
-
-  deleteCategory: function() {
-    
-    if (!window.confirm('Souhaitez-vous supprimer cette catégorie ?')) {
-      return false;
-    }
-
-    // delete the category through the api
-    fetch(
-      app.apiURL + '/categories/' + app.currentCategoryToDelete,
-      {
-        method: 'DELETE',
-      }
-    )
-    .then(function(response) {
-      // check if the response is not ok
-      if (!response.ok) {
-        errorMessages.displayErrorMessage('Une erreur est survenue lors de la tentative de suppression de la catégorie. Merci de reessayer ultérieurement');
-      }
-
-      // refresh the task list with the changes
-      app.fetchCategories();
-    })
-  
-  },
-
-  /**
-   * Method to display the input to create a new category
-   */
-  displayNewCategoryInput: function(event) {
-    if (parseInt(event.currentTarget.value) === 1) {
-      // we change the select css to display the input and not the list of selection
-      // app.editCategory = event.currentTarget.closest('.task--add');
-      app.addTaskForm.classList.add('category--edit');
-
-      // we focus on this input and had a listener on the input to save the new category on blur
-      app.newCategoryInput = document.querySelector('.category__name__input');
-      app.newCategoryInput.focus();
-      app.newCategoryInput.addEventListener('blur', app.addNewCategoryOnBlur);
-    }
-  },
-
-  /**
-   * Method to hide the input to create a new category
-   */
-  hideNewCategoryInput: function() {
-    app.addTaskForm.classList.remove('category--edit');
-  },
-
-  /**
-   * save the new category
-   */
-  addNewCategoryOnBlur: function(event) {
-    // create the request body
-    const fetchBody = {
-      name: event.currentTarget.value,
-    };
-
-    // fetch new category to the API
-    fetch(
-      app.apiURL + '/categories',
-      {
-        method: 'POST',
-        headers: {
-          "Content-Type" : "application/json" // we send Json data
-        },
-        body: JSON.stringify(fetchBody)
-      }
-    )
-    .then(function(response) {
-      // check if the response is not ok
-      if (!response.ok) {
-        errorMessages.displayErrorMessage('Une erreur est survenue lors de l\'ajout de la catégorie. Merci de reessayer ultérieurement')
-      }
-      // transform the response into usable data
-      return response.json()
-    })
-    // fetch category and select the new category
-    .then(function(category) {
-      app.fetchCategories(category.id)
-    })
+    categories.deleteCategoryButton.addEventListener('click', categories.deleteCategory);
   },
 
   /***************************************************************
@@ -399,7 +90,7 @@ const app = {
         // we retrieve the status from this button
         app.statusValue = parseInt(currentArchiveButton.dataset.status);
         // hide the category delete button
-        app.hideCategoryDeleteButton();
+        categories.hideCategoryDeleteButton();
       }
       // if this button is one of the staut filter button
       else if (event.currentTarget.closest('.status-filter-button')) {
@@ -408,7 +99,7 @@ const app = {
         // we retrieve the status from this button
         app.statusValue = parseInt(currentStatusButton.dataset.status);
         // hide the category delete button
-        app.hideCategoryDeleteButton();
+        categories.hideCategoryDeleteButton();
       }
       else if (event.currentTarget.closest('#navbar__category-form')) {
         // when filtering on categories, the tasks are of any statuss
@@ -473,7 +164,7 @@ const app = {
 
           //* for the category filter
           // empty the category in the filter
-          app.focusOnChooseACategory(app.navCategoryMenu);
+          categories.focusOnChooseACategory(categories.navCategoryMenu);
         }
 
         // if the event is on the archive buttons and its value is either 3 or 0
@@ -494,7 +185,7 @@ const app = {
 
           //* for the category filter
           // empty the category in the filter
-          const navCategoryMenuSelectedByDefault = app.navCategoryMenu.querySelector('.selectedOptionByDefault');
+          const navCategoryMenuSelectedByDefault = categories.navCategoryMenu.querySelector('.selectedOptionByDefault');
           navCategoryMenuSelectedByDefault.selected = true;
         }
 
@@ -550,14 +241,6 @@ const app = {
         statusFilterButton.classList.add('btn-primary');
       }
     }
-  },
-
-  /**
-   * focus on "Choisir une catégorie"
-   */
-  focusOnChooseACategory: function(menu) {
-    const categoryByDefault = menu.querySelector('.selectedOptionByDefault');
-    categoryByDefault.selected = true;
   },
 
   /**
@@ -675,7 +358,7 @@ const app = {
       app.displayOneTask(task.id, task.title, task.category.id, task.category.name, task.status, task.completion);
 
       // empty the category in the form
-      app.focusOnChooseACategory(addTaskForm);
+      categories.focusOnChooseACategory(addTaskForm);
       
       // empty the input and place yourself back on the input for data entry
       const addTaskInput = addTaskForm.querySelector('.task__content__input');
@@ -684,8 +367,8 @@ const app = {
       addTaskInput.select();
 
       // fetch categories and hide delete button on category filter
-      app.fetchCategories();
-      app.hideCategoryDeleteButton();
+      categories.fetchCategories();
+      categories.hideCategoryDeleteButton();
       app.refreshTaskList();
       errorMessages.deleteErrorMessage();
     });
