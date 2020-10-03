@@ -1,3 +1,5 @@
+const NEW_CATEGORY = 'NEW_CATEGORY';
+
 const categories = {
   init: function() {
     console.log('categories');
@@ -182,7 +184,7 @@ const categories = {
     // give it the name of the category
     optionElement.textContent = "Créer une catégorie";
     // give it the id as value
-    optionElement.value = 1;
+    optionElement.value = NEW_CATEGORY;
 
     // insert into select
     selectElement.appendChild(optionElement);
@@ -275,8 +277,7 @@ const categories = {
    * Method to display the input to create a new category
    */
   displayNewCategoryInput: function(event) {
-    console.log('displayNewCategoryInput')
-    if (parseInt(event.currentTarget.value) === 1) {
+    if (event.currentTarget.value === NEW_CATEGORY) {
       // we change the select css to display the input and not the list of selection
       // app.editCategory = event.currentTarget.closest('.task--add');
       app.addTaskForm.classList.add('category--edit');
