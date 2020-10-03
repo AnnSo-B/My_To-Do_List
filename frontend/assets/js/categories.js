@@ -220,7 +220,7 @@ const categories = {
   addNavCategoryMenuListener: function() {
     categories.navCategoryMenu = document.querySelector('#navbar__category-select select');
     categories.navCategoryMenu.addEventListener('change', categories.fetchCategoriesWithTasks);
-    categories.navCategoryMenu.addEventListener('change', app.fetchTasks);
+    categories.navCategoryMenu.addEventListener('change', tasks.fetchTasks);
   },
 
   /**
@@ -280,7 +280,7 @@ const categories = {
     if (event.currentTarget.value === NEW_CATEGORY) {
       // we change the select css to display the input and not the list of selection
       // app.editCategory = event.currentTarget.closest('.task--add');
-      app.addTaskForm.classList.add('category--edit');
+      tasks.addTaskForm.classList.add('category--edit');
 
       // we focus on this input and had a listener on the input to save the new category on blur
       const newCategoryInput = document.querySelector('.category__name__input');
@@ -294,7 +294,7 @@ const categories = {
    * Method to hide the input to create a new category
    */
   hideNewCategoryInput: function() {
-    app.addTaskForm.classList.remove('category--edit');
+    tasks.addTaskForm.classList.remove('category--edit');
   },
 
   /**
