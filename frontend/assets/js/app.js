@@ -25,36 +25,13 @@ const app = {
     // we add the listener
     app.addTaskForm.addEventListener('submit', app.handleAddTaskFormSubmit);
 
-    //* initialise listener on header button
-    app.initHeaderListeners();
+    //* initialize header
+    header.init();
 
     //* initialse errorMessages
     errorMessages.init();
 },
 
-  /***************************************************************
-   * Header listeners
-   ***************************************************************/
-
-   /**
-    * Method to add listener to Status Filter Buttons and Archive Buttons which will execute fetchTasks method
-    */
-   initHeaderListeners: function() {
-    // get the status buttons
-    app.statusFilterButtons = document.querySelectorAll('.status-filter-button');
-    for (let statusButtonIndex = 0; statusButtonIndex < app.statusFilterButtons.length; statusButtonIndex++) {
-      app.statusFilterButtons[statusButtonIndex].addEventListener('click', app.fetchTasks)
-    }
-
-    // get the archive buttons
-    app.archiveButtons = document.querySelectorAll('.archive-button');
-    for (let archiveButtonIndex = 0; archiveButtonIndex < app.archiveButtons.length; archiveButtonIndex++) {
-      app.archiveButtons[archiveButtonIndex].addEventListener('click', app.fetchTasks);
-    }
-
-    // get the category delete button
-    categories.deleteCategoryButton.addEventListener('click', categories.deleteCategory);
-  },
 
   /***************************************************************
    * Tasks
@@ -150,9 +127,9 @@ const app = {
           // we want to make the following changes
           //* for status Buttons
           // we want to take the focus off of every button
-          for (let statusButtonIndex = 0; statusButtonIndex < app.statusFilterButtons.length; statusButtonIndex++) {
-            app.statusFilterButtons[statusButtonIndex].classList.remove('btn-primary');
-            app.statusFilterButtons[statusButtonIndex].classList.add('btn-light');
+          for (let statusButtonIndex = 0; statusButtonIndex < header.statusFilterButtons.length; statusButtonIndex++) {
+            header.statusFilterButtons[statusButtonIndex].classList.remove('btn-primary');
+            header.statusFilterButtons[statusButtonIndex].classList.add('btn-light');
           }
           // to apply it only on the current button
           currentStatusButton.classList.remove('btn-light');
@@ -160,7 +137,7 @@ const app = {
 
           //* for archive buttons
           // we want to display "Voir les archives"
-          app.displaySeeTheArchive();
+          header.displaySeeTheArchive();
 
           //* for the category filter
           // empty the category in the filter
@@ -174,12 +151,12 @@ const app = {
         ) {
           //* for status buttons 
           // we want to take the focus off of every button expected the "Toutes" button
-          app.focusOnAllButton();
+          header.focusOnAllButton();
 
           //* for archive buttons
           // we display the other archive button when its clicked on
-          for (archiveButtonIndex = 0; archiveButtonIndex < app.archiveButtons.length; archiveButtonIndex++) {
-            app.archiveButtons[archiveButtonIndex].classList.remove('to-hide');;
+          for (archiveButtonIndex = 0; archiveButtonIndex < header.archiveButtons.length; archiveButtonIndex++) {
+            header.archiveButtons[archiveButtonIndex].classList.remove('to-hide');;
           }
           currentArchiveButton.classList.add('to-hide');
 
@@ -198,49 +175,14 @@ const app = {
 
           //* for status buttons 
           // we want to take the focus off of every button expected the "Toutes" button
-          app.focusOnAllButton();
+          header.focusOnAllButton();
 
           //* for archive buttons
           // we want to display "Voir les archives"
-          app.displaySeeTheArchive();
+          header.displaySeeTheArchive();
         }
       }
     })
-  },
-
-  /**
-   * Method to display "Voir les archives"
-   */
-  displaySeeTheArchive: function() {
-    for (archiveButtonIndex = 0; archiveButtonIndex < app.archiveButtons.length; archiveButtonIndex++) {
-      if (app.archiveButtons[archiveButtonIndex].classList.contains('to-show')) {
-        app.archiveButtons[archiveButtonIndex].classList.remove('to-hide');
-      }
-      else {
-        app.archiveButtons[archiveButtonIndex].classList.add('to-hide');
-      }
-    }
-  },
-
-  /**
-   * Method to focus on "Toutes" button
-   */
-  focusOnAllButton: function() {
-    // we want to take the focus off of every button expected the "Toutes" button
-    for (let statusButtonIndex = 0; statusButtonIndex < app.statusFilterButtons.length; statusButtonIndex++) {
-      // we save the current button
-      statusFilterButton = app.statusFilterButtons[statusButtonIndex];
-
-      // we change its css class to btn-light in cas it was btn-primary that we remove
-      statusFilterButton.classList.remove('btn-primary');
-      statusFilterButton.classList.add('btn-light');
-
-      // it the current button is "toutes" button then we want this button to have btn-primary class instead of ligth
-      if (parseInt(statusFilterButton.dataset.status) === 0) {
-        statusFilterButton.classList.remove('btn-light');
-        statusFilterButton.classList.add('btn-primary');
-      }
-    }
   },
 
   /**
