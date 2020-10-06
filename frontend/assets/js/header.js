@@ -13,13 +13,13 @@ const header = {
     // get the status buttons
     header.statusFilterButtons = document.querySelectorAll('.status-filter-button');
     for (let statusButtonIndex = 0; statusButtonIndex < header.statusFilterButtons.length; statusButtonIndex++) {
-      header.statusFilterButtons[statusButtonIndex].addEventListener('click', app.fetchTasks)
+      header.statusFilterButtons[statusButtonIndex].addEventListener('click', tasks.fetchTasks)
     }
 
     // get the archive buttons
     header.archiveButtons = document.querySelectorAll('.archive-button');
     for (let archiveButtonIndex = 0; archiveButtonIndex < header.archiveButtons.length; archiveButtonIndex++) {
-      header.archiveButtons[archiveButtonIndex].addEventListener('click', app.fetchTasks);
+      header.archiveButtons[archiveButtonIndex].addEventListener('click', tasks.fetchTasks);
     }
 
     // get the category delete button
