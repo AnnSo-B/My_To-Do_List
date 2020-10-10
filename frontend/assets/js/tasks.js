@@ -135,10 +135,10 @@ const tasks = {
           categories.focusOnChooseACategory(categories.navCategoryMenu);
         }
 
-        // if the event is on the archive buttons and its value is either TASK_STATUS.ARCHIEVED or 0
+        // if the event is on the archive buttons and its value is either TASK_STATUS.ARCHIVED or 0
         else if (
           currentArchiveButton !== ''
-          && (tasks.statusValue === TASK_STATUS.ARCHIEVED || tasks.statusValue === TASK_STATUS.ALL)
+          && (tasks.statusValue === TASK_STATUS.ARCHIVED || tasks.statusValue === TASK_STATUS.ALL)
         ) {
           //* for status buttons 
           // we want to take the focus off of every button expected the "Toutes" button
@@ -219,7 +219,7 @@ const tasks = {
       case TASK_STATUS.DONE:
         task.classList.add('task--done')
         break;
-      case TASK_STATUS.ARCHIEVED:
+      case TASK_STATUS.ARCHIVED:
         task.classList.add('task--archive', 'task--display_none')
         break;
       default: // TASK_STATUS.TODO - todo
@@ -460,7 +460,7 @@ const tasks = {
 
       //* create the request body
       const fetchBody = {
-        status: TASK_STATUS.ARCHIEVED
+        status: TASK_STATUS.ARCHIVED
       };
 
       //* fetch changes to the API
@@ -493,7 +493,7 @@ const tasks = {
   updateTask: function(taskId, requestBody) {
     //* fetch changes to the API
     fetch(
-      `{app.apiURL}/tasks/${taskId}`,
+      `${app.apiURL}/tasks/${taskId}`,
       {
         method: 'PUT',
         headers: {
