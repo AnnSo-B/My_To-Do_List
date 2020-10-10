@@ -8,7 +8,7 @@ const categories = {
     //* get the category buttons in the header
     categories.categoryButtons = document.querySelector('.category__buttons');
 
-    // get the category delete button
+    //* get the category delete button
     categories.deleteCategoryButton = document.querySelector('.nav__category__menu__button__delete');
   },
 
@@ -37,10 +37,10 @@ const categories = {
     .then(function(categoryList) {
       // display category menus
       // we pass selected category in case of a fetch following a category addition
-      categories.displayCategoryMenus(categoryList, selectedCategory);
+      return categories.displayCategoryMenus(categoryList, selectedCategory);
     })
     .then(function() {
-      categories.hideNewCategoryInput();
+      return categories.hideNewCategoryInput();
     });
   },
 
@@ -70,9 +70,9 @@ const categories = {
     })
     .then(function(categoryList) {
       if (categoryList[0].tasks.length < 1) {
-        categories.displayCategoryDeleteButton(categoryId);
+        return categories.displayCategoryDeleteButton(categoryId);
       } else {
-        categories.hideCategoryDeleteButton();
+        return categories.hideCategoryDeleteButton();
       }
     })
   },
@@ -121,9 +121,9 @@ const categories = {
 
     //* add listeners
     if (nav.getAttribute('id') === 'navbar__category-select') {
-      categories.addNavCategoryMenuListener();
+      return categories.addNavCategoryMenuListener();
     } else if (nav.getAttribute('id') === 'task--add__category-select') {
-      categories.addNewTaskCategoryMenuListener();
+      return categories.addNewTaskCategoryMenuListener();
     }
   },
 
@@ -267,7 +267,7 @@ const categories = {
       }
 
       // refresh the task list with the changes
-      categories.fetchCategories();
+      return categories.fetchCategories();
     })
   },
 
@@ -328,7 +328,7 @@ const categories = {
     })
     // fetch category and select the new category
     .then(function(category) {
-      categories.fetchCategories(category.id)
+      return categories.fetchCategories(category.id)
     })
   },
 

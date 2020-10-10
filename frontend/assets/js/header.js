@@ -30,9 +30,9 @@ const header = {
   displaySeeTheArchive: function() {
     for (archiveButtonIndex = 0; archiveButtonIndex < header.archiveButtons.length; archiveButtonIndex++) {
       if (header.archiveButtons[archiveButtonIndex].classList.contains('to-show')) {
-        header.archiveButtons[archiveButtonIndex].classList.remove('to-hide');
+        return header.archiveButtons[archiveButtonIndex].classList.remove('to-hide');
       } else {
-        header.archiveButtons[archiveButtonIndex].classList.add('to-hide');
+        return header.archiveButtons[archiveButtonIndex].classList.add('to-hide');
       }
     }
   },

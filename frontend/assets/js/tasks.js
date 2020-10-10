@@ -20,16 +20,11 @@ const tasks = {
     // we add the listener
     tasks.addTaskForm.addEventListener('submit', tasks.handleAddTaskFormSubmit);
   }, 
-  
-  /***************************************************************
-   * Tasks
-   ***************************************************************/
 
   /**
    * Fetch Tasks from API
    */
   fetchTasks: function(event) {
-
     // by default, we'll fetch all the tasks
     let requestGoesTo = `${app.apiURL}/tasks`;
 
@@ -510,7 +505,7 @@ const tasks = {
     })
     .then(function() {
       // refresh the task list with the changes
-      tasks.refreshTaskList();
+      return tasks.refreshTaskList();
     })
   },
 
@@ -537,7 +532,7 @@ const tasks = {
       }
 
       // refresh the task list with the changes
-      tasks.refreshTaskList();
+      return tasks.refreshTaskList();
     })
   },
 
