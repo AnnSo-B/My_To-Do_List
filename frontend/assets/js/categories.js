@@ -14,7 +14,8 @@ const categories = {
 
   /**
    * Fetch Categories from API
-   * @param int selectedCategory optional
+   *
+   * @param {int} [selectedCategory]
    */
   fetchCategories: function(selectedCategory = '') {
     const requestGoesTo = `${app.apiURL}/categories`;
@@ -47,7 +48,8 @@ const categories = {
 
   /**
    * Fetch Categories from API with their tasks
-   * @param object event
+   *
+   * @param {Object} event
    */
   fetchCategoriesWithTasks: function(event) {
     const categoryId = event.currentTarget.value;
@@ -78,9 +80,10 @@ const categories = {
   },
 
   /**
-   * Method to display both categoryMenus 
-   * @param object categoryList
-   * @param int selectedCategory
+   * Method to display both categoryMenus
+   *
+   * @param {Object} categoryList
+   * @param {int} selectedCategory
    */
   displayCategoryMenus: function(categoryList, selectedCategory) {
     // we get all the category menus
@@ -97,9 +100,10 @@ const categories = {
 
   /**
    * Method to create category menu
-   * @param nav current menu
-   * @param categoryList
-   * @param selectedCategory
+   *
+   * @param {Object} nav // TODO : check if this is an object (Dom element)
+   * @param {Object} categoryList
+   * @param {int} selectedCategory
    */
   createCategoryMenu: function (nav, categoryList, selectedCategory) {
     //* create and place the select
@@ -129,8 +133,9 @@ const categories = {
 
   /**
    * Method to create the select
-   * @param nav
-   * @param selectElement
+   *
+   * @param {Object} nav // TODO : check if this is an object (Dom element)
+   * @param {Object} selectElement // TODO : check if this is an object (Dom element)
    */
   createSelect: function(nav, selectElement) {
     // give it the name attribute
@@ -144,9 +149,10 @@ const categories = {
 
   /**
    * Method to create the placeholder
-   * @param nav
-   * @param selectElement
-   * @param selectedCategory
+   *
+   * @param {Object} nav // TODO : check if this is an object (Dom element)
+   * @param {Object} selectElement // TODO : check if this is an object (Dom element)
+   * @param {int} selectedCategory
    */
   createPlaceHolder: function(nav, selectElement, selectedCategory) {
     const selectPlaceHolderElement = document.createElement('option');
@@ -173,7 +179,8 @@ const categories = {
 
   /**
    * Method to create an Option to add a category
-   * @param selectElement
+   *
+   * @param {Object} selectElement // TODO : check if this is an object (Dom element)
    */
   createAddCategoryOption: function(selectElement) {
     // create the option tag
@@ -190,9 +197,10 @@ const categories = {
 
   /**
    * Method to create an Option
-   * @param nav
-   * @param selectElement
-   * @param selectedCategory
+   *
+   * @param {Object} nav // TODO : check if this is an object (Dom element)
+   * @param {Object} selectElement // TODO : check if this is an object (Dom element)
+   * @param {int} selectedCategory
    */
   createAnOption: function(nav, selectElement, selectedCategory) {
     // create the option tag
@@ -232,7 +240,7 @@ const categories = {
   /**
    * Method to display category management button
    *
-   * @param currentCategoryFilter
+   * @param {int} currentCategoryFilter
    */
   displayCategoryDeleteButton: function(currentCategoryFilter) {
     categories.categoryButtons.classList.add('category--delete');
@@ -273,6 +281,8 @@ const categories = {
 
   /**
    * Method to display the input to create a new category
+   *
+   * @param {Object} event
    */
   displayNewCategoryInput: function(event) {
     if (event.currentTarget.value === NEW_CATEGORY) {
@@ -298,7 +308,7 @@ const categories = {
   /**
    * save the new category
    *
-   * @param event
+   * @param {Object} event
    */
   addNewCategoryOnBlur: function(event) {
     // create the request body
@@ -335,7 +345,7 @@ const categories = {
   /**
    * focus on "Choisir une catégorie"
    * 
-   * @param menu
+   * @param {Objet} menu // TODO : check if this is an object (Dom Element)
    */
   focusOnChooseACategory: function(menu) {
     const categoryByDefault = menu.querySelector('.selectedOptionByDefault');

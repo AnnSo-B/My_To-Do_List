@@ -23,6 +23,8 @@ const tasks = {
 
   /**
    * Fetch Tasks from API
+   *
+   * @param {Object} event
    */
   fetchTasks: function(event) {
     // by default, we'll fetch all the tasks
@@ -172,7 +174,7 @@ const tasks = {
   /**
    * Method to display all tasks
    * 
-   * @param taskList from API
+   * @param {Object} taskList from API
    */
   displayAllTasks: function(taskList) {
     
@@ -186,12 +188,12 @@ const tasks = {
   /**
    * Method to display a task
    * 
-   * @param {string} id Task id
-   * @param {string} title Task title
-   * @param {int} categoryId task's category ID
-   * @param {string} categoryName task's category name
-   * @param {int} status Task status
-   * @param {int} completion Task completion
+   * @param {string} id - Task id
+   * @param {string} title - Task title
+   * @param {int} categoryId - task's category ID
+   * @param {string} categoryName - task's category name
+   * @param {int} status - Task status
+   * @param {int} completion - Task completion
    */
   displayOneTask: function(id, title, categoryId, categoryName, status, completion) {
     //* Templating
@@ -242,8 +244,8 @@ const tasks = {
   /**
    * handler on add task form submission
    * 
-   * @param {event} event EventObject representation
-   * @link pour FormData https://developer.mozilla.org/en-US/docs/Web/API/FormData
+   * @param {Object} event EventObject representation
+   * @tutorial pour FormData https://developer.mozilla.org/en-US/docs/Web/API/FormData
    */
   handleAddTaskFormSubmit: function(event) {
     //* prevent the page from refreshing itself on submit
@@ -303,6 +305,8 @@ const tasks = {
 
   /**
    * add event listener on a task
+   *
+   * @param {Object} task
    */
   addTaskEventListener: function(task) {
 
@@ -482,6 +486,9 @@ const tasks = {
 
   /**
    * update a task according to its id and the request body provided
+   *
+   * @param {int} taskId
+   * @param {Object} requestBody
    */
   updateTask: function(taskId, requestBody) {
     //* fetch changes to the API

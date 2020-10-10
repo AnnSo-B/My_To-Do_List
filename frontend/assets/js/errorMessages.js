@@ -6,7 +6,8 @@ const errorMessages = {
 
    /**
     * Method to display Error Messages
-    * @param message string
+    *
+    * @param {string} message
     */
   displayErrorMessage: function(message) {
     //* create and place the message
