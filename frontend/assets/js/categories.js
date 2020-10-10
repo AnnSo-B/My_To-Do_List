@@ -2,8 +2,6 @@ const NEW_CATEGORY = 'NEW_CATEGORY';
 
 const categories = {
   init: function() {
-    console.log('categories');
-
     //* initialise the request to the API to retrieve the categoryList
     categories.fetchCategories();
 

@@ -1,6 +1,5 @@
 const errorMessages = {
   init: function() {
-    console.log('errorMessages');
     //* initialise error message container
     errorMessages.errorMessageContainer = document.querySelector('#error-message-container');
   }, 

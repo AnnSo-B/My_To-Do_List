@@ -1,7 +1,5 @@
 const header = {
-  init: function() {
-    console.log('header');    
-    
+  init: function() {    
     //* initialise listener on header button
     header.initHeaderListeners();
   },

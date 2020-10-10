@@ -9,8 +9,6 @@ const tasks = {
   taskListContainer: document.getElementById('taskList-container'),
 
   init: function () {
-    console.log('tasks');
-
     //* initialise status filter value
     tasks.statusValue = TASK_STATUS.ALL;
 
